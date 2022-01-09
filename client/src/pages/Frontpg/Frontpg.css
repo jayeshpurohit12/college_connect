@@ -1,0 +1,59 @@
+.main_section {
+  width: 90%;
+  
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+}
+.main_left_section {
+  width: 70%;
+}
+.main_right_section {
+  width: 30%;
+  
+}
+
+.achievement_section {
+  margin: 1rem auto;
+}
+
+/* facebook section */
+#facebook_button {
+  background-color: rgb(216, 213, 213);
+  color: black;
+  margin:0.5rem;
+}
+.acropolis_facebook_logo{
+  width:25%;
+  display: inline-block;
+}
+.acropolis_facebook_title{
+  display:inline-block;
+  width:50%;
+  margin:0.5rem;
+}
+.acropolis_facebook_post{
+  margin: auto;
+  width:75%;
+  overflow-y: auto;
+}
+
+
+ /*  footer  */
+.footer {
+  background-color: #2d2828;
+  margin: 1rem auto;
+}
+.footer_content {
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color:#FFFFFF;
+}
+.footer_link{
+  padding:1rem;
+  text-decoration: none;
+  color:white;
+}

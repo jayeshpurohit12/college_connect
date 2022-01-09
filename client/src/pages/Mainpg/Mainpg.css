@@ -1,0 +1,130 @@
+.alumnibg_img {
+  position: relative;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.collegeAlumni_icon {
+  display: flex;
+  object-fit: contain;
+  text-align: center;
+  width: 100%;
+}
+
+.connect_btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#connect_btn_heading {
+  font-family: "Mochiy Pop One", sans-serif;
+}
+
+.heading_img_bottom {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+}
+
+#inner_heading {
+  display: flex;
+  font-family: "Mochiy Pop One";
+  color: white;
+  overflow: hidden;
+  border-right: 0.15em solid orange;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
+}
+
+.event_banner_img {
+  position: relative;
+  display: block;
+  margin-right: 1.9rem;
+  padding: 0 0.4rem;
+}
+
+.bottom_image_section {
+  position: absolute;
+  display: block;
+  background-color: white;
+  opacity: 0.5;
+  margin: 0 0.2rem;
+  margin-left: 1rem;
+  width: 99%;
+  bottom: 0%;
+  padding-top: 0.6rem;
+}
+
+.consert_title {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1rem;
+}
+
+.days_left h4 {
+  margin-right: 1rem;
+}
+
+.achievement_container {
+  margin-bottom: 1.5rem;
+}
+
+.inner_achievement_section {
+  border: 3px solid rgb(61, 60, 60);
+  margin: 1rem 1.34rem;
+  border-radius: 5px;
+}
+
+.achievement_image {
+  display: flex;
+  margin: 0.8rem 2rem;
+}
+
+.achievement_caption {
+  border: 6px solid rgb(231, 171, 18);
+  margin: 4rem 9rem;
+  padding: 1.3rem 1rem 0rem 1rem;
+  border-radius: 10px;
+}
+
+.achievement_caption h1,
+p {
+  text-align: center;
+}
+
+.achievement_caption h1 {
+  margin: 1rem 0 2rem 0;
+  font-weight: bold;
+}
+
+.achievement_caption p {
+  padding: 0 1rem;
+  font-size: large;
+  font-family: "Mochiy Pop One", sans-serif;
+  color: rgb(46, 43, 43);
+}

@@ -1,0 +1,57 @@
+
+.header_logo {
+   margin: 0 1rem;
+   padding: 0 1rem;
+   flex: 1;
+   display: flex;
+   align-items: center;
+}
+
+.Acro_icon {
+    object-fit: contain;
+    height: 8vh;
+}
+
+.heading {
+    font-size: medium;
+    display: flex;
+    flex-direction: column;
+}
+
+.heading1 {
+    display: flex;
+    margin: auto;
+    color: aliceblue;
+    font-family: 'Mochiy Pop One', sans-serif;
+    
+}
+
+.heading2 {
+    display: flex;
+    margin: auto;
+    margin-top: 0.25rem;
+    color: aliceblue;
+    font-family: 'Mochiy Pop One', sans-serif;
+}
+
+.inner_navbar {
+    display: flex;
+    flex: 0.96;
+}
+
+.navbar_links {
+    display: flex;
+    margin-left: auto;
+}
+
+/* .header_btn {
+    display: flex;
+    margin: 0 0.3rem;
+    margin-left: 1rem;
+    background: "#e8a94b";
+} */
+
+.header_heading {
+    padding: 0.2rem 0.3rem;
+    margin: 0 1rem;
+}

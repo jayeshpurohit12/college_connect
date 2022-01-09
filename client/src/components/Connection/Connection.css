@@ -1,0 +1,18 @@
+.login_info{
+    border:5px solid rgb(212, 212, 212);
+    width:80%;
+    padding:1.5rem;
+    height:30rem;
+    margin:1rem auto; 
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+}
+.login_heading{
+    margin:2rem auto;
+    text-align: center;
+    padding:0rem 2rem;
+}
+.connection_input_box{
+    margin:1.5rem 1rem;
+}

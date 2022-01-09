@@ -1,0 +1,11 @@
+.card_content{
+    width:100%;
+    font-size: small;
+}
+#cardimg{
+   max-height:10rem;
+}
+#button_carousel{
+    color:black;
+    background-color: #F6B915;
+}

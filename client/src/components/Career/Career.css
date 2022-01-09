@@ -1,0 +1,27 @@
+.career_inner_container {
+    display: flex;
+    border: 3px solid rgb(68, 67, 67);
+    margin: 1rem 1.34rem;
+    border-radius: 5px;
+}
+
+.internship_company_icon {
+    display: flex;
+    margin: 4rem 7rem 3rem 3rem;
+    padding: 0 1rem;
+    width: 39%;
+}
+
+.opport_details {
+    display: block;
+    text-align: center;
+    border: 10px solid lightblue;
+    margin: 4rem 1rem;
+    padding: 3rem 1rem 2rem 1rem;
+    width: 45%;
+}
+
+.opport_details h3 {
+    margin-bottom: 2.4rem;
+    text-align: center;
+}
