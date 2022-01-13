@@ -1,0 +1,22 @@
+.opp_header {
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+}
+#opp_header_button {
+  color: black;
+  background-color: #ff7146;
+  margin: 1rem;
+}
+.opp_header_heading {
+  margin-top: 2rem;
+}
+.internship_post_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 4rem 1rem;
+}
