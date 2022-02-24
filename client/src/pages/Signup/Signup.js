@@ -1,57 +1,198 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Signup.css";
-import { Link } from "react-router-dom";
-import InputField from "../../components/InputField/InputField";
-import RoleField from "../../components/RoleField/RoleField";
+import { Link, useHistory } from "react-router-dom";
+import { Form, Button, Alert } from "react-bootstrap";
+import { useAuth } from "../../contexts/Authcontext";
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+
 const Signup = () => {
-  
+  const emailRef = useRef(" ");
+  const passwordRef = useRef(" ");
+  const passwordConfirmRef = useRef(" ");
+  const { signup } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const [otp, setOtp] = useState();
+  //  const { currentUser } = useAuth();
+  const [otpgen, setOtpgen] = useState("");
+  const [message, setMessage] = useState("");
+  const { Auth } = require("two-step-auth");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (emailRef.current.value.indexOf("@") >= 1) {
+      var r = emailRef.current.value.indexOf("@");
+      if (
+        emailRef.current.value.substr(r, emailRef.current.value.length) !==
+        "@acropolis.in"
+      ) {
+        return setError("Use your college email-id");
+      }
+    }
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError("Password do not match");
+    } else {
+      try {
+        setError("");
+        setLoading(true);
+        setMessage("");
+        console.log(emailRef.current.value);
+        const res = await Auth(emailRef.current.value, "Company Name");
+        console.log(res);
+        console.log(res.mail);
+        console.log(res.OTP);
+        if (res.success) {
+          setOtpgen(res.OTP);
+          setMessage("Sent otp on your mail. Please check!");
+        }
+      } catch (error) {
+        setError(error);
+      }
+      setLoading(false);
+      handleOpen();
+      console.log(otpgen);
+    }
+  };
+  const handleModalsubmit = (e) => {
+    if (otp == otpgen) {
+      try {
+        setLoading(true);
+        setError("");
+        console.log(otp);
+        signup(emailRef.current.value, passwordRef.current.value);
+      } catch (error) {
+        setError("failed to create an account");
+      }
+      setLoading(false);
+    } else {
+      setError("Wrong Otp!!");
+    }
+    history.push("/login");
+    handleClose();
+  };
+  function rand() {
+    return Math.round(Math.random() * 20) - 10;
+  }
+
+  function getModalStyle() {
+    const top = 50 + rand();
+    const left = 50 + rand();
+
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
+
+  const useStyles = makeStyles((theme) => ({
+    paper: {
+      position: "absolute",
+      width: 400,
+      backgroundColor: theme.palette.background.paper,
+      border: "2px solid #000",
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+  }));
+  const classes = useStyles();
+  // getModalStyle is not a pure function, we roll the style only on the first render
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
       <section className="signup__container">
+        <Form onSubmit={handleSubmit} className="signup__form">
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            {error && <Alert variant="danger">{error}</Alert>}
+            {message && <Alert variant="success">{message}</Alert>}
+            <p className="signup__form--p">
+              If you are a teacher or already signed up please login directly
+              <Link to="/login"> Login </Link> here
+            </p>
+            <div className="signup__heading--container">
+              <h1 className="signup__heading">Create an Account</h1>
+            </div>
+            <Form.Control
+              ref={emailRef}
+              type="email"
+              placeholder="Enter email"
+            />
+          </Form.Group>
 
-        <form className="signup__form" >
-          <p className="signup__form--p">
-            Already a user you can <Link to="/login"> Login </Link> here
-          </p>
-          <div className="signup__heading--container">
-            <h1 className="signup__heading">Create an Account</h1>
-          </div>
-         
-          <InputField
-           
-            type="email"
-            placeholder="Email"
-           
-          />
-          <InputField
-           
-           type=""
-            placeholder="Mobile No."
-            
-          />
-          <InputField
-            
-            type="password"
-            placeholder="Password"
-           
-          />
-          <InputField
-            
-            type="password"
-            placeholder="Confirm Password"
-           
-          />
-           
-          <RoleField value="" />
-          <button className="signup__form--button" type="submit">
-            Sign Up
-          </button>
-        </form>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              ref={passwordRef}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPasswordConfirm">
+            <Form.Control
+              ref={passwordConfirmRef}
+              type="password"
+              placeholder="Confirm Password"
+            />
+          </Form.Group>
+          <Button
+            disabled={loading}
+            className="signup__form--button"
+            variant="primary"
+            type="submit"
+          >
+            Submit
+          </Button>
+        </Form>
+        <Modal
+          open={open}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <Form
+            onSubmit={handleModalsubmit}
+            className="login__form"
+            style={modalStyle}
+            className={classes.paper}
+          >
+            <div className="login__heading--container">
+              <h1 className="login__heading">Verify Otp</h1>
+            </div>
+            <Form.Control
+              value={otp}
+              placeholder="Enter otp"
+              onChange={(e) => {
+                setOtp(e.target.value);
+              }}
+            />
+
+            <Button
+              className="login__form--button"
+              disabled={loading}
+              type="submit"
+            >
+              Verify Otp
+            </Button>
+          </Form>
+        </Modal>
+
         <div className="signup__img">
-          <img src="https://cdni.iconscout.com/illustration/premium/thumb/login-here-2161443-1815085.png" />
+          <img
+            src="https://cdni.iconscout.com/illustration/premium/thumb/login-here-2161443-1815085.png"
+            alt=""
+          />
         </div>
       </section>
-    
     </div>
   );
 };
