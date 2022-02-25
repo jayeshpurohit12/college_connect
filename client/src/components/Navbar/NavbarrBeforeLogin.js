@@ -1,6 +1,7 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
+import { Link} from "react-router-dom";
 import "./NavbarBeforeLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";
 
@@ -38,16 +39,20 @@ const Navbarr = () => {
               </Nav.Link>
             </Nav>
           </div>
-          <Button
+          <Link to="/signup"
             className="header_btn"
             style={{
               background: "#e8a94b",
               margin: "0 0.3rem",
+              padding:"0.5rem 0.5rem",
+              color:"black",
+              borderRadius:"5px",
+              textDecoration:"none",
               marginLeft: "1rem",
             }}
           >
             SignUp / Login
-          </Button>
+          </Link>
         </Navbar.Collapse>
       </Navbar>
     </>

@@ -1,107 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import InputField from "../../components/InputField/InputField";
-import RoleField from "../../components/RoleField/RoleField";
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
-
+import { Link, useHistory } from "react-router-dom";
+import { Alert, Form, Button } from "react-bootstrap";
+import { useAuth } from "../../contexts/Authcontext";
 
 const Login = () => {
-  const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const emailRef = useRef(" ");
+  const passwordRef = useRef(" ");
+  const { login,signup } = useAuth();
+  const history = useHistory();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      setError("");
+      console.log("login");
+      if(passwordRef.current.value =="college@455001"){
+         await signup(emailRef.current.value,passwordRef.current.value);
+         await login(emailRef.current.value, passwordRef.current.value);
+      history.push("/resetpassword");
+      }
+      else{
+        await login(emailRef.current.value, passwordRef.current.value);
+      history.push("/home");
+      }  
+    } catch (error) {
+      setError("failed to login in");
+    }
+    setLoading(false);
+  }
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <form >
-          <div>
-            <h3 >Forgot Password?</h3>
-            </div>
-            <div>
-            <span>Enter your registered email</span>
-            </div>
-            <InputField 
-            type="email"
-            placeholder="Email"
-           
-          />
-          <button className="login__form--button" type="submit">
-           Send OTP
-          </button>
-          
-          </form>
-          </div>
-
-);
   return (
     <div>
       <section className="login__container">
         <div className="form_box">
-          <img src="https://media.istockphoto.com/vectors/sign-in-page-flat-design-concept-vector-illustration-icon-account-vector-id1299219464?b=1&k=20&m=1299219464&s=612x612&w=0&h=igaRFpYURyVgHVd_ZkcuF6Z9EP82cwqBvYMzlotzquY=" />
-          <form className="login__form">
-            <div className="login__heading--container">
-              <h1 className="login__heading">Login</h1>
-            </div>
-            <InputField type="email" placeholder="Email" />
-            <InputField type="password" placeholder="Password" />
-            <RoleField value="" />
+          <img
+            src="https://media.istockphoto.com/vectors/sign-in-page-flat-design-concept-vector-illustration-icon-account-vector-id1299219464?b=1&k=20&m=1299219464&s=612x612&w=0&h=igaRFpYURyVgHVd_ZkcuF6Z9EP82cwqBvYMzlotzquY="
+            alt=""
+          />
+          <Form onSubmit={handleSubmit} className="login__form">
+            {error && <Alert variant="danger">{error}</Alert>}
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <div className="login__heading--container">
+                <h1 className="login__heading">Login</h1>
+              </div>
+              <Form.Control
+                ref={emailRef}
+                type="email"
+                placeholder="Enter email"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Control
+                ref={passwordRef}
+                type="password"
+                placeholder="Password"
+              />
+            </Form.Group>
             <p className="login__form--p">
               Not a User, Don't worry you can <Link to="/signup"> SignUp </Link>{" "}
               here
             </p>
             <p className="login__forgot--button">
-             
-              <button type="button"className="forgot_button" onClick={handleOpen}>
-               Forgot Password
-              </button>
-              <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-              >
-               {body}
-              </Modal>
+              <Link to="/resetpassword">Forgot Password</Link>
             </p>
-            <button className="login__form--button" type="submit">
-              Login
-            </button>
-          </form>
+            <Button
+              disabled={loading}
+              className="signup__form--button"
+              variant="primary"
+              type="submit"
+            >
+              Submit
+            </Button>
+          </Form>
         </div>
       </section>
     </div>
