@@ -1,0 +1,65 @@
+.Profile_container {
+  display: flex;
+  width: 40%;
+  margin: auto;
+}
+
+.inner_profile {
+  display: block;
+  border: 5px solid #D3D2D2;
+  margin-left: 4rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2.5rem;
+}
+
+.Profile_image_container {
+  display: flex;
+  width: 100%;
+}
+
+.Profile_image {
+  display: flex;
+  width: 80%;
+  margin: auto;
+}
+
+.Achievers_name_container {
+  display: flex;
+  margin: auto;
+  margin-top: 6%;
+}
+.Achievers_name {
+  display: flex;
+  margin: auto;
+  font-family: "Jaldi", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.Achievers_Award_container {
+  display: flex;
+  margin-top: 3%;
+}
+
+.Achievers_award {
+  display: flex;
+  margin: auto;
+  font-family: "Jaldi", sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.profile_btn {
+  display: flex;
+  margin-top: 1.5rem;
+}
+
+.view_profile_btn {
+  display: flex;
+  margin: auto;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+}

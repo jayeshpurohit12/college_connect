@@ -4,4 +4,7 @@ export { default as Login } from "./Login/Login";
 export { default as Signup } from "./Signup/Signup";
 export { default as Internship } from "./Internshippg/Internship";
 export { default as Jobs } from "./Jobspg/Jobs";
-export {default as ResetPassword} from "./ResetPassword/ResetPassword"
+export { default as ResetPassword } from "./ResetPassword/ResetPassword";
+export { default as Achievements } from "./Achievements/Achievements";
+export { default as AchievementsInnerPage } from "./AchievementsInnerPage/AchievementsInnerPage";
+export { default as UserProfile } from "./UserProfile/UserProfile";

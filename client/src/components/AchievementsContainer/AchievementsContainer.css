@@ -1,0 +1,33 @@
+.Achievements_container {
+  display: flex;
+  /* border: 2px solid red; */
+}
+
+.Achievements_container {
+  display: flex;
+  position: relative;
+  margin: auto;
+  margin-top: 4%;
+  width: 60%;
+}
+
+.inner_img {
+  display: flex;
+  width: 100%;
+  height: 50vh;
+  border-radius: 9px;
+  opacity: 0.6;
+  margin: auto;
+  cursor: pointer;
+}
+
+.achievements_sub_head {
+  display: flex;
+  position: absolute;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  font-family: "Mochiy Pop One", sans-serif;
+  color: rgb(32, 101, 230);
+  transform: translate(-50%, -50%);
+}

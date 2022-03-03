@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import { Link} from "react-router-dom";
 import "./NavbarBeforeLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";
+import Login from "../../pages/Login/Login";
 
 const Navbarr = () => {
   return (
@@ -50,6 +51,7 @@ const Navbarr = () => {
               textDecoration:"none",
               marginLeft: "1rem",
             }}
+            
           >
             SignUp / Login
           </Link>

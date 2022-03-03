@@ -31,10 +31,11 @@ const Frontpg = () => {
         {/*  main - left - section */}
 
         <div className="main_left_section">
-          <Banner image = "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
-          width = "97%"
-          height = "32rem"
-          caption = {true}
+          <Banner
+            image="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
+            width="97%"
+            height="32rem"
+            caption={true}
           />
           <div className="achievement_section">
             <HeaderBar title="Achievement" button="false" />
@@ -223,7 +224,7 @@ const Frontpg = () => {
                       src={acropolis_icon}
                       className="acropolis_facebook_logo"
                       style={{ width: "25%" }}
-                      alt = ""
+                      alt=""
                     />
                     <h5
                       className="acropolis_facebook_title"

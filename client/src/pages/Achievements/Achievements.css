@@ -1,0 +1,29 @@
+.Achievements_heading_container {
+  display: flex;
+  margin: auto;
+  margin-top: 3rem;
+  position: relative;
+  text-align: center;
+}
+
+.Achievements_bg_img {
+  display: flex;
+  width: 80%;
+  margin: auto;
+  border-radius: 5px;
+}
+
+.achievements_heading {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-family: "Mochiy Pop One", sans-serif;
+  color: white;
+  transform: translate(-50%, -50%);
+  font-size: 2.4rem;
+  width: 80%;
+  justify-content: center;
+  height: fit-content;
+}
+

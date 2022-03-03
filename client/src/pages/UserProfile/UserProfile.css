@@ -1,0 +1,292 @@
+body {
+  background-color: #f1efef;
+}
+
+.Profile_header_img_container {
+  position: relative;
+}
+
+.Acro_Image_header {
+  display: flex;
+  width: 100%;
+}
+
+.details_container {
+  display: flex;
+  position: absolute;
+  top: 90%;
+  left: 4%;
+  width: 90%;
+  justify-content: space-between;
+}
+
+.left_container {
+  /* display: flex; */
+  width: 28%;
+}
+
+.profile_info_container {
+  display: block;
+  background-color: white;
+  padding-bottom: 2rem;
+}
+
+.userprofile {
+  display: flex;
+  width: 35%;
+  margin: auto;
+}
+
+.user_name {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 5%;
+}
+
+.name {
+  font-family: "Inter", sans-serif;
+  font-size: 25px;
+  letter-spacing: -0.017em;
+  line-height: 29px;
+}
+
+.user_passing_year {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.year {
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  color: #787878;
+  letter-spacing: -0.017em;
+  line-height: 22px;
+}
+
+.user_branch {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.branch {
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  color: #787878;
+  letter-spacing: -0.017em;
+  line-height: 22px;
+}
+
+.social_media_icons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.linkedinIcon {
+  display: flex;
+  margin-right: 1.5rem;
+}
+
+.contact_information_container {
+  background-color: white;
+  padding-bottom: 2rem;
+}
+
+.heading_and_edit {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #cac3c3;
+}
+
+.info_heading {
+  font-family: "Inter", sans-serif;
+  font-size: 25px;
+  letter-spacing: -0.017em;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact_inner_info {
+  display: block;
+  margin-top: 2rem;
+}
+
+.info {
+  display: flex;
+  margin: 0 1rem 0 1rem;
+}
+
+.info_text {
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  color: #787878;
+  letter-spacing: -0.017em;
+  margin-left: 1rem;
+}
+
+.phone_info {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.Expertise_container {
+  background-color: white;
+  padding-bottom: 2rem;
+}
+
+.Expertise_inner_info {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.expertise_heading {
+  display: flex;
+  margin-left: 0.7rem;
+}
+
+.expertise_text {
+  display: flex;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  color: #787878;
+  letter-spacing: -0.017em;
+  width: max-content;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 1rem;
+}
+
+.expertise_para {
+  background-color: #99b3c5;
+  padding: 0.3rem 0.4rem;
+  border-radius: 5px;
+  margin: 0.5rem 0.5rem 0.5rem 1rem;
+  color: white;
+  font-weight: 500;
+}
+
+.Basic_indo_container {
+  background-color: white;
+  padding-bottom: 2rem;
+}
+
+.Basic_inner_info {
+  display: block;
+  margin-top: 2rem;
+}
+
+.dob {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.gender {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.right_container {
+  display: block;
+  width: 68%;
+}
+
+.summary,
+.Education_container,
+.Work_Experience_Container {
+  display: block;
+  width: 100%;
+  background-color: white;
+  margin-bottom: 3rem;
+}
+
+.right_heading_and_edit {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #cac3c3;
+}
+
+.right_summary_para {
+  display: flex;
+  margin-top: 1%;
+  padding-bottom: 0.9rem;
+  align-items: center;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 17px;
+}
+
+.Education_container {
+  padding-bottom: 1rem;
+}
+
+.clla_name {
+  display: flex;
+  margin-top: 2rem;
+  margin-left: 3rem;
+}
+
+.right_heading,
+.title {
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  letter-spacing: -0.017em;
+}
+
+.Dept_and_Branch,
+.grad_year {
+  display: flex;
+  margin-top: 0.8rem;
+  margin-left: 3rem;
+}
+
+.Degree_name,
+.branch_name,
+.grad_year_name {
+  font-family: "Inter", sans-serif;
+  font-size: 17px;
+  letter-spacing: -0.017em;
+  align-items: center;
+  justify-content: center;
+  color: #787878;
+}
+
+.work_experience_inner_container {
+  display: block;
+  margin-right: 0.2rem;
+  padding-bottom: 0.9rem;
+}
+
+.company_name_container,
+.your_position,
+.technology_used,
+.work_experience_description {
+  display: flex;
+  margin-top: 1rem;
+  margin-left: 3rem;
+}
+
+.company_name,
+.your_title,
+.tech_stack, .work_description {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 17px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.8rem;
+  color: #787878;
+}
+
+.work_description {
+  text-align: left;
+  font-size: 13px;
+}

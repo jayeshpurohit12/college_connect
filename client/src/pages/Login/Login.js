@@ -7,7 +7,7 @@ import { useAuth } from "../../contexts/Authcontext";
 const Login = () => {
   const emailRef = useRef(" ");
   const passwordRef = useRef(" ");
-  const { login,signup } = useAuth();
+  const { login, signup } = useAuth();
   const history = useHistory();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,17 +18,16 @@ const Login = () => {
       setLoading(true);
       setError("");
       console.log("login");
-      if(passwordRef.current.value =="college@455001"){
-         await signup(emailRef.current.value,passwordRef.current.value);
-         await login(emailRef.current.value, passwordRef.current.value);
-      history.push("/resetpassword");
-      }
-      else{
+      if (passwordRef.current.value == "AITR@123") {
+        await signup(emailRef.current.value, passwordRef.current.value);
         await login(emailRef.current.value, passwordRef.current.value);
-      history.push("/home");
-      }  
+        history.push("/resetpassword");
+      } else {
+        await login(emailRef.current.value, passwordRef.current.value);
+        history.push("/home");
+      }
     } catch (error) {
-      setError("failed to login in");
+      setError("Please enter valid credentials");
     }
     setLoading(false);
   }

@@ -3,6 +3,7 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import "./NavbarrAfterLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";
+import { NavLink } from "react-router-dom";
 
 const Navbarr = () => {
   return (
@@ -24,22 +25,51 @@ const Navbarr = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <div className="inner_navbar">
             <Nav className="navbar_links">
-              <Nav.Link href="#deets" className="header_heading text-white">
+              <NavLink
+                to="/home"
+                style={{ textDecoration: "none" }}
+                className="header_heading text-white"
+              >
                 Home
-              </Nav.Link>
-              <Nav.Link href="#memes" className="header_heading text-white">
+              </NavLink>
+
+              <NavLink
+                to="/Achievements"
+                style={{ textDecoration: "none" }}
+                className="header_heading text-white"
+              >
                 Achievement
-              </Nav.Link>
-              <NavDropdown title="Career" id = "dropdown">
-                <NavDropdown.Item href="#action3">Internship</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">Jobs</NavDropdown.Item>
+              </NavLink>
+
+              <NavDropdown
+                title="Career"
+                id="dropdown"
+                style={{ textDecoration: "none" }}
+              >
+                <NavLink to="/Internships" style={{ textDecoration: "none" }}>
+                  <NavDropdown.Item href=" ">Internship</NavDropdown.Item>
+                </NavLink>
+
+                <NavLink to="/Jobs" style={{ textDecoration: "none" }}>
+                  <NavDropdown.Item href=" ">Jobs</NavDropdown.Item>
+                </NavLink>
               </NavDropdown>
-              <Nav.Link href="#memes" className="header_heading text-white">
+
+              <NavLink
+                to="/Events"
+                style={{ textDecoration: "none" }}
+                className="header_heading text-white"
+              >
                 Events
-              </Nav.Link>
-              <Nav.Link href="#memes" className="header_heading text-white">
+              </NavLink>
+
+              <NavLink
+                to="/Connect"
+                style={{ textDecoration: "none" }}
+                className="header_heading text-white"
+              >
                 Connect
-              </Nav.Link>
+              </NavLink>
             </Nav>
           </div>
           <AccountCircleIcon
