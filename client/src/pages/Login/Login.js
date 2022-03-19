@@ -3,6 +3,8 @@ import "./Login.css";
 import { Link, useHistory } from "react-router-dom";
 import { Alert, Form, Button } from "react-bootstrap";
 import { useAuth } from "../../contexts/Authcontext";
+import { doc, setDoc } from "firebase/firestore";
+import {db} from '../../firebase';
 
 const Login = () => {
   const emailRef = useRef(" ");
@@ -11,6 +13,7 @@ const Login = () => {
   const history = useHistory();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const {currentUser}=useAuth();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -21,11 +24,19 @@ const Login = () => {
       if (passwordRef.current.value == "AITR@123") {
         await signup(emailRef.current.value, passwordRef.current.value);
         await login(emailRef.current.value, passwordRef.current.value);
+        const docRef = await setDoc(doc(db, "users", currentUser.uid),{
+          category:"teacher"
+        });
+
         history.push("/resetpassword");
       } else {
         await login(emailRef.current.value, passwordRef.current.value);
-        history.push("/home");
+        const docRef = await setDoc(doc(db, "users", currentUser.uid),{
+          category:"student"
+        });
+        
       }
+      history.push("/details");
     } catch (error) {
       setError("Please enter valid credentials");
     }

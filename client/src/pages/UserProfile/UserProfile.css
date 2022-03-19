@@ -57,7 +57,7 @@ body {
   text-align: center;
 }
 
-.year {
+.year{
   font-family: "Inter", sans-serif;
   font-size: 18px;
   color: #787878;
@@ -165,13 +165,9 @@ body {
   margin-left: 1rem;
 }
 
-.expertise_para {
-  background-color: #99b3c5;
-  padding: 0.3rem 0.4rem;
-  border-radius: 5px;
-  margin: 0.5rem 0.5rem 0.5rem 1rem;
-  color: white;
-  font-weight: 500;
+.skill_badges{
+   margin: 0.5rem 0.5rem 0.5rem 1rem;
+   
 }
 
 .Basic_indo_container {
@@ -218,10 +214,12 @@ body {
 .right_summary_para {
   display: flex;
   margin-top: 1%;
+  margin: 1%;
   padding-bottom: 0.9rem;
   align-items: center;
   font-family: "Times New Roman", Times, serif;
   font-size: 17px;
+
 }
 
 .Education_container {

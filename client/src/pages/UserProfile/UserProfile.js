@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
+import { Badge } from "react-bootstrap";
 import NavbarAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
 import AcroFrontImg from "../../images/AcroFrontImg.png";
 import UserProfileimg from "../../images/userProfileimg.png";
@@ -12,9 +13,34 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import CakeIcon from "@material-ui/icons/Cake";
 import WcIcon from "@material-ui/icons/Wc";
 import FindConnection from "../../components/FindConnection/FindConnection";
-import Footer from "../../components/Footer/Footer";
+// import Footer from "../../components/Footer/Footer";
+import { useAuth } from "../../contexts/Authcontext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const UserProfile = () => {
+  const { currentUser } = useAuth();
+  const [profile, setProfile] = useState({});
+  const [skillSet, setSkillSet] = useState([]);
+
+  const fetchdata = async () => {
+    const docRef = doc(db, "users", currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setProfile(docSnap.data());
+      if (profile.skills) {
+        setSkillSet(profile.skills.split(","));
+      }
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
   return (
     <>
       <NavbarAfterLogin />
@@ -33,21 +59,30 @@ const UserProfile = () => {
                 />
               </div>
               <div className="user_name">
-                <h1 className="name">Akash Agrawal</h1>
+                <h1 className="name">{profile.name}</h1>
               </div>
               <div className="user_passing_year">
-                <h2 className="year">Student, Class of 2023</h2>
+                <h2 className="year">
+                  Student, Class of{" "}
+                  {profile.yop ? profile.yop.substring(0, 4) : ""}
+                </h2>
               </div>
               <div className="user_branch">
-                <h2 className="branch">B.Tech, Computer Science</h2>
+                <h2 className="branch">
+                  {profile.degree} , {profile.specialisation}
+                </h2>
               </div>
               <div className="social_media_icons">
-                <LinkedInIcon
-                  className="linkedinIcon"
-                  style={{ color: "royalblue" }}
-                  fontSize="large"
-                />
-                <GitHubIcon fontSize="large" />
+                <a href={profile.linkedin}>
+                  <LinkedInIcon
+                    className="linkedinIcon"
+                    style={{ color: "royalblue" }}
+                    fontSize="large"
+                  />
+                </a>
+                <a href={profile.git}>
+                  <GitHubIcon fontSize="large" />
+                </a>
               </div>
             </div>
 
@@ -63,13 +98,11 @@ const UserProfile = () => {
               <div className="contact_inner_info">
                 <div className="email_info info">
                   <EmailIcon />
-                  <h2 className="email_text info_text">
-                    akashagrawalct19@acropolis.in
-                  </h2>
+                  <h2 className="email_text info_text">{currentUser.email}</h2>
                 </div>
                 <div className="phone_info info">
                   <PhoneInTalkIcon fontSize="medium" />
-                  <h2 className="phone_text info_text">7458589654</h2>
+                  <h2 className="phone_text info_text">{profile.phone}</h2>
                 </div>
               </div>
             </div>
@@ -87,12 +120,17 @@ const UserProfile = () => {
                 <div className="expertise_heading">
                   <h2 className="expertise_text">Skills : </h2>
                 </div>
+
                 <div className="skills">
-                  <p className="expertise_para">HTML</p>
-                  <p className="expertise_para">JavaScript</p>
-                  <p className="expertise_para">CSS</p>
-                  <p className="expertise_para">Reactjs</p>
-                  <p className="expertise_para">Angularjs</p>
+                  {skillSet.map((item) => {
+                    return (
+                      <p className="skill_badges">
+                        <h5>
+                          <Badge bg="info">{item}</Badge>{" "}
+                        </h5>
+                      </p>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -109,15 +147,19 @@ const UserProfile = () => {
               <div className="Basic_inner_info">
                 <div className="location info">
                   <LocationOnIcon />
-                  <h2 className="location_info info_text">Indore, India</h2>
+                  <h2 className="location_info info_text">
+                    {profile.location}
+                  </h2>
                 </div>
                 <div className="dob info">
                   <CakeIcon />
-                  <h2 className="dob_info info_text">26 Sept, 2001</h2>
+                  <h2 className="dob_info info_text">{profile.dob}</h2>
                 </div>
                 <div className="gender info">
                   <WcIcon />
-                  <h2 className="gender_info info_text">Male</h2>
+                  <h2 className="gender_info info_text">
+                    {profile.gender == 1 ? "male" : "female"}
+                  </h2>
                 </div>
               </div>
             </div>
@@ -136,15 +178,7 @@ const UserProfile = () => {
                 </div>
               </div>
               <div className="right_summary_para">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Magnam, non enim dignissimos magni cupiditate nihil. Error,
-                  cum assumenda sapiente, veniam vitae ut ipsa nihil, iste
-                  eligendi nisi placeat id natus. Libero maiores ex earum cum
-                  possimus dolorem voluptatum praesentium vero voluptatem
-                  doloremque consequuntur ab ipsam voluptas, quisquam obcaecati
-                  est mollitia laborum impedit.
-                </p>
+                <p>{profile.summary}</p>
               </div>
             </div>
             <div className="Education_container">
@@ -163,13 +197,14 @@ const UserProfile = () => {
                   </h2>
                 </div>
                 <div className="Dept_and_Branch">
-                  <h2 className="Degree_name">B.Tech, </h2>
-                  <h2 className="branch_name">
-                    Computer Science and Technology
-                  </h2>
+                  <h2 className="Degree_name">{profile.degree} , </h2>
+                  <h2 className="branch_name">{profile.specialisation}</h2>
                 </div>
                 <div className="grad_year">
-                  <h2 className="grad_year_name">2019 - 2023 </h2>
+                  <h2 className="grad_year_name">
+                    {profile.std ? profile.std.substring(0, 4) : ""} -{" "}
+                    {profile.end ? profile.end.substring(0, 4) : ""}
+                  </h2>
                 </div>
               </div>
             </div>
@@ -185,28 +220,20 @@ const UserProfile = () => {
               <div className="work_experience_inner_container">
                 <div className="company_name_container">
                   <h2 className="title">Company Name: </h2>
-                  <h2 className="company_name">DevIncept</h2>
+                  <h2 className="company_name">{profile.company}</h2>
                 </div>
                 <div className="your_position">
                   <h2 className="title">Your Position: </h2>
-                  <h2 className="your_title">Student Contributor</h2>
+                  <h2 className="your_title">{profile.position}</h2>
                 </div>
                 <div className="technology_used">
                   <h2 className="title">Tech Stack: </h2>
-                  <h2 className="tech_stack">MERN Stack</h2>
+                  <h2 className="tech_stack">{profile.tech}</h2>
                 </div>
 
                 <div className="work_experience_description">
                   <h2 className="title">Description: </h2>
-                  <p className="work_description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Numquam perferendis velit eligendi, enim non nobis sunt
-                    aspernatur blanditiis consequuntur atque similique vitae
-                    dicta suscipit impedit animi quasi corrupti, at ut. Eveniet
-                    repellendus quibusdam consequatur molestias voluptates
-                    dignissimos ipsum, exercitationem molestiae modi, eligendi a
-                    reprehenderit dolorum ab dolores sit, obcaecati sed?
-                  </p>
+                  <p className="work_description">{profile.desc}</p>
                 </div>
               </div>
             </div>
@@ -216,7 +243,6 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-      
     </>
   );
 };

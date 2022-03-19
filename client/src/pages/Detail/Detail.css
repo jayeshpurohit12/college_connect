@@ -1,0 +1,44 @@
+.left_section{
+    display:flex;
+    flex-direction: column;
+    width:35%;
+   
+    justify-content: center;
+}
+.form_group{
+    background-color: white;
+    margin:1rem;
+    padding:1rem;
+}
+#heading{
+    width: 100%;
+    text-align: center;
+    margin:1rem auto;
+}
+.right_section{
+    display:flex;
+    width:55%;
+    flex-direction: column;
+    justify-content: center;
+}
+.inner_sections{
+    display:flex;
+    width:95%;
+    
+    flex-direction: column;
+    justify-content: center;
+}
+.main_section{
+    display:flex;
+    flex-direction: row;
+   
+    width:100%;
+    justify-content: center;
+}
+#form_button{
+    margin:1rem auto;
+ 
+}
+.inline_input{
+    margin-right:0.5rem;
+}

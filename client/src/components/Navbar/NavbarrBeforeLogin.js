@@ -1,6 +1,5 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import Button from "@material-ui/core/Button";
 import { Link} from "react-router-dom";
 import "./NavbarBeforeLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";

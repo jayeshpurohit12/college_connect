@@ -1,11 +1,45 @@
-import React from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import "./NavbarrAfterLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../contexts/Authcontext";
+import { db } from "../../firebase";
+import { Avatar } from "@material-ui/core";
+import { doc, getDoc } from "firebase/firestore";
 
 const Navbarr = () => {
+  const { currentUser, logout } = useAuth();
+  const [profile, setProfile] = useState({});
+  const history = useHistory();
+  const [error, setError] = useState("");
+
+  const fetchdata = async () => {
+    const docRef = doc(db, "users", currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setProfile(docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
+
+  useEffect(() => {
+    fetchdata();
+  }, []);
+  const handleLogout = async () => {
+    setError("");
+    try {
+      await logout();
+      console.log(currentUser);
+      history.push("/login");
+    } catch {
+      setError("Failed to logout");
+    }
+  };
   return (
     <>
       <Navbar collapseOnSelect expand="lg" style={{ background: "#4d8686" }}>
@@ -70,13 +104,30 @@ const Navbarr = () => {
               >
                 Connect
               </NavLink>
+              
+              <NavDropdown
+                id="dropdown"
+                style={{ textDecoration: "none", marginRight: "0rem" }}
+              >
+                <NavLink to="/userProfile" style={{ textDecoration: "none" }}>
+                  <NavDropdown.Item  href="/userProfile">
+                    View Profile
+                  </NavDropdown.Item>
+                </NavLink>
+                <Button style={{ margin: "1rem" }} onClick={handleLogout}>
+                  logout
+                </Button>
+              </NavDropdown>
+              
+              <Avatar
+                alt="Remy Sharp"
+                src={profile.image}
+                fontSize="large"
+                style={{ color: "white", marginLeft: "0rem" }}
+                className="account_icon"
+              />
             </Nav>
           </div>
-          <AccountCircleIcon
-            fontSize="large"
-            style={{ color: "white" }}
-            className="account_icon"
-          />
         </Navbar.Collapse>
       </Navbar>
     </>
