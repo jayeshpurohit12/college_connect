@@ -3,7 +3,12 @@
   text-align: center;
   margin-bottom: 0.5rem;
 }
-
+.features_for_teacher {
+  margin: 0.5rem;
+}
+.feature_button {
+  margin: 0rem 1rem;
+}
 .collegeAlumni_icon {
   display: flex;
   object-fit: contain;

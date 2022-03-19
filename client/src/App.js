@@ -10,6 +10,7 @@ import {
   ResetPassword,
   UserProfile,
   Achievements,
+  Detail
 } from "./pages/PageSrc";
 import "./App.css";
 
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/signup" exact component={Signup} />
         <Route path="/resetpassword" exact component={ResetPassword} />
         <Route path="/userprofile" exact component={UserProfile} />
+        <Route path="/details" exact component ={Detail}/>
         <Route path="/Achievements" exact component={Achievements} />
       </Switch>
     </Router>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavbarrAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
 import collegeAlumni from "../../images/collegeAlumni.png";
 import "./Mainpg.css";
@@ -11,11 +11,52 @@ import Career from "../../components/Career/Career";
 import MicrosoftImg from "../../images/MicrosoftImg.png";
 import ZSImage from "../../images/ZSImage.png";
 import Footer from "../../components/Footer/Footer";
+import { useAuth } from "../../contexts/Authcontext";
+import { db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const Mainpg = () => {
+  const [profile, setProfile] = useState({});
+  const { currentUser } = useAuth();
+
+  const fetchdata = async () => {
+    const docRef = doc(db, "users", currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setProfile(docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
+
+  useEffect(() => {
+    fetchdata();
+  }, []);
   return (
     <>
       <NavbarrAfterLogin />
+      {profile.category === "student" ? (
+        <>
+          <div className="features_for_teacher">
+            <Button variant="outline-secondary" className="feature_button">
+              Add Event
+            </Button>
+            <Button variant="outline-secondary" className="feature_button">
+              Add Achievement
+            </Button>
+            <Button variant="outline-secondary" className="feature_button">
+              Add Job
+            </Button>
+            <Button variant="outline-secondary" className="feature_button">
+              Add internship
+            </Button>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       <div className="alumnibg_img">
         <img
           src={collegeAlumni}

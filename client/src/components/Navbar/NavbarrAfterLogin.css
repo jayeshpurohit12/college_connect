@@ -34,7 +34,10 @@
 
 .inner_navbar {
   display: flex;
-  flex: 0.96;
+  flex: 0.94;
+}
+.dropdown_menu{
+  min-width: 1rem;
 }
 
 .navbar_links {
