@@ -104,21 +104,21 @@ const Navbarr = () => {
               >
                 Connect
               </NavLink>
-              
-              <NavDropdown
-                id="dropdown"
-                style={{ textDecoration: "none", marginRight: "0rem" }}
-              >
-                <NavLink to="/userProfile" style={{ textDecoration: "none" }}>
-                  <NavDropdown.Item  href="/userProfile">
-                    View Profile
-                  </NavDropdown.Item>
-                </NavLink>
-                <Button style={{ margin: "1rem" }} onClick={handleLogout}>
-                  logout
-                </Button>
-              </NavDropdown>
-              
+              <div>
+                <NavDropdown
+                  id="dropdown"
+                  style={{ textDecoration: "none", marginRight: "0rem" }}
+                >
+                  <NavLink to="/userProfile" style={{ textDecoration: "none" }}>
+                    <NavDropdown.Item href="/userProfile">
+                      View Profile
+                    </NavDropdown.Item>
+                  </NavLink>
+                  <Button style={{ margin: "1rem" }} onClick={handleLogout}>
+                    logout
+                  </Button>
+                </NavDropdown>
+              </div>
               <Avatar
                 alt="Remy Sharp"
                 src={profile.image}

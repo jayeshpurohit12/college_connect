@@ -1,9 +1,10 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import { Link} from "react-router-dom";
+// import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 import "./NavbarBeforeLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";
-import Login from "../../pages/Login/Login";
+// import Login from "../../pages/Login/Login";
 
 const Navbarr = () => {
   return (
@@ -39,18 +40,18 @@ const Navbarr = () => {
               </Nav.Link>
             </Nav>
           </div>
-          <Link to="/signup"
+          <Link
+            to="/signup"
             className="header_btn"
             style={{
               background: "#e8a94b",
               margin: "0 0.3rem",
-              padding:"0.5rem 0.5rem",
-              color:"black",
-              borderRadius:"5px",
-              textDecoration:"none",
+              padding: "0.5rem 0.5rem",
+              color: "black",
+              borderRadius: "5px",
+              textDecoration: "none",
               marginLeft: "1rem",
             }}
-            
           >
             SignUp / Login
           </Link>

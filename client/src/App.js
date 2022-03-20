@@ -10,24 +10,31 @@ import {
   ResetPassword,
   UserProfile,
   Achievements,
-  Detail
+  Detail,
+  AchievementsInnerPage,
 } from "./pages/PageSrc";
 import "./App.css";
 
 const App = () => {
+ 
   return (
     <Router>
       <Switch>
+      
         <Route path="/home" component={Mainpg} />
         <Route path="/" exact component={Frontpg} />
-        <Route path="/login" exact component={Login} />
+        <Route path="/login" component={Login} />
         <Route path="/Internships" component={Internship} />
         <Route path="/Jobs" component={Jobs} />
-        <Route path="/signup" exact component={Signup} />
-        <Route path="/resetpassword" exact component={ResetPassword} />
-        <Route path="/userprofile" exact component={UserProfile} />
-        <Route path="/details" exact component ={Detail}/>
-        <Route path="/Achievements" exact component={Achievements} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/resetpassword" component={ResetPassword} />
+        <Route path="/userprofile" component={UserProfile} />
+        <Route path="/details" component={Detail} />
+        <Route path="/Achievements" component={Achievements} />
+        <Route
+          path="/AchievementsInnerPage"
+          component={AchievementsInnerPage}
+        />
       </Switch>
     </Router>
   );

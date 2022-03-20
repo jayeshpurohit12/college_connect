@@ -3,7 +3,6 @@ import "./UserProfile.css";
 import { Badge } from "react-bootstrap";
 import NavbarAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
 import AcroFrontImg from "../../images/AcroFrontImg.png";
-import UserProfileimg from "../../images/userProfileimg.png";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import EditIcon from "@material-ui/icons/Edit";
@@ -13,7 +12,6 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import CakeIcon from "@material-ui/icons/Cake";
 import WcIcon from "@material-ui/icons/Wc";
 import FindConnection from "../../components/FindConnection/FindConnection";
-// import Footer from "../../components/Footer/Footer";
 import { useAuth } from "../../contexts/Authcontext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -54,7 +52,7 @@ const UserProfile = () => {
               <div className="img_container">
                 <img
                   className="userprofile"
-                  src={UserProfileimg}
+                  src={profile.image}
                   alt="userProfile"
                 />
               </div>
@@ -73,14 +71,14 @@ const UserProfile = () => {
                 </h2>
               </div>
               <div className="social_media_icons">
-                <a href={profile.linkedin}>
+                <a target="_blank" href={profile.linkedin}>
                   <LinkedInIcon
                     className="linkedinIcon"
                     style={{ color: "royalblue" }}
                     fontSize="large"
                   />
                 </a>
-                <a href={profile.git}>
+                <a target="_blank" href={profile.git}>
                   <GitHubIcon fontSize="large" />
                 </a>
               </div>
@@ -122,7 +120,8 @@ const UserProfile = () => {
                 </div>
 
                 <div className="skills">
-                  {skillSet.map((item) => {
+                  {skillSet.forEach((item) => {
+                    console.log(item);
                     return (
                       <p className="skill_badges">
                         <h5>

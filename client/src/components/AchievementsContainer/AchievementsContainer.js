@@ -3,6 +3,7 @@ import "./AchievementsContainer.css";
 import Acropolis_cllg_img from "../../images/Acropolis_cllg_img.png";
 
 const AchievementsContainer = ({ heading }) => {
+
   return (
     <>
       <div className="Achievements_container">
@@ -10,9 +11,7 @@ const AchievementsContainer = ({ heading }) => {
 
         <h1 className="achievements_sub_head">{heading}</h1>
       </div>
-      <div className="Achievements_profile_container">
-        
-      </div>
+      
     </>
   );
 };

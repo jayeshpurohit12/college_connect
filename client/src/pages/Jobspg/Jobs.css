@@ -14,10 +14,10 @@
   .opp_header_heading {
     margin-top: 2rem;
   }
-  .internship_post_container {
+  .job_post_container {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    margin: 4rem 1rem;
+    justify-content: flex-start;
+    margin: 4rem;
   }
   

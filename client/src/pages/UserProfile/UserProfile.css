@@ -31,10 +31,15 @@ body {
   padding-bottom: 2rem;
 }
 
+.img_container {
+  padding-top: 0.7rem;
+}
+
 .userprofile {
   display: flex;
   width: 35%;
   margin: auto;
+  border-radius: 50%;
 }
 
 .user_name {
@@ -57,7 +62,7 @@ body {
   text-align: center;
 }
 
-.year{
+.year {
   font-family: "Inter", sans-serif;
   font-size: 18px;
   color: #787878;
@@ -165,9 +170,8 @@ body {
   margin-left: 1rem;
 }
 
-.skill_badges{
-   margin: 0.5rem 0.5rem 0.5rem 1rem;
-   
+.skill_badges {
+  margin: 0.5rem 0.5rem 0.5rem 1rem;
 }
 
 .Basic_indo_container {
@@ -219,7 +223,6 @@ body {
   align-items: center;
   font-family: "Times New Roman", Times, serif;
   font-size: 17px;
-
 }
 
 .Education_container {
@@ -274,7 +277,8 @@ body {
 
 .company_name,
 .your_title,
-.tech_stack, .work_description {
+.tech_stack,
+.work_description {
   display: block;
   font-family: "Inter", sans-serif;
   font-size: 17px;
