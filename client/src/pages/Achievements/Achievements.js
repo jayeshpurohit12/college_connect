@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Achievements.css";
 import NavbarAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
 import Achievements_heading_bg from "../../images/Achievements_heading_bg.png";
@@ -7,6 +7,12 @@ import Footer from "../../components/Footer/Footer";
 import { Link } from "react-router-dom";
 
 const Achievements = () => {
+  var F = "Faculty";
+
+  var A = "Alumni";
+
+  var S = "Student";
+
   return (
     <>
       <NavbarAfterLogin />
@@ -20,11 +26,15 @@ const Achievements = () => {
         <h1 className="achievements_heading">ACROPOLIS ACHIEVEMENTS</h1>
       </div>
       <div className="Achievements_inner_container">
-        <Link to="/AchievementsInnerPage">
+        <Link to={`/AchievementsInnerPage?keyword=${F}`}>
           <AchievementsContainer heading="FACULTY" />
         </Link>
-        <AchievementsContainer heading="ALUMNI" />
-        <AchievementsContainer heading="STUDENTS" />
+        <Link to={`/AchievementsInnerPage?keyword=${A}`}>
+          <AchievementsContainer heading="ALUMNI" />
+        </Link>
+        <Link to={`/AchievementsInnerPage?keyword=${S}`}>
+          <AchievementsContainer heading="STUDENTS" />
+        </Link>
       </div>
       <div className="footer">
         <Footer />

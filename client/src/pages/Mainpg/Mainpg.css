@@ -4,10 +4,13 @@
   margin-bottom: 0.5rem;
 }
 .features_for_teacher {
+  display: flex;
   margin: 0.5rem;
+  justify-content: center;
 }
 .feature_button {
   margin: 0rem 1rem;
+  border-radius: 20px;
 }
 .collegeAlumni_icon {
   display: flex;

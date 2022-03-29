@@ -26,7 +26,7 @@
     "react-owl-carousel": "^2.3.3",
     "react-phone-number-input": "^3.1.46",
     "react-redux": "^7.2.6",
-    "react-router-dom": "^5.3.0",
+    "react-router-dom": "^6.2.2",
     "react-scripts": "4.0.3",
     "react-toastify": "^8.2.0",
     "sendotp": "^1.2.9",
@@ -57,5 +57,4 @@
       "last 1 safari version"
     ]
   }
-  
 }

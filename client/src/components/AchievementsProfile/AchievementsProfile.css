@@ -1,15 +1,15 @@
 .Profile_container {
   display: flex;
   width: 40%;
-  margin: auto;
+  margin: 1.5rem;
 }
 
 .inner_profile {
   display: block;
-  border: 5px solid #D3D2D2;
-  margin-left: 4rem;
+  border: 5px solid #d3d2d2;
   margin-bottom: 3rem;
   padding-bottom: 2.5rem;
+  width: 80%;
 }
 
 .Profile_image_container {
@@ -19,8 +19,9 @@
 
 .Profile_image {
   display: flex;
-  width: 80%;
+  width: 100%;
   margin: auto;
+  height: 35vh;
 }
 
 .Achievers_name_container {
@@ -59,6 +60,7 @@
 .view_profile_btn {
   display: flex;
   margin: auto;
+  justify-content: center;
   position: relative;
   left: 50%;
   transform: translate(-50%, 0);

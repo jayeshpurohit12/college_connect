@@ -37,26 +37,7 @@ const Mainpg = () => {
   return (
     <>
       <NavbarrAfterLogin />
-      {profile.category === "student" ? (
-        <>
-          <div className="features_for_teacher">
-            <Button variant="outline-secondary" className="feature_button">
-              Add Event
-            </Button>
-            <Button variant="outline-secondary" className="feature_button">
-              Add Achievement
-            </Button>
-            <Button variant="outline-secondary" className="feature_button">
-              Add Job
-            </Button>
-            <Button variant="outline-secondary" className="feature_button">
-              Add internship
-            </Button>
-          </div>
-        </>
-      ) : (
-        <></>
-      )}
+
       <div className="alumnibg_img">
         <img
           src={collegeAlumni}
@@ -80,7 +61,7 @@ const Mainpg = () => {
         </div>
       </div>
       <div className="event_container">
-        <HeaderBar title="Events" button={true} />
+        <HeaderBar title="Events" button={true} link="/home" />
         <div className="event_banner_img">
           <Banner
             image={eventBanner}
@@ -98,7 +79,7 @@ const Mainpg = () => {
           </div>
         </div>
         <div className="achievement_container">
-          <HeaderBar title="Achievements" button={true} />
+          <HeaderBar title="Achievements" button={true} link="/Achievements" />
           <div className="inner_achievement_section">
             <div className="achievement_image">
               <img
@@ -123,6 +104,7 @@ const Mainpg = () => {
             OpporTitle="Microsoft is hiring Data Science Associate"
             Batch="2021, 2022"
             postedDate="16-11-2021"
+            link="/Internships"
           />
         </div>
         <div className="Job_container">
@@ -132,6 +114,7 @@ const Mainpg = () => {
             OpporTitle="ZS is hiring Data Science Associate"
             Batch="2020, 2021"
             postedDate="16-11-2021"
+            link="/Jobs"
           />
         </div>
         <div className="foter_container">

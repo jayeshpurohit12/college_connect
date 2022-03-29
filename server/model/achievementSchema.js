@@ -17,6 +17,10 @@ const Achievements_Deatils = new mongoose.Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: String,
+    required: true,
+  },
 });
 
 const Achievements_Deatils_Model = mongoose.model(

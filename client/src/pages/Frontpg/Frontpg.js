@@ -38,7 +38,7 @@ const Frontpg = () => {
             caption={true}
           />
           <div className="achievement_section">
-            <HeaderBar title="Achievement" button="false" />
+            <HeaderBar title="Achievement" button={false} link="/home" />
             <OwlCarousel
               style={{ width: "90%", marginTop: "0.5rem", marginLeft: "4rem" }}
               className="owlCarousel"
@@ -91,7 +91,7 @@ const Frontpg = () => {
             </OwlCarousel>
           </div>
           <div>
-            <HeaderBar title="Event" button={true} />
+            <HeaderBar title="Event" button={true} link="/home"/>
             <OwlCarousel
               className="owl_carousel"
               style={{ width: "90%", marginTop: "0.5rem", marginLeft: "4rem" }}
@@ -247,11 +247,25 @@ const Frontpg = () => {
 
       <div className="footer">
         <div className="footer_content">
-          <Link className="footer_link">Home</Link> |
-          <Link className="footer_link">About</Link> |
-          <Link className="footer_link">Contact</Link> |
-          <Link className="footer_link">Term</Link> |
-          <Link className="footer_link">Privacy</Link>
+          <Link className="footer_link" to=" ">
+            Home
+          </Link>{" "}
+          |
+          <Link className="footer_link" to=" ">
+            About
+          </Link>{" "}
+          |
+          <Link className="footer_link" to=" ">
+            Contact
+          </Link>{" "}
+          |
+          <Link className="footer_link" to=" ">
+            Term
+          </Link>{" "}
+          |
+          <Link className="footer_link" to=" ">
+            Privacy
+          </Link>
         </div>
       </div>
     </div>

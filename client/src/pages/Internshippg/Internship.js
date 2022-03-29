@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaFilter } from "react-icons/fa";
-import { Button } from "@material-ui/core";
+import { Button, Input } from "@material-ui/core";
 import Dropdown from "react-bootstrap/Dropdown";
 import "./Internship.css";
 // import internship from "../../images/internship.png";
@@ -16,6 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -47,6 +48,8 @@ export default function Opportunitypg() {
   const [image, setImage] = useState(null);
 
   const [intern, setIntern] = useState([]);
+
+  const [search, setSearch] = useState("");
 
   let name, value;
 
@@ -153,6 +156,8 @@ export default function Opportunitypg() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleToggle = () => {};
 
   return (
     <div>
@@ -265,8 +270,8 @@ export default function Opportunitypg() {
             </div>
           </Fade>
         </Modal>
-        <div>
-          <Dropdown>
+
+        {/* <Dropdown>
             <Dropdown.Toggle
               variant="light"
               style={{
@@ -280,39 +285,50 @@ export default function Opportunitypg() {
               <FaFilter /> Filter
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Company</Dropdown.Item>
+              <Dropdown.Item onClick={handleToggle}>Company</Dropdown.Item>
+              
               <Dropdown.Item href="#/action-2">Duration</Dropdown.Item>
               <Dropdown.Item href="#/action-3">Role</Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
+          </Dropdown> */}
+      </div>
+      <div className="search_container">
+        <div className="search_bar_filter">
+          <input
+            type="text"
+            placeholder="search.."
+            className="input_search"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+          <SearchIcon fontSize="large" />
         </div>
       </div>
       <div className="internship_posts">
         <div className="internship_post_container">
           {intern.map((item) => (
             <div className="card_container">
-            <CardWithBorder
-              width="20rem"
-              key={item._id}
-              image={item.image}
-              title={item.name}
-              
-              content={
-                <div>
-                  <p>Batch -{item.batch}</p>
-                  <p>Posted on- {item.posted_Date}</p>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    href={item.positionLink}
-                    target="_blank"
-                  >
-                    Apply here
-                  </Button>
-                </div>
-                
-              }
-            />
+              <CardWithBorder
+                width="20rem"
+                key={item._id}
+                image={item.image}
+                title={item.name}
+                content={
+                  <div>
+                    <p>Batch -{item.batch}</p>
+                    <p>Posted on- {item.posted_Date}</p>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      href={item.positionLink}
+                      target="_blank"
+                    >
+                      Apply here
+                    </Button>
+                  </div>
+                }
+              />
             </div>
           ))}
         </div>

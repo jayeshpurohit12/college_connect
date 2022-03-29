@@ -18,7 +18,7 @@
 .card_container {
   display: flex;
   margin: 2rem;
-  border: 2px solid #ff7146;
+  border: 2px solid #4b4948;
   
 }
 
@@ -26,6 +26,23 @@
   display: flex;;
   margin: 4rem 1rem;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-between;
   
+}
+
+.search_container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.search_bar_filter {
+  display: flex;
+  width: 40%;
+  align-items: center;
+}
+
+.input_search {
+  display: flex;
+  width: 100%;
 }

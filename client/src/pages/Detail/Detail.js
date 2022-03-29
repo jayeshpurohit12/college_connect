@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Detail.css";
 // import {setDoc, Firestore} from "firebase/firestore";
 import { useAuth } from "../../contexts/Authcontext";
@@ -10,7 +10,7 @@ import { doc, updateDoc } from "firebase/firestore";
 
 const Detail = () => {
   const { currentUser } = useAuth();
-  const history = useHistory();
+  const history = useNavigate();
   const [profile, setProfile] = useState({
     category: "",
     name: "",

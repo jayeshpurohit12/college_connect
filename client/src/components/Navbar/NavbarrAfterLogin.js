@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useNavigate } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import "./NavbarrAfterLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";
@@ -12,7 +12,7 @@ import { doc, getDoc } from "firebase/firestore";
 const Navbarr = () => {
   const { currentUser, logout } = useAuth();
   const [profile, setProfile] = useState({});
-  const history = useHistory();
+  const history = useNavigate();
   const [error, setError] = useState("");
 
   const fetchdata = async () => {

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./Signup.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../../contexts/Authcontext";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,7 +13,7 @@ const Signup = () => {
   const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const history = useNavigate();
   const [otp, setOtp] = useState();
   //  const { currentUser } = useAuth();
   const [otpgen, setOtpgen] = useState("");

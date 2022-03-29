@@ -1,6 +1,5 @@
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Mainpg } from "./pages/PageSrc";
-import { Route } from "react-router";
 import {
   Frontpg,
   Login,
@@ -16,26 +15,24 @@ import {
 import "./App.css";
 
 const App = () => {
- 
   return (
     <Router>
-      <Switch>
-      
-        <Route path="/home" component={Mainpg} />
-        <Route path="/" exact component={Frontpg} />
-        <Route path="/login" component={Login} />
-        <Route path="/Internships" component={Internship} />
-        <Route path="/Jobs" component={Jobs} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/resetpassword" component={ResetPassword} />
-        <Route path="/userprofile" component={UserProfile} />
-        <Route path="/details" component={Detail} />
-        <Route path="/Achievements" component={Achievements} />
+      <Routes>
+        <Route exact path="/" element={<Frontpg />} />
+        <Route path="/home" element={<Mainpg />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/Internships" element={<Internship />} />
+        <Route path="/Jobs" element={<Jobs />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/userprofile" element={<UserProfile />} />
+        <Route path="/details" element={<Detail />} />
+        <Route path="/Achievements" element={<Achievements />} />
         <Route
           path="/AchievementsInnerPage"
-          component={AchievementsInnerPage}
+          element={<AchievementsInnerPage />}
         />
-      </Switch>
+      </Routes>
     </Router>
   );
 };

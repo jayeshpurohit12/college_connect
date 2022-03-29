@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../../contexts/Authcontext";
-import { useHistory } from "react-router-dom";
+import { useHistory, useNavigate } from "react-router-dom";
 import { IconButton } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { Form, Button, Alert } from "react-bootstrap";
 
 const ResetPassword = () => {
   const emailRef = useRef();
-  const history = useHistory();
+  const history = useNavigate();
   const { resetPassword } = useAuth();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");

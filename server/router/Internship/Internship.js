@@ -20,6 +20,17 @@ router.get("/internships", async (req, res) => {
   const result = await Internship_Detail.find();
   res.send(result);
 
+  const filter = req.query.filter;
+  if (filter) {
+    const result = await Internship_Detail.find({
+      name: { $regex: filter},
+    });
+
+    res.send(result);
+  }
+
+
 });
+
 
 module.exports = router;

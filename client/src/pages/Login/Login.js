@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./Login.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useNavigate } from "react-router-dom";
 import { Alert, Form, Button } from "react-bootstrap";
 import { useAuth } from "../../contexts/Authcontext";
 import { doc, setDoc } from "firebase/firestore";
@@ -10,7 +10,7 @@ const Login = () => {
   const emailRef = useRef(" ");
   const passwordRef = useRef(" ");
   const { login, signup } = useAuth();
-  const history = useHistory();
+  const history = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const {currentUser}=useAuth();
