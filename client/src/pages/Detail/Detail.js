@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./Detail.css";
-// import {setDoc, Firestore} from "firebase/firestore";
 import { useAuth } from "../../contexts/Authcontext";
 import { db, storage } from "../../firebase";
+import { Alert} from "react-bootstrap";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc,getDoc} from "firebase/firestore";
 
 const Detail = () => {
   const { currentUser } = useAuth();
   const history = useNavigate();
+  const [userdata,setUserdata] = useState({});
   const [profile, setProfile] = useState({
     category: "",
     name: "",
-    yop: "",
     linkedin: "",
     git: "",
     phone: "",
     location: "",
     dob: "",
     gender: "",
-    skills: "",
+    skills: [],
     college: "",
     std: "",
     end: "",
@@ -34,6 +34,7 @@ const Detail = () => {
 
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState(null);
+  const [error,setError]=useState("");
 
   const formHandler = (e) => {
     if (e.target.files[0]) {
@@ -41,13 +42,29 @@ const Detail = () => {
     }
   };
   const handleChange = (e) => {
-    profile[e.target.id] = e.target.value;
+    if(e.target.id==="skills" && e.target.value){
+    profile[e.target.id] = e.target.value.split(",");
+    }
+    else{
+      profile[e.target.id] = e.target.value 
+    }
     setProfile({ ...profile, profile });
   };
+  
+  const fetchdata = async () => {
+    const docRef = doc(db, "users", currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setUserdata(docSnap.data());
+    }
+  };
+  useEffect(() => {
+    fetchdata();
+  }, []);
   const dataupload = async (url) => {
     const docRef = await updateDoc(doc(db, "users", currentUser.uid), {
       name: profile.name,
-      yop: profile.yop,
       linkedin: profile.linkedin,
       git: profile.git,
       phone: profile.phone,
@@ -67,11 +84,12 @@ const Detail = () => {
       image: url,
     })
       .then(function (res) {
-        alert("data saved");
-        history.push("/home");
+        <Alert variant="success">data saved</Alert>;
+        history("/");
       })
       .catch((err) => {
-        console.log(err);
+        setError("");
+        setError("Some error occured. Please retry.");
       });
   };
   const uploadFiles = (e) => {
@@ -98,14 +116,13 @@ const Detail = () => {
     setProfile({
       category: "",
       name: "",
-      yop: "",
       linkedin: "",
       git: "",
       phone: "",
       location: "",
       dob: "",
       gender: "",
-      skills: "",
+      skills: [],
       std: "",
       end: "",
       company: "",
@@ -119,7 +136,7 @@ const Detail = () => {
   return (
     <>
       {/* Name section */}
-
+      {error && <Alert variant="danger">{error}</Alert>}
       <Form
         style={{
           display: "flex",
@@ -133,51 +150,38 @@ const Detail = () => {
           <div className="left_section">
             <div className="inner_sections">
               <Form.Group className="mb-3 form_group" controlId="formBasicName">
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                  }}
-                >
-                  <div className="inline_input">
-                    <Form.Label>Name</Form.Label>
+               
+                 
+                    <Form.Label><h5>Name</h5></Form.Label>
                     <Form.Control
                       type="text"
                       id="name"
                       placeholder="Name"
                       onChange={handleChange}
+                      defaultValue={userdata.name}
                       required
                     />
-                  </div>
-                  <div>
-                    <Form.Label>Year of passing out</Form.Label>
-                    <Form.Control
-                      type="date"
-                      id="yop"
-                      placeholder="YOP"
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-                <Form.Label>Linkedin Profile</Form.Label>
+                 
+             
+                <Form.Label><h5>Linkedin Profile</h5></Form.Label>
                 <Form.Control
                   type="text"
                   id="linkedin"
                   placeholder="Linkedin Profile"
                   onChange={handleChange}
+                  defaultValue={userdata.linkedin}
                   required
                 />
-                <Form.Label>Github Profile</Form.Label>
+                <Form.Label><h5>Github Profile</h5></Form.Label>
                 <Form.Control
                   type="text"
                   id="git"
                   placeholder="Github Profile"
                   onChange={handleChange}
+                  defaultValue={userdata.git}
                   required
                 />
-                <Form.Label>Profile image</Form.Label>
+                <Form.Label><h5>Profile image</h5></Form.Label>
                 <input type="file" onChange={formHandler} />
                 <progress value={progress} max="100" />
                 <p style={{ float: "left" }}>Progress : {progress} % </p>
@@ -189,11 +193,12 @@ const Detail = () => {
                 className="mb-3 form_group"
                 controlId="formBasicNumber"
               >
-                <Form.Label>Phone No</Form.Label>
+                <Form.Label><h5>Phone No</h5></Form.Label>
                 <Form.Control
                   type="text"
                   id="phone"
                   placeholder="Phone number"
+                  defaultValue={userdata.phone}
                   onChange={handleChange}
                   required
                 />
@@ -206,22 +211,24 @@ const Detail = () => {
               >
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <div className="inline_input">
-                    <Form.Label>Location</Form.Label>
+                    <Form.Label><h5>Location</h5></Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Location"
                       id="location"
                       onChange={handleChange}
+                      defaultValue={userdata.location}
                       required
                     />
                   </div>
                   <div>
-                    <Form.Label>DOB</Form.Label>
+                    <Form.Label><h5>DOB</h5></Form.Label>
                     <Form.Control
                       type="date"
                       placeholder="DOB"
                       id="dob"
                       onChange={handleChange}
+                      defaultValue={userdata.dob}
                       required
                     />
                   </div>
@@ -233,7 +240,7 @@ const Detail = () => {
                 className="mb-3 form_group"
                 controlId="formBasicPassword"
               >
-                <Form.Label>Gender</Form.Label>
+                <Form.Label><h5>Gender</h5></Form.Label>
                 <Form.Select
                   aria-label="Default select example"
                   id="gender"
@@ -253,12 +260,13 @@ const Detail = () => {
               className="mb-3 form_group"
               controlId="formBasicExpertise"
             >
-              <Form.Label>Expertise (Enter Seperated by ,)</Form.Label>
+              <Form.Label><h5>Expertise (Enter Seperated by ,)</h5></Form.Label>
               <Form.Control
                 type="text"
                 id="skills"
                 placeholder="Skills"
                 onChange={handleChange}
+                defaultValue={userdata.skills}
                 required
               />
             </Form.Group>
@@ -266,57 +274,62 @@ const Detail = () => {
             {/* Basic Info */}
 
             <Form.Group className="mb-3 form_group" controlId="formBasicName">
-              <Form.Label>Summary</Form.Label>
+              <Form.Label><h5>Summary</h5></Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
                 id="summary"
                 onChange={handleChange}
+                defaultValue={userdata.summary}
                 required
               />
             </Form.Group>
             <Form.Group className="mb-3 form_group" controlId="formBasicName">
-              <Form.Label>Education</Form.Label>
+              <Form.Label><h5>Education</h5></Form.Label>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className="inline_input">
-                  <Form.Label>Degree</Form.Label>
+                  <Form.Label><h5>Degree</h5></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Degree"
                     id="degree"
                     onChange={handleChange}
+                    defaultValue={userdata.degree}
                     required
                   />
                 </div>
                 <div>
-                  <Form.Label></Form.Label>
+                  <Form.Label><h5>Specialisation</h5></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Specialisation"
                     id="specialisation"
                     onChange={handleChange}
+                    defaultValue={userdata.specialisation}
                     required
                   />
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className="inline_input">
-                  <Form.Label>Starting Year</Form.Label>
+                  <Form.Label><h5>Starting Year</h5></Form.Label>
                   <Form.Control
                     type="date"
                     placeholder="Starting Year"
                     id="std"
                     onChange={handleChange}
+                    defaultValue={userdata.std}
                     required
                   />
                 </div>
                 <div>
-                  <Form.Label>Ending Year</Form.Label>
+                  <Form.Label><h5>Ending Year</h5></Form.Label>
                   <Form.Control
                     type="date"
                     placeholder="Ending Year"
                     id="end"
                     onChange={handleChange}
+                    defaultValue={userdata.end}
                     required
                   />
                 </div>
@@ -326,42 +339,46 @@ const Detail = () => {
               className="mb-3 form_group"
               controlId="formBasicCompany"
             >
-              <Form.Label>Company Name</Form.Label>
+              <Form.Label><h5>Company</h5></Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Company_Name"
                 id="company"
                 onChange={handleChange}
+                defaultValue={userdata.company}
                 required
               />
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className="inline_input">
-                  <Form.Label>Tech stack</Form.Label>
+                  <Form.Label><h5>Tech Stack</h5></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Tech_stack"
                     id="tech"
                     onChange={handleChange}
+                    defaultValue={userdata.tech}
                     required
                   />
                 </div>
                 <div>
-                  <Form.Label>Your Position</Form.Label>
+                  <Form.Label><h5>Your Position</h5></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Your Position"
                     id="position"
                     onChange={handleChange}
+                    defaultValue={userdata.position}
                     required
                   />
                 </div>
               </div>
-              <Form.Label>Description</Form.Label>
+              <Form.Label><h5>Description</h5></Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
                 id="desc"
                 onChange={handleChange}
+                defaultValue={userdata.desc}
                 required
               />
             </Form.Group>

@@ -31,7 +31,7 @@ const ResetPassword = () => {
     <div>
       <IconButton
         onClick={() => {
-          history.push("/login");
+          history("/login");
         }}
       >
         <ArrowBackIcon fontSize="small" />
