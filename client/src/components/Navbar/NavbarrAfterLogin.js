@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useNavigate } from "react-router-dom";
-import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
+import {  useNavigate } from "react-router-dom";
+import { Navbar, Nav, NavDropdown, Button,Alert} from "react-bootstrap";
 import "./NavbarrAfterLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";
 import { NavLink } from "react-router-dom";
@@ -10,7 +10,7 @@ import { Avatar } from "@material-ui/core";
 import { doc, getDoc } from "firebase/firestore";
 
 const Navbarr = () => {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout} = useAuth();
   const [profile, setProfile] = useState({});
   const history = useNavigate();
   const [error, setError] = useState("");
@@ -35,13 +35,14 @@ const Navbarr = () => {
     try {
       await logout();
       console.log(currentUser);
-      history.push("/login");
+      history("/login");
     } catch {
       setError("Failed to logout");
     }
   };
   return (
     <>
+    {error && <Alert variant="danger">{error}</Alert>}
       <Navbar collapseOnSelect expand="lg" style={{ background: "#4d8686" }}>
         <div className="header_logo">
           <Navbar.Brand href="#home">
@@ -104,21 +105,26 @@ const Navbarr = () => {
               >
                 Connect
               </NavLink>
-              <div>
-                <NavDropdown
-                  id="dropdown"
-                  style={{ textDecoration: "none", marginRight: "0rem" }}
-                >
-                  <NavLink to="/userProfile" style={{ textDecoration: "none" }}>
-                    <NavDropdown.Item href="/userProfile">
-                      View Profile
-                    </NavDropdown.Item>
-                  </NavLink>
-                  <Button style={{ margin: "1rem" }} onClick={handleLogout}>
-                    logout
-                  </Button>
-                </NavDropdown>
-              </div>
+
+              <NavDropdown
+                id="dropdown"
+                style={{ textDecoration: "none", marginRight: "0rem" }}
+              >
+                <NavLink to="/userProfile" style={{ textDecoration: "none" }}>
+                  <NavDropdown.Item href="/userProfile">
+                    View Profile
+                  </NavDropdown.Item>
+                </NavLink>
+                <NavLink to="/details" style={{ textDecoration: "none" }}>
+                  <NavDropdown.Item href="/userProfile">
+                    Update Profile
+                  </NavDropdown.Item>
+                </NavLink>
+                <Button style={{ margin: "1rem" }} onClick={handleLogout}>
+                  logout
+                </Button>
+              </NavDropdown>
+
               <Avatar
                 alt="Remy Sharp"
                 src={profile.image}
@@ -130,6 +136,7 @@ const Navbarr = () => {
           </div>
         </Navbar.Collapse>
       </Navbar>
+      
     </>
   );
 };

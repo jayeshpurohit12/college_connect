@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
-import { Badge } from "react-bootstrap";
 import NavbarAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
 import AcroFrontImg from "../../images/AcroFrontImg.png";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
@@ -15,11 +14,13 @@ import FindConnection from "../../components/FindConnection/FindConnection";
 import { useAuth } from "../../contexts/Authcontext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const { currentUser } = useAuth();
   const [profile, setProfile] = useState({});
-  const [skillSet, setSkillSet] = useState([]);
+  const history=useNavigate();
+   const skillSet=[];
 
   const fetchdata = async () => {
     const docRef = doc(db, "users", currentUser.uid);
@@ -27,9 +28,11 @@ const UserProfile = () => {
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
       setProfile(docSnap.data());
-      if (profile.skills) {
-        setSkillSet(profile.skills.split(","));
-      }
+     
+      // if (profile.skills) {
+      //   console.log(skillSet)
+      //   setSkillSet(profile.skills.split(","));
+      // }
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -39,6 +42,9 @@ const UserProfile = () => {
     fetchdata();
   }, []);
 
+  const handleOpen=()=>{
+    history("/details");
+  }
   return (
     <>
       <NavbarAfterLogin />
@@ -62,7 +68,7 @@ const UserProfile = () => {
               <div className="user_passing_year">
                 <h2 className="year">
                   Student, Class of{" "}
-                  {profile.yop ? profile.yop.substring(0, 4) : ""}
+                  {profile.end ? profile.end.substring(0, 4) : ""}
                 </h2>
               </div>
               <div className="user_branch">
@@ -71,7 +77,7 @@ const UserProfile = () => {
                 </h2>
               </div>
               <div className="social_media_icons">
-                <a target="_blank" href={profile.linkedin}>
+                <a  href={profile.linkedin} target="_blank">
                   <LinkedInIcon
                     className="linkedinIcon"
                     style={{ color: "royalblue" }}
@@ -90,7 +96,7 @@ const UserProfile = () => {
                   <h2 className="info_heading">Contact Information</h2>
                 </div>
                 <div className="edit_icon">
-                  <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
                 </div>
               </div>
               <div className="contact_inner_info">
@@ -111,7 +117,7 @@ const UserProfile = () => {
                   <h2 className="info_heading">Expertise</h2>
                 </div>
                 <div className="edit_icon">
-                  <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
                 </div>
               </div>
               <div className="Expertise_inner_info">
@@ -119,17 +125,11 @@ const UserProfile = () => {
                   <h2 className="expertise_text">Skills : </h2>
                 </div>
 
-                <div className="skills">
-                  {skillSet.forEach((item) => {
-                    console.log(item);
-                    return (
-                      <p className="skill_badges">
-                        <h5>
-                          <Badge bg="info">{item}</Badge>{" "}
-                        </h5>
-                      </p>
-                    );
-                  })}
+                <div className="skills_set">
+                  { profile.skills? 
+                  profile.skills.forEach((item,i) => 
+                    skillSet.push(<span className = "badge bg-primary skill_badges" >{item}</span> )):""}
+                    {skillSet}
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@ const UserProfile = () => {
                   <h2 className="info_heading">Basic Information</h2>
                 </div>
                 <div className="edit_icon">
-                  <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
                 </div>
               </div>
               <div className="Basic_inner_info">
@@ -173,7 +173,7 @@ const UserProfile = () => {
                   <h2 className="info_heading">Summary</h2>
                 </div>
                 <div className="edit_icon">
-                  <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
                 </div>
               </div>
               <div className="right_summary_para">
@@ -186,7 +186,7 @@ const UserProfile = () => {
                   <h2 className="info_heading">Education</h2>
                 </div>
                 <div className="edit_icon">
-                  <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
                 </div>
               </div>
               <div className="Education_details">
@@ -213,7 +213,7 @@ const UserProfile = () => {
                   <h2 className="info_heading">Work Experience</h2>
                 </div>
                 <div className="edit_icon">
-                  <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
                 </div>
               </div>
               <div className="work_experience_inner_container">

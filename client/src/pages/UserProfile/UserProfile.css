@@ -5,6 +5,11 @@ body {
 .Profile_header_img_container {
   position: relative;
 }
+.edit_profile_button {
+  
+  background-color:transparent;
+  border: none;
+}
 
 .Acro_Image_header {
   display: flex;
