@@ -11,7 +11,6 @@ import { doc, updateDoc,getDoc} from "firebase/firestore";
 const Detail = () => {
   const { currentUser } = useAuth();
   const history = useNavigate();
-  const [userdata,setUserdata] = useState({});
   const [profile, setProfile] = useState({
     category: "",
     name: "",
@@ -35,6 +34,9 @@ const Detail = () => {
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState(null);
   const [error,setError]=useState("");
+  const [selectgen,setSelectgen]=useState(false);
+  
+  const [file_input_display,setFile_input_display]=useState("none");
 
   const formHandler = (e) => {
     if (e.target.files[0]) {
@@ -52,16 +54,19 @@ const Detail = () => {
   };
   
   const fetchdata = async () => {
+   
+      if(profile.gender === '1')setSelectgen(true)
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
-      setUserdata(docSnap.data());
+      setProfile(docSnap.data());
     }
   };
   useEffect(() => {
     fetchdata();
-  }, []);
+  } ,[]);
+    console.log(selectgen) 
   const dataupload = async (url) => {
     const docRef = await updateDoc(doc(db, "users", currentUser.uid), {
       name: profile.name,
@@ -94,6 +99,7 @@ const Detail = () => {
   };
   const uploadFiles = (e) => {
     e.preventDefault();
+    if(image){
     const storageRef = ref(storage, `/image/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
     uploadTask.on(
@@ -113,24 +119,33 @@ const Detail = () => {
     );
     setImage("");
     setProgress(0);
-    setProfile({
-      category: "",
-      name: "",
-      linkedin: "",
-      git: "",
-      phone: "",
-      location: "",
-      dob: "",
-      gender: "",
-      skills: [],
-      std: "",
-      end: "",
-      company: "",
-      tech: "",
-      position: "",
-      desc: "",
-      summary: "",
-    });
+    }
+    else if(profile.image){
+      dataupload(profile.image);
+      setImage("");
+      setProgress(0);
+    }
+    else{
+      setError("Please upload a file");
+    }
+    // setProfile({
+    //   category: "",
+    //   name: "",
+    //   linkedin: "",
+    //   git: "",
+    //   phone: "",
+    //   location: "",
+    //   dob: "",
+    //   gender: "",
+    //   skills: [],
+    //   std: "",
+    //   end: "",
+    //   company: "",
+    //   tech: "",
+    //   position: "",
+    //   desc: "",
+    //   summary: "",
+    // });
   };
 
   return (
@@ -158,7 +173,7 @@ const Detail = () => {
                       id="name"
                       placeholder="Name"
                       onChange={handleChange}
-                      defaultValue={userdata.name}
+                      defaultValue={profile.name}
                       required
                     />
                  
@@ -169,7 +184,7 @@ const Detail = () => {
                   id="linkedin"
                   placeholder="Linkedin Profile"
                   onChange={handleChange}
-                  defaultValue={userdata.linkedin}
+                  defaultValue={profile.linkedin}
                   required
                 />
                 <Form.Label><h5>Github Profile</h5></Form.Label>
@@ -178,14 +193,33 @@ const Detail = () => {
                   id="git"
                   placeholder="Github Profile"
                   onChange={handleChange}
-                  defaultValue={userdata.git}
+                  defaultValue={profile.git}
                   required
                 />
                 <Form.Label><h5>Profile image</h5></Form.Label>
-                <input type="file" onChange={formHandler} />
-                <progress value={progress} max="100" />
-                <p style={{ float: "left" }}>Progress : {progress} % </p>
-                <br></br>
+                {(profile.image === undefined || !profile.image)?(
+                  <div style={{display:'block'}}>
+                  <input type="file" onChange={formHandler} />
+              <progress value={progress} max="100" />
+              <p style={{ float: "left" }}>Progress : {progress} % </p>
+              <br></br>
+                </div>
+                ) :(
+                  
+                  <div>
+                  <a href={profile.image} target="_blank">profile.png</a>
+                  <Button style={{marginLeft:"1rem"}} onClick={()=>{
+                    setFile_input_display("block");
+                  }}>Upload Another image</Button>
+                  <div style={{display:`${file_input_display}`}}>
+                  <input type="file" onChange={formHandler} />
+              <progress value={progress} max="100" />
+              <p style={{ float: "left" }}>Progress : {progress} % </p>
+              <br></br>
+                  </div>
+                </div>
+                )}
+                
               </Form.Group>
             </div>
             <div className="inner_sections">
@@ -198,7 +232,7 @@ const Detail = () => {
                   type="text"
                   id="phone"
                   placeholder="Phone number"
-                  defaultValue={userdata.phone}
+                  defaultValue={profile.phone}
                   onChange={handleChange}
                   required
                 />
@@ -217,7 +251,7 @@ const Detail = () => {
                       placeholder="Location"
                       id="location"
                       onChange={handleChange}
-                      defaultValue={userdata.location}
+                      defaultValue={profile.location}
                       required
                     />
                   </div>
@@ -228,7 +262,7 @@ const Detail = () => {
                       placeholder="DOB"
                       id="dob"
                       onChange={handleChange}
-                      defaultValue={userdata.dob}
+                      defaultValue={profile.dob}
                       required
                     />
                   </div>
@@ -246,9 +280,10 @@ const Detail = () => {
                   id="gender"
                   onChange={handleChange}
                   required
-                >
-                  <option value="1">Male</option>
-                  <option value="2">Female</option>
+                  >
+                
+                  <option selected={selectgen} value="1">Male</option>
+                  <option selected={!selectgen} value="2">Female</option>
                 </Form.Select>
               </Form.Group>
             </div>
@@ -266,7 +301,7 @@ const Detail = () => {
                 id="skills"
                 placeholder="Skills"
                 onChange={handleChange}
-                defaultValue={userdata.skills}
+                defaultValue={profile.skills}
                 required
               />
             </Form.Group>
@@ -280,7 +315,7 @@ const Detail = () => {
                 rows={3}
                 id="summary"
                 onChange={handleChange}
-                defaultValue={userdata.summary}
+                defaultValue={profile.summary}
                 required
               />
             </Form.Group>
@@ -294,7 +329,7 @@ const Detail = () => {
                     placeholder="Degree"
                     id="degree"
                     onChange={handleChange}
-                    defaultValue={userdata.degree}
+                    defaultValue={profile.degree}
                     required
                   />
                 </div>
@@ -305,7 +340,7 @@ const Detail = () => {
                     placeholder="Specialisation"
                     id="specialisation"
                     onChange={handleChange}
-                    defaultValue={userdata.specialisation}
+                    defaultValue={profile.specialisation}
                     required
                   />
                 </div>
@@ -318,7 +353,7 @@ const Detail = () => {
                     placeholder="Starting Year"
                     id="std"
                     onChange={handleChange}
-                    defaultValue={userdata.std}
+                    defaultValue={profile.std}
                     required
                   />
                 </div>
@@ -329,7 +364,7 @@ const Detail = () => {
                     placeholder="Ending Year"
                     id="end"
                     onChange={handleChange}
-                    defaultValue={userdata.end}
+                    defaultValue={profile.end}
                     required
                   />
                 </div>
@@ -345,7 +380,7 @@ const Detail = () => {
                 placeholder="Company_Name"
                 id="company"
                 onChange={handleChange}
-                defaultValue={userdata.company}
+                defaultValue={profile.company}
                 required
               />
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -356,7 +391,7 @@ const Detail = () => {
                     placeholder="Tech_stack"
                     id="tech"
                     onChange={handleChange}
-                    defaultValue={userdata.tech}
+                    defaultValue={profile.tech}
                     required
                   />
                 </div>
@@ -367,7 +402,7 @@ const Detail = () => {
                     placeholder="Your Position"
                     id="position"
                     onChange={handleChange}
-                    defaultValue={userdata.position}
+                    defaultValue={profile.position}
                     required
                   />
                 </div>
@@ -378,7 +413,7 @@ const Detail = () => {
                 rows={3}
                 id="desc"
                 onChange={handleChange}
-                defaultValue={userdata.desc}
+                defaultValue={profile.desc}
                 required
               />
             </Form.Group>

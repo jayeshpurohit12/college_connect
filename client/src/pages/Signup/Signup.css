@@ -4,19 +4,26 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
- background-color: #77cece83;
 }
 
+.form_box{
+  width:90%;
+  height:92vh;
+  margin:1.5rem auto;
+  display:flex;
+  flex-direction: row;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+}
 .signup__form {
-  width: 45%;
+  width: 40rem;
   height:85vh;
+  margin: auto;
   padding: 3rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: white;
-  border-radius: 6px;
-  box-shadow: 0 5px 35px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-color: var(--primary-form); 
 }
 
 input{
