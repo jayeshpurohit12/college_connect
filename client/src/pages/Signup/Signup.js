@@ -46,12 +46,13 @@ const Signup = () => {
         if (res.success) {
           setOtpgen(res.OTP);
           setMessage("Sent otp on your mail. Please check!");
+          handleOpen();
         }
       } catch (error) {
         setError(error);
       }
       setLoading(false);
-      handleOpen();
+     
       console.log(otpgen);
     }
   };
@@ -114,88 +115,90 @@ const Signup = () => {
 
   return (
     <div>
-      <section className="signup__container">
-        <Form onSubmit={handleSubmit} className="signup__form">
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            {error && <Alert variant="danger">{error}</Alert>}
-            {message && <Alert variant="success">{message}</Alert>}
-            <p className="signup__form--p">
-              If you are a teacher or already signed up please login directly
-              <Link to="/login"> Login </Link> here
-            </p>
-            <div className="signup__heading--container">
-              <h1 className="signup__heading">Create an Account</h1>
-            </div>
-            <Form.Control
-              ref={emailRef}
-              type="email"
-              placeholder="Enter email"
-            />
-          </Form.Group>
+    <section className="signup__container">
+      <div className="form_box">
+        <img
+          src="https://theupay.com/bank/Assets/login.jpg"
+          alt=""
+          style={{width:"60%"}}
+        />
+      <Form onSubmit={handleSubmit} className="signup__form">
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          {error && <Alert variant="danger">{error}</Alert>}
+          {message && <Alert variant="success">{message}</Alert>}
+          <p className="signup__form--p">
+            If you are a teacher or already signed up please login directly
+            <Link to="/login"> Login </Link> here
+          </p>
+          <div className="signup__heading--container">
+            <h1 className="signup__heading">Create an Account</h1>
+          </div>
+          <Form.Control
+            ref={emailRef}
+            type="email"
+            placeholder="Enter email"
+          />
+        </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control
-              ref={passwordRef}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPasswordConfirm">
-            <Form.Control
-              ref={passwordConfirmRef}
-              type="password"
-              placeholder="Confirm Password"
-            />
-          </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Control
+            ref={passwordRef}
+            type="password"
+            placeholder="Password"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPasswordConfirm">
+          <Form.Control
+            ref={passwordConfirmRef}
+            type="password"
+            placeholder="Confirm Password"
+          />
+        </Form.Group>
+        <Button
+          disabled={loading}
+          className="signup__form--button"
+          variant="primary"
+          type="submit"
+        >
+          Submit
+        </Button>
+      </Form>
+      <Modal
+        open={open}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <Form
+          onSubmit={handleModalsubmit}
+          className="login__form"
+          style={modalStyle}
+          className={classes.paper}
+        >
+          <div className="login__heading--container">
+            <h1 className="login__heading">Verify Otp</h1>
+          </div>
+          <Form.Control
+            value={otp}
+            placeholder="Enter otp"
+            onChange={(e) => {
+              setOtp(e.target.value);
+            }}
+          />
+
           <Button
+            className="login__form--button"
             disabled={loading}
-            className="signup__form--button"
-            variant="primary"
             type="submit"
           >
-            Submit
+            Verify Otp
           </Button>
+          <Button className="login__form--button" style={{marginLeft:"1rem"}} onClick={handleClose}>Close</Button>
         </Form>
-        <Modal
-          open={open}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
-          <Form
-            onSubmit={handleModalsubmit}
-            className="login__form"
-            style={modalStyle}
-            className={classes.paper}
-          >
-            <div className="login__heading--container">
-              <h1 className="login__heading">Verify Otp</h1>
-            </div>
-            <Form.Control
-              value={otp}
-              placeholder="Enter otp"
-              onChange={(e) => {
-                setOtp(e.target.value);
-              }}
-            />
+      </Modal>
 
-            <Button
-              className="login__form--button"
-              disabled={loading}
-              type="submit"
-            >
-              Verify Otp
-            </Button>
-          </Form>
-        </Modal>
-
-        <div className="signup__img">
-          <img
-            src="https://cdni.iconscout.com/illustration/premium/thumb/login-here-2161443-1815085.png"
-            alt=""
-          />
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
+  </div>
   );
 };
 

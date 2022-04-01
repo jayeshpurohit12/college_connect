@@ -29,11 +29,9 @@ app.use(require("./router/Jobs/Jobs"));
 
 app.use(require("./router/Achievement/Achievement"));
 
-//for secure connection
-
 var corsOptions = {
   origin: "http://localhost:3000",
-  credentials: true, //access-control-allow-credentials:true
+  credentials: true,
   optionSuccessStatus: 200,
 };
 
