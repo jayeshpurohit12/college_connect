@@ -12,40 +12,41 @@ import {
   Achievements,
   Detail,
   AchievementsInnerPage,
-  Faultpg
+  Faultpg,
+  Connect,
 } from "./pages/PageSrc";
 import "./App.css";
 
 const App = () => {
-  const {currentUser}= useAuth();
+  const { currentUser } = useAuth();
   return (
     <Router>
       <Routes>
         <Route path="*" element={<Faultpg />} />
         {!currentUser && (
           <>
- <Route exact path="/" element={<Frontpg />} />
- <Route path="/login" element={<Login />} />
- <Route path="/signup" element={<Signup />} />
- </>
+            <Route exact path="/" element={<Frontpg />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
+          </>
         )}
-       {currentUser && (
+        {currentUser && (
           <>
-           <Route path="/" element={<Mainpg />} />
-           <Route path="/login" element={<Login />} />
-        <Route path="/Internships" element={<Internship />} />
-        <Route path="/Jobs" element={<Jobs />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
-        <Route path="/userprofile" element={<UserProfile />} />
-        <Route path="/details" element={<Detail />} />
-        <Route path="/Achievements" element={<Achievements />} />
-        <Route
-          path="/AchievementsInnerPage"
-          element={<AchievementsInnerPage />}/>
-           </> 
-        )
-          }
-       
+            <Route path="/" element={<Mainpg />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/Internships" element={<Internship />} />
+            <Route path="/Jobs" element={<Jobs />} />
+            <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/details" element={<Detail />} />
+            <Route path="/Achievements" element={<Achievements />} />
+            <Route
+              path="/AchievementsInnerPage"
+              element={<AchievementsInnerPage />}
+            />
+            <Route path="/connect" element={<Connect />} />
+          </>
+        )}
       </Routes>
     </Router>
   );

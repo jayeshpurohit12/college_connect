@@ -10,3 +10,4 @@ export {default as Detail} from "./Detail/Detail";
 export { default as AchievementsInnerPage } from "./AchievementsInnerPage/AchievementsInnerPage";
 export { default as UserProfile } from "./UserProfile/UserProfile";
 export {default as Faultpg} from "./Faultpg/Faultpg";
+export {default as Connect} from "./Connect/Connect";

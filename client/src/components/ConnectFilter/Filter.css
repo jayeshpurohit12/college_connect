@@ -1,0 +1,20 @@
+.filter_container {
+  display: block;
+  margin: 1rem;
+  background-color: #f2f1f1;
+  cursor: pointer;
+}
+
+.filter_heading_container {
+  display: flex;
+  margin-left: 1rem;
+  padding: 0.5rem;
+  align-items: center;
+}
+
+.filter_heading {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+}

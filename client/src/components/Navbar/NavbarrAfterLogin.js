@@ -61,7 +61,7 @@ const Navbarr = () => {
           <div className="inner_navbar">
             <Nav className="navbar_links">
               <NavLink
-                to="/home"
+                to="/"
                 style={{ textDecoration: "none" }}
                 className="header_heading text-white"
               >

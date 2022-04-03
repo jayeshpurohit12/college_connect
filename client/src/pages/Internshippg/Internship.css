@@ -19,15 +19,19 @@
   display: flex;
   margin: 2rem;
   border: 2px solid #4b4948;
-  
+}
+
+.internship_post {
+  display: flex;
+  justify-content: center;
 }
 
 .internship_post_container {
-  display: flex;;
-  margin: 4rem 1rem;
+  display: flex;
+  width: 100%;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-start;
-  
 }
 
 .search_container {
@@ -37,12 +41,23 @@
 }
 
 .search_bar_filter {
-  display: flex;
+  display: block;
   width: 40%;
   align-items: center;
+  position: relative;
+}
+
+.search_icon {
+  display: flex;
+  position: absolute;
+  left: 95%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #5a5757;
 }
 
 .input_search {
   display: flex;
   width: 100%;
+  position: relative;
 }

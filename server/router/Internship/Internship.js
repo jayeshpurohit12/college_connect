@@ -9,7 +9,6 @@ router.post("/internships", async (req, res) => {
     name,
     batch,
     positionLink,
-    
   });
   const result = await internship.save();
   res.send(result);
@@ -17,20 +16,16 @@ router.post("/internships", async (req, res) => {
 });
 
 router.get("/internships", async (req, res) => {
-  const result = await Internship_Detail.find();
+  const search = req.query.search
+    ? {
+        name: {
+          $regex: req.query.search,
+          $options: "i",
+        },
+      }
+    : {};
+  const result = await Internship_Detail.find({...search});
   res.send(result);
-
-  const filter = req.query.filter;
-  if (filter) {
-    const result = await Internship_Detail.find({
-      name: { $regex: filter},
-    });
-
-    res.send(result);
-  }
-
-
 });
-
 
 module.exports = router;

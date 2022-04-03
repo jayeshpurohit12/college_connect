@@ -19,8 +19,8 @@ import { useNavigate } from "react-router-dom";
 const UserProfile = () => {
   const { currentUser } = useAuth();
   const [profile, setProfile] = useState({});
-  const history=useNavigate();
-   const skillSet=[];
+  const history = useNavigate();
+  const skillSet = [];
 
   const fetchdata = async () => {
     const docRef = doc(db, "users", currentUser.uid);
@@ -28,7 +28,7 @@ const UserProfile = () => {
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
       setProfile(docSnap.data());
-     
+
       // if (profile.skills) {
       //   console.log(skillSet)
       //   setSkillSet(profile.skills.split(","));
@@ -42,9 +42,9 @@ const UserProfile = () => {
     fetchdata();
   }, []);
 
-  const handleOpen=()=>{
+  const handleOpen = () => {
     history("/details");
-  }
+  };
   return (
     <>
       <NavbarAfterLogin />
@@ -77,7 +77,7 @@ const UserProfile = () => {
                 </h2>
               </div>
               <div className="social_media_icons">
-                <a  href={profile.linkedin} target="_blank">
+                <a href={profile.linkedin} target="_blank">
                   <LinkedInIcon
                     className="linkedinIcon"
                     style={{ color: "royalblue" }}
@@ -96,16 +96,23 @@ const UserProfile = () => {
                   <h2 className="info_heading">Contact Information</h2>
                 </div>
                 <div className="edit_icon">
-                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
+                  <button className="edit_profile_button" onClick={handleOpen}>
+                    <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                  </button>
                 </div>
               </div>
               <div className="contact_inner_info">
                 <div className="email_info info">
                   <EmailIcon />
-                  <h2 className="email_text info_text">{currentUser.email}</h2>
+                  <div className="contact_text">
+                    <h2 className="email_text info_text">
+                      {currentUser.email}
+                    </h2>
+                  </div>
                 </div>
                 <div className="phone_info info">
                   <PhoneInTalkIcon fontSize="medium" />
+
                   <h2 className="phone_text info_text">{profile.phone}</h2>
                 </div>
               </div>
@@ -117,7 +124,9 @@ const UserProfile = () => {
                   <h2 className="info_heading">Expertise</h2>
                 </div>
                 <div className="edit_icon">
-                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
+                  <button className="edit_profile_button" onClick={handleOpen}>
+                    <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                  </button>
                 </div>
               </div>
               <div className="Expertise_inner_info">
@@ -126,10 +135,16 @@ const UserProfile = () => {
                 </div>
 
                 <div className="skills_set">
-                  { profile.skills? 
-                  profile.skills.forEach((item,i) => 
-                    skillSet.push(<span className = "badge bg-primary skill_badges" >{item}</span> )):""}
-                    {skillSet}
+                  {profile.skills
+                    ? profile.skills.forEach((item, i) =>
+                        skillSet.push(
+                          <span className="badge bg-primary skill_badges">
+                            {item}
+                          </span>
+                        )
+                      )
+                    : ""}
+                  {skillSet}
                 </div>
               </div>
             </div>
@@ -140,7 +155,9 @@ const UserProfile = () => {
                   <h2 className="info_heading">Basic Information</h2>
                 </div>
                 <div className="edit_icon">
-                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
+                  <button className="edit_profile_button" onClick={handleOpen}>
+                    <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                  </button>
                 </div>
               </div>
               <div className="Basic_inner_info">
@@ -173,7 +190,9 @@ const UserProfile = () => {
                   <h2 className="info_heading">Summary</h2>
                 </div>
                 <div className="edit_icon">
-                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
+                  <button className="edit_profile_button" onClick={handleOpen}>
+                    <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                  </button>
                 </div>
               </div>
               <div className="right_summary_para">
@@ -186,7 +205,9 @@ const UserProfile = () => {
                   <h2 className="info_heading">Education</h2>
                 </div>
                 <div className="edit_icon">
-                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
+                  <button className="edit_profile_button" onClick={handleOpen}>
+                    <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                  </button>
                 </div>
               </div>
               <div className="Education_details">
@@ -213,7 +234,9 @@ const UserProfile = () => {
                   <h2 className="info_heading">Work Experience</h2>
                 </div>
                 <div className="edit_icon">
-                <button className="edit_profile_button" onClick={handleOpen}><EditIcon fontSize="large" style={{ color: "tomato" }} /></button>  
+                  <button className="edit_profile_button" onClick={handleOpen}>
+                    <EditIcon fontSize="large" style={{ color: "tomato" }} />
+                  </button>
                 </div>
               </div>
               <div className="work_experience_inner_container">

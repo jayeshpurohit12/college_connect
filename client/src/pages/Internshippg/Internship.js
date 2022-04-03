@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import SearchIcon from "@material-ui/icons/Search";
+import { useNavigate, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -52,6 +53,8 @@ export default function Opportunitypg() {
   const [search, setSearch] = useState("");
 
   let name, value;
+
+  const history = useNavigate();
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -156,8 +159,6 @@ export default function Opportunitypg() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleToggle = () => {};
 
   return (
     <div>
@@ -270,42 +271,25 @@ export default function Opportunitypg() {
             </div>
           </Fade>
         </Modal>
-
-        {/* <Dropdown>
-            <Dropdown.Toggle
-              variant="light"
-              style={{
-                backgroundColor: "#F4F4F4",
-                border: "none",
-                outline: "none",
-                color: "black",
-              }}
-              id="dropdown-basic"
-            >
-              <FaFilter /> Filter
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={handleToggle}>Company</Dropdown.Item>
-              
-              <Dropdown.Item href="#/action-2">Duration</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Role</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown> */}
       </div>
       <div className="search_container">
         <div className="search_bar_filter">
-          <input
-            type="text"
-            placeholder="search.."
-            className="input_search"
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
-          />
-          <SearchIcon fontSize="large" />
+          <form>
+            <input
+              type="text"
+              placeholder="search.."
+              className="input_search"
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+          </form>
+          <div className="search_icon">
+            <SearchIcon fontSize="large" />
+          </div>
         </div>
       </div>
-      <div className="internship_posts">
+      <div className="internship_post">
         <div className="internship_post_container">
           {intern.map((item) => (
             <div className="card_container">

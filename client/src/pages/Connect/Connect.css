@@ -1,0 +1,61 @@
+.user_connect_container {
+  display: flex;
+  margin: 1rem 1rem 0rem 0rem;
+  background-color: #f2f1f1;
+}
+
+.left_filter_container {
+  display: block;
+  width: 30%;
+  margin-right: 1rem;
+  background-color: white;
+  height: 100%;
+}
+
+.Filter_heading {
+  font-size: 30px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  margin: 5rem 0 1rem 1rem;
+}
+
+.input_filter_container {
+  display: flex;
+  margin: 0 1rem;
+  position: relative;
+}
+
+.Filter_input {
+  display: flex;
+  border-radius: 0;
+}
+
+.filter_search_icon {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 93%;
+  transform: translate(-50%, -50%);
+  background-color: #ff9900;
+  color: white;
+  padding: 0.35rem;
+  cursor: pointer;
+}
+
+.choose_filter_container {
+  margin-bottom: 12rem;
+}
+
+.right_connect_container {
+  width: 70%;
+  background-color: white;
+}
+
+.connection_profile_container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin-bottom: 5rem;
+}
