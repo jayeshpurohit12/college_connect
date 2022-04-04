@@ -1,0 +1,41 @@
+.event_section_container{
+    width:90%;
+    margin:1rem auto;
+    padding: 1rem;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.card_button,.btn-secondary{
+    background-color: rgb(215, 215, 215);
+    color: black;
+    border: none;
+}
+.event_card_container{
+    width: 95%;
+    margin: 1rem 0rem;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.event_section_inner_heading{
+   width:90%;
+   display:flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   margin:auto;
+}
+.event_card_content{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: space-between;
+    margin:auto;
+}
+.left_card_content{
+    align-items: center;
+}

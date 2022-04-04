@@ -11,3 +11,5 @@ export { default as AchievementsInnerPage } from "./AchievementsInnerPage/Achiev
 export { default as UserProfile } from "./UserProfile/UserProfile";
 export {default as Faultpg} from "./Faultpg/Faultpg";
 export {default as Connect} from "./Connect/Connect";
+export { default as Event } from "./Event/Event";
+export {default as EventInnerPage} from './Event/EventInnerPage/EventInnerPage';
