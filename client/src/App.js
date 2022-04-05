@@ -14,6 +14,8 @@ import {
   AchievementsInnerPage,
   Faultpg,
   Connect,
+  Event,
+  EventInnerPage
 } from "./pages/PageSrc";
 import "./App.css";
 
@@ -45,6 +47,11 @@ const App = () => {
               element={<AchievementsInnerPage />}
             />
             <Route path="/connect" element={<Connect />} />
+            <Route path="/event" element={<Event />} />
+            <Route
+              path="/EventInnerPage"
+              element={<EventInnerPage />}
+            />
           </>
         )}
       </Routes>
