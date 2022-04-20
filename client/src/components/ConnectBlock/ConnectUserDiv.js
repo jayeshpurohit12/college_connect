@@ -1,40 +1,78 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./ConnectUserDiv.css";
-import profile from "../../images/profile.jpg";
 import { Button } from "@material-ui/core";
+import { Alert } from "react-bootstrap";
+import { useAuth } from "../../contexts/Authcontext";
+import { doc,updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+import { arrayUnion } from "firebase/firestore";
 
-const ConnectUserDiv = () => {
-  return (
+const ConnectUserDiv = (props) => {
+  const d = new Date();
+  const { currentUser } = useAuth();
+  const [connected,setConnected]=useState(false);
+
+  async function handleConnectedUser(){
+    setConnected(true);
+    const docRef = await updateDoc(doc(db, "users", currentUser.uid), {
+          connection:arrayUnion(props.id)
+      
+          }) .then(function (res) {
+      
+            <Alert variant="success">Connected Successfully</Alert>;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          }
+
+  return !connected?(
     <>
       <div className="user_connection_profile">
         <div className="user_profile">
-          <img className="userImage" src={profile} alt="" />
+          <img className="userImage" src={props.image} alt="" />
         </div>
         <div className="user_connection_details">
           <div className="user_block">
-            <h1 className="user_name">Urmi Chauhan</h1>
+            <h1 className="user_name">{props.name}</h1>
           </div>
           <div className="user_block">
-            <h1 className="user_class">Alumni of Class 2019</h1>
+            {props.end ? (
+              <>
+                {props.end.substring(0, 4) < d.getFullYear() ? (
+                  <h1 className="user_class">
+                    Alumni of Class {props.end.substring(0, 4)}
+                  </h1>
+                ) : (
+                  <h1 className="user_class">
+                    Student of Batch {props.end.substring(0, 4)}
+                  </h1>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="user_block">
             <h1 className="user_branch">
-              Computer Science and Technology(B.Tech)
+              {props.degree} in {props.specialisation}
             </h1>
           </div>
           <div className="user_block user_connection_expertise">
             <h1 className="user_expertise">Expertise: </h1>
-            <h1 className="user_skills">C++, java, Machine Learning</h1>
+            <h1 className="user_skills">
+              {props.skills &&
+                props.skills.map((skills) => <span>, {skills}</span>)}
+            </h1>
           </div>
           <div className="user_connection_button">
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={handleConnectedUser}>
               Connect
             </Button>
           </div>
         </div>
       </div>
     </>
-  );
+  ):null;
 };
-
 export default ConnectUserDiv;

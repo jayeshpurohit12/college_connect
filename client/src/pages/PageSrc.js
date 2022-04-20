@@ -13,3 +13,4 @@ export {default as Faultpg} from "./Faultpg/Faultpg";
 export {default as Connect} from "./Connect/Connect";
 export { default as Event } from "./Event/Event";
 export {default as EventInnerPage} from './Event/EventInnerPage/EventInnerPage';
+export {default as ConnectedUserProfile} from './ConnectedUserProfile/ConnectedUserProfile';

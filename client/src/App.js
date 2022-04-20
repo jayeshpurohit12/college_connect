@@ -15,7 +15,8 @@ import {
   Faultpg,
   Connect,
   Event,
-  EventInnerPage
+  EventInnerPage,
+  ConnectedUserProfile
 } from "./pages/PageSrc";
 import "./App.css";
 
@@ -48,10 +49,12 @@ const App = () => {
             />
             <Route path="/connect" element={<Connect />} />
             <Route path="/event" element={<Event />} />
+            <Route path="/connectedUser/:id" element ={<ConnectedUserProfile/>}/>
             <Route
               path="/EventInnerPage"
               element={<EventInnerPage />}
             />
+            
           </>
         )}
       </Routes>

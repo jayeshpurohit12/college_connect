@@ -5,19 +5,18 @@
 
 .heading_container {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   border-bottom: 1px solid #cac3c3;
 }
 
 .connect_img {
-  display: flex;
   width: 9%;
 }
 
-.connect_heading {
-  display: flex;
+.connection_heading {
   font-family: "Inter", sans-serif;
   font-size: 29px;
+  width:90%;
   letter-spacing: -0.017em;
 }
 

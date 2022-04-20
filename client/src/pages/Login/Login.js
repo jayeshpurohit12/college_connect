@@ -36,6 +36,9 @@ const Login = () => {
           await login(emailRef.current.value, passwordRef.current.value);
           const docRef = await setDoc(doc(db, "users", currentUser.uid), {
             category: "teacher",
+            connection:[],
+            id:currentUser.uid,
+            email:currentUser.email
           });
           history("/resetpassword");
         }
@@ -49,6 +52,9 @@ const Login = () => {
           await login(emailRef.current.value, passwordRef.current.value);
           const docRef = await setDoc(doc(db, "users", currentUser.uid), {
             category: "student",
+            connection:[],
+            id:currentUser.uid,
+            email:currentUser.email
           });
           history("/details");
         }

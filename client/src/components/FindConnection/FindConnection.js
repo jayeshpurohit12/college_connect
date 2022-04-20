@@ -1,17 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./FindConnection.css";
 import connectionIcon from "../../images/connectionIcon.png";
 import SearchIcon from "@material-ui/icons/Search";
+import { Link } from "react-router-dom";
 import ConnectorsProfile from "./ConnectorsProfile";
+import { doc, getDoc } from "firebase/firestore";
+import { useAuth } from "../../contexts/Authcontext";
+import { db, showConnectedProfiles } from "../../firebase";
 
 const FindConnection = () => {
-  return (
+  const [profile, setProfile] = useState([]);
+  const { currentUser } = useAuth();
+  const [connectedUsers, setConnectedUsers] = useState([]);
+
+  const fetchcurrentUser = async () => {
+    const docRef = doc(db, "users", currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setProfile(docSnap.data());
+    }
+  };
+  async function fetchConnectedUser() {
+    const response = await showConnectedProfiles(profile.connection);
+    setConnectedUsers(response);
+  }
+
+  useEffect(async () => {
+    await fetchcurrentUser();
+  }, []);
+
+  useEffect(async () => {
+    await fetchConnectedUser();
+  }, [profile]);
+
+  return profile.connection ? (
     <>
+      {console.log(connectedUsers)}
       <div className="connection">
         <div className="conn_container">
           <div className="heading_container heading_and_edit">
             <img className="connect_img" src={connectionIcon} alt="connect" />
-            <h2 className="connect_heading">Connections</h2>
+            <h2 className="connection_heading">Connections</h2>
           </div>
         </div>
         <div className="search_container">
@@ -24,22 +53,24 @@ const FindConnection = () => {
           </div>
           <SearchIcon fontSize="large" />
         </div>
-        <div className="connectors_profile_container">
-          <ConnectorsProfile name="Jayesh Purohit" expertise="Reactjs, C/C++" />
-          <ConnectorsProfile
-            name="Sneha Balduwa"
-            expertise="C/C++, Html, CSS"
-          />
-          <ConnectorsProfile name="Urmi Chauhan" expertise="Reactjs, C/C++" />
-          <ConnectorsProfile name="Akash Agrawal" expertise="UI/UX, C/C++" />
-          <ConnectorsProfile
-            name="Amol Paliwal"
-            expertise="Machine Learning, C/C++"
-          />
-        </div>
+        {connectedUsers ? (
+          <div className="connectors_profile_container">
+            {connectedUsers &&
+              connectedUsers.map((userprofile) => (
+                <Link to={`/connectedUser/${userprofile.id}`} style={{textDecoration:"none"}}>
+                  <ConnectorsProfile
+                    name={userprofile.name}
+                    image={userprofile.image}
+                    expertise={userprofile.skills}
+                    id={userprofile.id}
+                  />
+                </Link>
+              ))}
+          </div>
+        ) : null}
       </div>
     </>
-  );
+  ) : null;
 };
 
 export default FindConnection;

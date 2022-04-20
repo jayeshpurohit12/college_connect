@@ -20,7 +20,7 @@
 .name_and_expertise_container {
   display: block;
   background-color: #c4c4c4;
-  width: 100%;;
+  width: 100%;
 }
 
 .connecter_name {
@@ -30,24 +30,28 @@
   font-size: 25px;
   letter-spacing: -0.017em;
   line-height: 29px;
+  text-decoration: none;
+  color: #535151;
 }
 
 .expertise_heading_cont {
   font-family: "Inter", sans-serif;
   font-size: 18px;
-  color:#535151;
+  color: #535151;
   letter-spacing: -0.017em;
   line-height: 22px;
   margin: 0.3rem 0.4rem 0 0.7rem;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .connecter_expertise {
-    font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 18px;
   color: #787878;
   letter-spacing: -0.017em;
   line-height: 22px;
   margin: 0.3rem 0.4rem 0 0.7rem;
   font-weight: bold;
+  text-decoration: none;
 }
