@@ -6,8 +6,7 @@ body {
   position: relative;
 }
 .edit_profile_button {
-  
-  background-color:transparent;
+  background-color: transparent;
   border: none;
 }
 
@@ -36,10 +35,9 @@ body {
   padding-bottom: 2rem;
 }
 
-.img_container {
-  padding-top: 0.7rem;
+.img_container {  
+  padding:auto;
 }
-
 .userprofile {
   display: flex;
   width: 35%;
@@ -220,15 +218,14 @@ body {
   border-bottom: 1px solid #cac3c3;
 }
 
-.right_summary_para p{
+.right_summary_para {
   display: flex;
   margin-top: 1%;
-  margin-left: 1%;
+  margin: 1%;
   padding-bottom: 0.9rem;
   align-items: center;
   font-family: "Times New Roman", Times, serif;
   font-size: 17px;
-  color: #787878;
 }
 
 .Education_container {
@@ -284,7 +281,7 @@ body {
 .company_name,
 .your_title,
 .tech_stack,
-.work_description_summary {
+.work_description {
   display: block;
   font-family: "Inter", sans-serif;
   font-size: 17px;
@@ -294,3 +291,10 @@ body {
   color: #787878;
 }
 
+.work_description {
+  text-align: left;
+  font-size: 13px;
+}
+.message_button_container {
+  margin: 2rem 1rem;
+}

@@ -3,7 +3,7 @@ import "firebase/compat/auth";
 import 'firebase/firestore';
 import { getFirestore } from "firebase/firestore";
 import {getStorage} from 'firebase/storage';
-
+import { collection, getDocs } from "firebase/firestore";
 
 const app = firebase.initializeApp({
   apiKey: "AIzaSyADZG6z2Ag3JDt2s5hXYYVe2b9n8dz-JbE",
@@ -21,3 +21,22 @@ export default app;
 const db = getFirestore(app);
 const storage = getStorage(app);
 export {db,storage};
+
+export async function getSuggestedProfiles(uid,connectedUsers) {
+   const response = await getDocs(collection(db, "users"));
+   console.log(connectedUsers);
+   let suggestedUsers =[];
+  if(connectedUsers && connectedUsers.length>0)
+  suggestedUsers = response.docs.map(user=>({ ...user.data(), id: user.id })).filter(user=>user.id!==uid && !connectedUsers.includes(user.id));
+  else 
+  suggestedUsers= response.docs.map(user=>({ ...user.data(), id: user.id })).filter(user=>user.id!==uid);
+  return suggestedUsers;
+ }
+
+ export async function showConnectedProfiles(connectedUsers) {
+   console.log("before")
+  const response = await getDocs(collection(db, "users"));
+  console.log("after");
+ if(connectedUsers && connectedUsers.length>0)
+ return response.docs.map(user=>({ ...user.data(), id: user.id })).filter(user=>connectedUsers.includes(user.id));
+}

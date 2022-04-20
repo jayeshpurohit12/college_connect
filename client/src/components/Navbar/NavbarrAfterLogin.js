@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
-import { Navbar, Nav, NavDropdown, Button,Alert} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { Navbar, Nav, NavDropdown, Button, Alert } from "react-bootstrap";
 import "./NavbarrAfterLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";
 import { NavLink } from "react-router-dom";
@@ -10,7 +10,7 @@ import { Avatar } from "@material-ui/core";
 import { doc, getDoc } from "firebase/firestore";
 
 const Navbarr = () => {
-  const { currentUser, logout} = useAuth();
+  const { currentUser, logout } = useAuth();
   const [profile, setProfile] = useState({});
   const history = useNavigate();
   const [error, setError] = useState("");
@@ -42,7 +42,7 @@ const Navbarr = () => {
   };
   return (
     <>
-    {error && <Alert variant="danger">{error}</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}
       <Navbar collapseOnSelect expand="lg" style={{ background: "#4d8686" }}>
         <div className="header_logo">
           <Navbar.Brand href="#home">
@@ -136,7 +136,6 @@ const Navbarr = () => {
           </div>
         </Navbar.Collapse>
       </Navbar>
-      
     </>
   );
 };

@@ -29,6 +29,7 @@ const Detail = () => {
     position: "",
     desc: "",
     summary: "",
+    connection:[]
   });
 
   const [progress, setProgress] = useState(0);
@@ -281,7 +282,6 @@ const Detail = () => {
                   onChange={handleChange}
                   required
                   >
-                
                   <option selected={selectgen} value="1">Male</option>
                   <option selected={!selectgen} value="2">Female</option>
                 </Form.Select>

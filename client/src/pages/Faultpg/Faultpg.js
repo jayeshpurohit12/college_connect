@@ -8,7 +8,7 @@ const Faultpg = () => {
       <div style={{margin:"1rem"}}>
         <p>
         <h1>
-         OOPS! Page not found. Go back.
+         OOPS! Page not found. Go back
          </h1>
         </p>
       </div>
