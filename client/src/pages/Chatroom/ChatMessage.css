@@ -1,0 +1,30 @@
+.sent{
+    align-self: flex-end;
+    background: #d1fcde;
+    display:flex;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+   
+}
+.received{
+    align-self: flex-start;
+    background: #eceff1;
+    display:flex;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+.message_container{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.message_time{
+    font-size:0.8rem;
+    padding:1rem;
+    margin-top:0.5rem;
+    justify-content: space-between;
+    align-self: flex-end;
+
+}

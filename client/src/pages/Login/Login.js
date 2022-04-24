@@ -9,47 +9,54 @@ import { db } from "../../firebase";
 const Login = () => {
   const emailRef = useRef(" ");
   const passwordRef = useRef(" ");
-  const { login, signup } = useAuth();
+  const { login } = useAuth();
   const history = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
-
-  // useEffect(() => {
-  //   fetchdata();
-  // }, []);
+ 
+  async function loginuser(email,password){
+    await login(email, password);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       setLoading(true);
       setError("");
-      console.log("login");
-      if (passwordRef.current.value == "AITR@123") {
-        const documentRef = doc(db, "users", currentUser.uid);
-        const docSnap = await getDoc(documentRef);
-        if (docSnap.exists()) {
-          await login(emailRef.current.value, passwordRef.current.value);
+      
+     if (passwordRef.current.value === "AITR@123") {
+        
+       console.log(currentUser);
+        const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+       
+        if(docSnap.exists()){
+        
+          await loginuser(emailRef.current.value, passwordRef.current.value);
           history("/");
-        } else {
-          await signup(emailRef.current.value, passwordRef.current.value);
-          await login(emailRef.current.value, passwordRef.current.value);
+        }
+        else{
+          
+          await loginuser(emailRef.current.value, passwordRef.current.value);
+      
           const docRef = await setDoc(doc(db, "users", currentUser.uid), {
             category: "teacher",
             connection:[],
             id:currentUser.uid,
             email:currentUser.email
           });
+          
           history("/resetpassword");
         }
-      } else {
-        const documentRef = doc(db, "users", currentUser.uid);
-        const docSnap = await getDoc(documentRef);
+      } 
+     else {
+        
+        const docSnap = await getDoc(doc(db, "users", currentUser.uid));
         if (docSnap.exists()) {
-          await login(emailRef.current.value, passwordRef.current.value);
+          await loginuser(emailRef.current.value, passwordRef.current.value);
           history("/");
         } else {
-          await login(emailRef.current.value, passwordRef.current.value);
+          await loginuser(emailRef.current.value, passwordRef.current.value);
           const docRef = await setDoc(doc(db, "users", currentUser.uid), {
             category: "student",
             connection:[],
@@ -58,8 +65,8 @@ const Login = () => {
           });
           history("/details");
         }
-      }
-    } catch (error) {
+      }}
+     catch (error) {
       setError("Please enter valid credentials");
     }
     setLoading(false);
@@ -67,7 +74,6 @@ const Login = () => {
 
   return (
     <div>
-      {console.log(currentUser)}
       <section className="login__container">
         <div className="form_box">
           <img

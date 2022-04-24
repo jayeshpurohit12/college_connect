@@ -7,7 +7,8 @@ import ConnectUserDiv from "../../components/ConnectBlock/ConnectUserDiv";
 import Footer from "../../components/Footer/Footer";
 import { db, getSuggestedProfiles } from "../../firebase";
 import { doc } from "firebase/firestore";
-import { getDoc } from "firebase/firestore";
+import { getDoc,arrayUnion,updateDoc,arrayRemove } from "firebase/firestore";
+import { Button } from "react-bootstrap";
 import { useAuth } from "../../contexts/Authcontext";
 
 const Connect = () => {
@@ -19,6 +20,7 @@ const Connect = () => {
   const fetchuserdata = async () => {
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
+    if(docSnap.exists())
     setProfile(docSnap.data());
   };
   async function SuggestedProfiles() {
@@ -29,15 +31,21 @@ const Connect = () => {
     setUsers(response);
    
   }
-
+const handleConnect = async (id) => {
+  const docRef = await updateDoc(doc(db, "users", currentUser.uid), {
+    connection: arrayUnion(id)
+  });
+  const docRef1 = await updateDoc(doc(db, "users", currentUser.uid), {
+   pending:arrayRemove(id)
+  });
+}
   useEffect(async () => {
     setLoading(true);
-    let currentuser = await fetchuserdata();
-    console.log(profile.connection);
+    await fetchuserdata();
   }, []);
 
   useEffect(async () => {
-    let suggestedUser = await SuggestedProfiles();
+    await SuggestedProfiles();
   }, [users]);
   useEffect(() => {
     setLoading(false);
@@ -85,6 +93,14 @@ const Connect = () => {
               ))}
 
           </div>
+          <div>{profile.pending && profile.pending.map((id)=>{
+            return(
+              <div>
+                <p>{id}</p>
+                <Button onClick={handleConnect(id)}>Connect</Button>
+              </div>
+            )
+          })}</div>
         </div>
       </div>
       <div className="footer">

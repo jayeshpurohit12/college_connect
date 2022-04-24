@@ -31,11 +31,12 @@ const App = () => {
             <Route exact path="/" element={<Frontpg />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/resetpassword" element={<ResetPassword />} />
+            
           </>
         )}
         {currentUser && (
           <>
+          <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/" element={<Mainpg />} />
             <Route path="/login" element={<Login />} />
             <Route path="/Internships" element={<Internship />} />

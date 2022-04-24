@@ -23,9 +23,8 @@ const storage = getStorage(app);
 export {db,storage};
 
 export async function getSuggestedProfiles(uid,connectedUsers) {
-   const response = await getDocs(collection(db, "users"));
-   console.log(connectedUsers);
-   let suggestedUsers =[];
+  const response = await getDocs(collection(db, "users"));
+  let suggestedUsers =[];
   if(connectedUsers && connectedUsers.length>0)
   suggestedUsers = response.docs.map(user=>({ ...user.data(), id: user.id })).filter(user=>user.id!==uid && !connectedUsers.includes(user.id));
   else 

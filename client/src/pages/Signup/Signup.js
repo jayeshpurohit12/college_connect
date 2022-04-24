@@ -22,15 +22,15 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (emailRef.current.value.indexOf("@") >= 1) {
-      var r = emailRef.current.value.indexOf("@");
-      if (
-        emailRef.current.value.substr(r, emailRef.current.value.length) !==
-        "@acropolis.in"
-      ) {
-        return setError("Use your college email-id");
-      }
-    }
+    // if (emailRef.current.value.indexOf("@") >= 1) {
+    //   var r = emailRef.current.value.indexOf("@");
+    //   if (
+    //     emailRef.current.value.substr(r, emailRef.current.value.length) !==
+    //     "@acropolis.in"
+    //   ) {
+    //     return setError("Use your college email-id");
+    //   }
+    // }
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Password do not match");
     } else {

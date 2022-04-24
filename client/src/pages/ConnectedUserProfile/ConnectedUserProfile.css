@@ -40,7 +40,8 @@ body {
 }
 .userprofile {
   display: flex;
-  width: 35%;
+  width: 20%;
+  height:5rem;
   margin: auto;
   border-radius: 50%;
 }

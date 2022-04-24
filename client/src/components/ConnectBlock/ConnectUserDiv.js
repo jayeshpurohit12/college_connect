@@ -3,7 +3,7 @@ import "./ConnectUserDiv.css";
 import { Button } from "@material-ui/core";
 import { Alert } from "react-bootstrap";
 import { useAuth } from "../../contexts/Authcontext";
-import { doc,updateDoc } from "firebase/firestore";
+import { doc,updateDoc,getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { arrayUnion } from "firebase/firestore";
 
@@ -11,10 +11,26 @@ const ConnectUserDiv = (props) => {
   const d = new Date();
   const { currentUser } = useAuth();
   const [connected,setConnected]=useState(false);
+  const [profile,setProfile]=useState({});
+async function Connectionreq(){
+  const docRef = await updateDoc(doc(db, "users", props.id), {
+    pending:arrayUnion(currentUser.uid)
 
+    }) .then(function (res) {
+
+      <Alert variant="success">Request Sent</Alert>;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
   async function handleConnectedUser(){
     setConnected(true);
-    const docRef = await updateDoc(doc(db, "users", currentUser.uid), {
+   await Connectionreq();
+   
+          }
+  const ConnectUser=async()=>{
+     const docRef = await updateDoc(doc(db, "users", currentUser.uid), {
           connection:arrayUnion(props.id)
       
           }) .then(function (res) {
@@ -24,7 +40,20 @@ const ConnectUserDiv = (props) => {
             .catch((err) => {
               console.log(err);
             });
-          }
+  }
+  const FetchConnectedUser=async()=>{
+    const docRef = await getDoc(doc(db, "users", props.id));
+    if(docRef.exists()){
+      setProfile(docRef.data());
+      if(profile.connection && profile.connection.includes(currentUser.uid)){
+        await ConnectUser();
+      }
+    }
+  }
+
+  useEffect(()=>{
+    FetchConnectedUser();
+  },[profile])
 
   return !connected?(
     <>

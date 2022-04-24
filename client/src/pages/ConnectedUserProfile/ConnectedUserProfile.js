@@ -14,25 +14,49 @@ import CakeIcon from "@material-ui/icons/Cake";
 import WcIcon from "@material-ui/icons/Wc";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import Chatroom from "../Chatroom/Chatroom";
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
 
+function getModalStyle() {
+  const top = 50 ;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width:'90%',
+    height: '90vh',
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 const ConnectedUserProfile = () => {
   const { id } = useParams();
   const skillSet = [];
   const [profile, setProfile] = useState([]);
+  const classes = useStyles();
+  // getModalStyle is not a pure function, we roll the style only on the first render
+  const [modalStyle] = useState(getModalStyle);
+  const [open, setOpen] = useState(false);
 
-  // const style = {
-  //   position: 'absolute',
-  //   top: '50%',
-  //   left: '50%',
-  //   transform: 'translate(-50%, -50%)',
-  //   width: "50vw",
-  //   height:"80vh",
-  //   bgcolor: 'background.paper',
-  //   border: '2px solid #000',
-  //   boxShadow: 24,
-  //   p: 4,
-  // };
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const fetchcurrentUser = async () => {
     const docRef = doc(db, "users", id);
@@ -42,13 +66,12 @@ const ConnectedUserProfile = () => {
     }
   };
 
-  useEffect(async() => {
-    await fetchcurrentUser();
-  }, [profile]);
+  useEffect(() => {
+    fetchcurrentUser();
+  }, []);
 
   return (
     <>
-    
       <NavbarAfterLogin />
       <div className="Profile_header_img_container">
         <img className="Acro_Image_header" src={AcroFrontImg} alt="Acropolis" />
@@ -101,22 +124,20 @@ const ConnectedUserProfile = () => {
               </div>
               <div className="message_button_container">
                 <center>
-                  <Button style={{ padding: "0.5rem 2rem" }}>Message</Button>
+                  <Button style={{ padding: "0.5rem 2rem" }} onClick={handleOpen}>Message</Button>
                 </center>
-              </div>
-            </div>
-            {/* <Modal
+                <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
       >
-        <Box sx={style}>
-          
-          <Chatroom id={id.id}  texts={chatroomMessages}/>
-        </Box>
-      </Modal> */}
+       <div style={modalStyle} className={classes.paper}>
+      <Chatroom id={id} name={profile.name} image={profile.image}/>
+    </div>
+      </Modal>
+              </div>
+            </div>
 
             <div className="contact_information_container">
               <div className="heading_and_edit">
