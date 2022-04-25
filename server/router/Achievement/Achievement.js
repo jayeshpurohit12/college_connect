@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Achievements_Deatils_Model = require("../../model/achievementSchema");
 
-router.post("/achievement", (req, res) => {
+router.post("/achievements", (req, res) => {
   const { image, name, award, expertise, category } = req.body;
   const newAchievement = new Achievements_Deatils_Model({
     image,
@@ -21,7 +21,7 @@ router.post("/achievement", (req, res) => {
     });
 });
 
-router.get("/achievement", (req, res) => {
+router.get("/achievements", (req, res) => {
   Achievements_Deatils_Model.find()
     .then((data) => {
       res.json(data);

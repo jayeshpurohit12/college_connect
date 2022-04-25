@@ -14,6 +14,7 @@ import Footer from "../../components/Footer/Footer";
 import { useAuth } from "../../contexts/Authcontext";
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 const Mainpg = () => {
   const [profile, setProfile] = useState({});
@@ -46,6 +47,7 @@ const Mainpg = () => {
           style={{ width: "100%" }}
         />
         <div className="connect_btn">
+          <Link to="/connect">
           <Button
             style={{
               display: "block",
@@ -55,6 +57,7 @@ const Mainpg = () => {
           >
             <span id="connect_btn_heading">Connect</span>
           </Button>
+          </Link>
         </div>
         <div className="heading_img_bottom">
           <h1 id="inner_heading">Welcome to Acropolis Alumni Association.</h1>

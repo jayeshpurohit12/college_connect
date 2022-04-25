@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaFilter } from "react-icons/fa";
-import { Button, Input } from "@material-ui/core";
-import Dropdown from "react-bootstrap/Dropdown";
+import { Button } from "@material-ui/core";
 import "./Internship.css";
-// import internship from "../../images/internship.png";
 import CardWithBorder from "../../components/Cards/CardWithBorder";
 import NavbarrAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
 import Footer from "../../components/Footer/Footer";
@@ -17,7 +14,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import SearchIcon from "@material-ui/icons/Search";
-import { useNavigate, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -53,8 +49,6 @@ export default function Opportunitypg() {
   const [search, setSearch] = useState("");
 
   let name, value;
-
-  const history = useNavigate();
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -133,6 +127,8 @@ export default function Opportunitypg() {
         console.log("Internship posted successfully");
 
         handleClose();
+
+        window.location.reload();
       }
     }
   };
@@ -274,16 +270,15 @@ export default function Opportunitypg() {
       </div>
       <div className="search_container">
         <div className="search_bar_filter">
-          <form>
-            <input
-              type="text"
-              placeholder="search.."
-              className="input_search"
-              onChange={(e) => {
-                setSearch(e.target.value);
-              }}
-            />
-          </form>
+          <input
+            type="text"
+            placeholder="search.."
+            className="input_search"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+
           <div className="search_icon">
             <SearchIcon fontSize="large" />
           </div>
@@ -291,30 +286,37 @@ export default function Opportunitypg() {
       </div>
       <div className="internship_post">
         <div className="internship_post_container">
-          {intern.map((item) => (
-            <div className="card_container">
-              <CardWithBorder
-                width="20rem"
-                key={item._id}
-                image={item.image}
-                title={item.name}
-                content={
-                  <div>
-                    <p>Batch -{item.batch}</p>
-                    <p>Posted on- {item.posted_Date}</p>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      href={item.positionLink}
-                      target="_blank"
-                    >
-                      Apply here
-                    </Button>
-                  </div>
-                }
-              />
-            </div>
-          ))}
+          {intern
+            .filter((internship) => {
+              return (
+                internship.name.toLowerCase().includes(search) ||
+                internship.batch.toLowerCase().includes(search)
+              );
+            })
+            .map((item) => (
+              <div className="card_container">
+                <CardWithBorder
+                  width="20rem"
+                  key={item._id}
+                  image={item.image}
+                  title={item.name}
+                  content={
+                    <div>
+                      <p>Batch -{item.batch}</p>
+                      <p>Posted on- {item.posted_Date}</p>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href={item.positionLink}
+                        target="_blank"
+                      >
+                        Apply here
+                      </Button>
+                    </div>
+                  }
+                />
+              </div>
+            ))}
         </div>
       </div>
       <div className="foter_container">

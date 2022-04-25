@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaFilter } from "react-icons/fa";
 import { Button } from "@material-ui/core";
-import Dropdown from "react-bootstrap/Dropdown";
 import "./Jobs.css";
-// import Jobs from "../../images/service.png";
 import CardWithBorder from "../../components/Cards/CardWithBorder";
 import NavbarrAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
 import Footer from "../../components/Footer/Footer";
@@ -16,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -47,6 +45,8 @@ export default function Opportunitypg() {
   const [image, setImage] = useState(null);
 
   const [job, setJob] = useState([]);
+
+  const [search, setSearch] = useState("");
 
   let name, value;
 
@@ -128,6 +128,8 @@ export default function Opportunitypg() {
         console.log("Job posted successfully");
 
         handleClose();
+
+        window.location.reload();
       }
     }
   };
@@ -266,54 +268,57 @@ export default function Opportunitypg() {
             </div>
           </Fade>
         </Modal>
-        <div>
-          <Dropdown>
-            <Dropdown.Toggle
-              variant="light"
-              style={{
-                backgroundColor: "#F4F4F4",
-                border: "none",
-                outline: "none",
-                color: "black",
+
+        <div className="search_container">
+          <div className="search_bar_filter">
+            <input
+              type="text"
+              placeholder="search.."
+              className="input_search"
+              onChange={(e) => {
+                setSearch(e.target.value);
               }}
-              id="dropdown-basic"
-            >
-              <FaFilter /> Filter
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Company</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Duration</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Role</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+            />
+
+            <div className="search_icon">
+              <SearchIcon fontSize="large" />
+            </div>
+          </div>
         </div>
       </div>
       <div className="job_posts">
         <div className="job_post_container">
-          {job.map((item) => (
-            <div className="card_container">
-              <CardWithBorder
-                width="20rem"
-                key={item._id}
-                image={item.image}
-                title={item.name}
-                content={
-                  <div>
-                    <p>Batch -{item.batch}</p>
-                    <p>Posted on- {item.posted_Date}</p>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      href={item.positionLink}
-                      target="_blank"
-                    >
-                      Apply here
-                    </Button>
-                  </div>
-                }
-              />
-            </div>
-          ))}
+          {job
+            .filter((jobs) => {
+              return (
+                jobs.name.toLowerCase().includes(search) ||
+                jobs.batch.toLowerCase().includes(search)
+              );
+            })
+            .map((item) => (
+              <div className="card_container">
+                <CardWithBorder
+                  width="20rem"
+                  key={item._id}
+                  image={item.image}
+                  title={item.name}
+                  content={
+                    <div>
+                      <p>Batch -{item.batch}</p>
+                      <p>Posted on- {item.posted_Date}</p>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href={item.positionLink}
+                        target="_blank"
+                      >
+                        Apply here
+                      </Button>
+                    </div>
+                  }
+                />
+              </div>
+            ))}
         </div>
       </div>
       <div className="foter_container">

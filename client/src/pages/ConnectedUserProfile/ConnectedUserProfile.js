@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import userProfileimg from "../../images/userProfileimg.png"
+import userProfileimg from "../../images/userProfileimg.png";
 import "./ConnectedUserProfile.css";
 import { Button } from "react-bootstrap";
 import NavbarAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
@@ -15,24 +15,10 @@ import WcIcon from "@material-ui/icons/Wc";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
-
 const ConnectedUserProfile = () => {
   const { id } = useParams();
   const skillSet = [];
   const [profile, setProfile] = useState([]);
-
-  // const style = {
-  //   position: 'absolute',
-  //   top: '50%',
-  //   left: '50%',
-  //   transform: 'translate(-50%, -50%)',
-  //   width: "50vw",
-  //   height:"80vh",
-  //   bgcolor: 'background.paper',
-  //   border: '2px solid #000',
-  //   boxShadow: 24,
-  //   p: 4,
-  // };
 
   const fetchcurrentUser = async () => {
     const docRef = doc(db, "users", id);
@@ -42,13 +28,12 @@ const ConnectedUserProfile = () => {
     }
   };
 
-  useEffect(async() => {
+  useEffect(async () => {
     await fetchcurrentUser();
   }, [profile]);
 
   return (
     <>
-    
       <NavbarAfterLogin />
       <div className="Profile_header_img_container">
         <img className="Acro_Image_header" src={AcroFrontImg} alt="Acropolis" />
@@ -58,20 +43,21 @@ const ConnectedUserProfile = () => {
           <div className="left_container">
             <div className="profile_info_container">
               <div className="img_container">
-              <div className="img_container">
-                {profile.image?(
-                  <img
-                  className="userprofile"
-                  src={profile.image}
-                  alt="user"
-                />
-                ):(
-                  <img
-                  className="userprofile"
-                  src={userProfileimg}
-                  alt="user"/>
-                )}
-              </div>
+                <div className="img_container">
+                  {profile.image ? (
+                    <img
+                      className="userprofile"
+                      src={profile.image}
+                      alt="user"
+                    />
+                  ) : (
+                    <img
+                      className="userprofile"
+                      src={userProfileimg}
+                      alt="user"
+                    />
+                  )}
+                </div>
               </div>
               <div className="user_name">
                 <h1 className="name">{profile.name}</h1>
@@ -105,18 +91,6 @@ const ConnectedUserProfile = () => {
                 </center>
               </div>
             </div>
-            {/* <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        
-      >
-        <Box sx={style}>
-          
-          <Chatroom id={id.id}  texts={chatroomMessages}/>
-        </Box>
-      </Modal> */}
 
             <div className="contact_information_container">
               <div className="heading_and_edit">

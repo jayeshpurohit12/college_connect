@@ -29,6 +29,8 @@ app.use(require("./router/Jobs/Jobs"));
 
 app.use(require("./router/Achievement/Achievement"));
 
+app.use(require("./router/Event/event"));
+
 var corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
@@ -36,10 +38,6 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-app.get("/", (req, res) => {
-  res.send("this is home");
-});
 
 app.listen(PORT, () => {
   console.log(`server is running at ${PORT}`);

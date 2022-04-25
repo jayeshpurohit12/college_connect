@@ -10,7 +10,7 @@ const AchievementsInnerPage = () => {
   const [achievements, setAchievements] = useState([]);
 
   const fetchAchievements = async () => {
-    const res = await fetch(`/achievement`);
+    const res = await fetch(`/achievements`);
     const data = await res.json();
     setAchievements(data);
     console.log(data);
