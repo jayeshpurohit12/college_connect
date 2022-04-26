@@ -35,7 +35,7 @@ const FindConnection = () => {
 
   return profile.connection ? (
     <>
-      {console.log(connectedUsers)}
+      {/* {console.log(connectedUsers)} */}
       <div className="connection">
         <div className="conn_container">
           <div className="heading_container heading_and_edit">
@@ -56,9 +56,13 @@ const FindConnection = () => {
         {connectedUsers ? (
           <div className="connectors_profile_container">
             {connectedUsers &&
-              connectedUsers.map((userprofile) => (
-                <Link to={`/connectedUser/${userprofile.id}`} style={{textDecoration:"none"}}>
+              connectedUsers.map((userprofile, i) => (
+                <Link
+                  to={`/connectedUser/${userprofile.id}`}
+                  style={{ textDecoration: "none" }}
+                >
                   <ConnectorsProfile
+                    key={i}
                     name={userprofile.name}
                     image={userprofile.image}
                     expertise={userprofile.skills}

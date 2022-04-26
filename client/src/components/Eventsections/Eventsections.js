@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import { Button, Card } from "react-bootstrap";
-import { Dropdown } from "react-bootstrap";
-import eventcard from "../../images/eventcard.png";
-import "./Eventsections.css";
+import React,{useState,useEffect} from 'react'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import { Button,Card } from 'react-bootstrap'
+import { Dropdown } from 'react-bootstrap'
+import eventcard from '../../images/eventcard.png'
+import './Eventsections.css'
 
 const Eventsections = (props) => {
+  const [events,setEvents] = useState([]);
   var d = new Date();
 
-  const [events, setEvent] = useState([]);
-
-  const fetchData = async () => {
+  const fetchEvents = async () => {
     const res = await fetch(`/event`);
+    // console.log(res)
     const data = await res.json();
-    setEvent(data);
-    // console.log(data);
+    setEvents(data);
+    //  console.log(data);
   };
 
   useEffect(() => {
-    fetchData();
+    fetchEvents();
   }, []);
 
   return (
@@ -44,10 +44,9 @@ const Eventsections = (props) => {
             parseInt(event.date.substring(0, 4)) === d.getFullYear()
           ) {
             if (
-              parseInt(event.startTime.substring(0, 2)) > d.getHours() ||
-              (parseInt(event.startTime.substring(0, 2)) === d.getHours() &&
-                parseInt(event.startTime.substring(3, 5)) > d.getMinutes())
-            ) {
+               parseInt(event.startTime.substring(0, 2)) > d.getHours() 
+               )
+               {
               console.log(event);
               console.log("Upcomming Event Date");
               <Card
@@ -74,107 +73,156 @@ const Eventsections = (props) => {
                   </div>
                 </Card.Body>
               </Card>;
-            } else if (
-              parseInt(event.endTime.substring(0, 2)) < d.getHours() ||
-              (parseInt(event.endTime.substring(0, 2)) === d.getHours() &&
-                parseInt(event.endTime.substring(3, 5)) < d.getMinutes())
-            ) {
-              console.log(event);
-              console.log("Previous Event Date");
-
-              <Card
-                style={{
-                  maxWidth: "20rem",
-                  borderRadius: "15px",
-                  margin: "1rem",
-                }}
-              >
-                <Card.Img variant="top" src={event.image} />
-                <Card.Body>
-                  <div className="event_card_content">
-                    <div>
-                      <Card.Title>Sep 18</Card.Title>
-                    </div>
-                    <div className="left_card_content">
-                      <Card.Title>
-                        <center>{event.name}</center>
-                      </Card.Title>
-                      <Card.Text>
-                        {event.description.substring(0, 100)}
-                      </Card.Text>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>;
-            } else {
-              console.log(event);
-              console.log("Live Event Date");
-
-              <Card
-                style={{
-                  maxWidth: "20rem",
-                  borderRadius: "15px",
-                  margin: "1rem",
-                }}
-              >
-                <Card.Img variant="top" src={event.image} />
-                <Card.Body>
-                  <div className="event_card_content">
-                    <div>
-                      <Card.Title>Sep 18</Card.Title>
-                    </div>
-                    <div className="left_card_content">
-                      <Card.Title>
-                        <center>{event.name}</center>
-                      </Card.Title>
-                      <Card.Text>
-                        {event.description.substring(0, 100)}
-                      </Card.Text>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>;
             }
-          } else if (
-            parseInt(event.date.substring(5, 7)) <= d.getMonth() + 1 &&
-            parseInt(event.date.substring(0, 4)) <= d.getFullYear()
-          ) {
-            if (
-              parseInt(event.date.substring(5, 7)) < d.getMonth() + 1 ||
+              else if(
+                parseInt(event.startTime.substring(0,2)) <= d.getHours()
+              ){
+                if(
+                  parseInt(event.startTime.substring(0,2)) === d.getHours() &&
+                  parseInt(event.startTime.substring(3,5)) > d.getMinutes()
+                )
+                {
+                console.log(event);
+                  console.log("Upcomming Event Date");
+                  <Card
+                    style={{
+                      maxWidth: "20rem",
+                      borderRadius: "15px",
+                      margin: "1rem",
+                    }}
+                  >
+                    <Card.Img variant="top" src={eventcard} />
+                    <Card.Body>
+                      <div className="event_card_content">
+                        <div>
+                          <Card.Title>Sep 18</Card.Title>
+                        </div>
+                        <div className="left_card_content">
+                          <Card.Title>
+                            <center>{event.name}</center>
+                          </Card.Title>
+                          <Card.Text>
+                            {event.description.substring(0, 100)}
+                          </Card.Text>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>;
+              }
+              else if(
+                parseInt(event.startTime.substring(0,2)) < d.getHours() || (
+                  parseInt(event.startTime.substring(0,2)) === d.getHours() &&
+                  parseInt(event.startTime.substring(3,5)) < d.getMinutes()
+                )
+              )
+              {
+                 if(event.endTime.substring(0,2) > d.getHours())
+                 {
+                console.log(event);
+                  console.log("Live Event Date");
+                  <Card
+                    style={{
+                      maxWidth: "20rem",
+                      borderRadius: "15px",
+                      margin: "1rem",
+                    }}
+                  >
+                    <Card.Img variant="top" src={eventcard} />
+                    <Card.Body>
+                      <div className="event_card_content">
+                        <div>
+                          <Card.Title>Sep 18</Card.Title>
+                        </div>
+                        <div className="left_card_content">
+                          <Card.Title>
+                            <center>{event.name}</center>
+                          </Card.Title>
+                          <Card.Text>
+                            {event.description.substring(0, 100)}
+                          </Card.Text>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+
+                 }
+                 else if(event.endTime.substring(0,2)< d.getHours()){
+                  console.log(event);
+                  console.log("Past Event Date");
+                  <Card
+                    style={{
+                      maxWidth: "20rem",
+                      borderRadius: "15px",
+                      margin: "1rem",
+                    }}
+                  >
+                    <Card.Img variant="top" src={eventcard} />
+                    <Card.Body>
+                      <div className="event_card_content">
+                        <div>
+                          <Card.Title>Sep 18</Card.Title>
+                        </div>
+                        <div className="left_card_content">
+                          <Card.Title>
+                            <center>{event.name}</center>
+                          </Card.Title>
+                          <Card.Text>
+                            {event.description.substring(0, 100)}
+                          </Card.Text>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                 }
+              }
+              else if(
+                parseInt(event.startTime.substring(0,2)) === d.getHours() &&
+                parseInt(event.startTime.substring(3,5)) === d.getMinutes()
+              )
+              {
+                console.log(event);
+                  console.log("Live Event Date");
+                  <Card
+                    style={{
+                      maxWidth: "20rem",
+                      borderRadius: "15px",
+                      margin: "1rem",
+                    }}
+                  >
+                    <Card.Img variant="top" src={eventcard} />
+                    <Card.Body>
+                      <div className="event_card_content">
+                        <div>
+                          <Card.Title>Sep 18</Card.Title>
+                        </div>
+                        <div className="left_card_content">
+                          <Card.Title>
+                            <center>{event.name}</center>
+                          </Card.Title>
+                          <Card.Text>
+                            {event.description.substring(0, 100)}
+                          </Card.Text>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>;
+              }
+            }
+
+          }
+          else if(
+            parseInt(event.date.substring(0, 4)) < d.getFullYear() || 
+            (parseInt(event.date.substring(0, 4)) === d.getFullYear() &&
+            parseInt(event.date.substring(5, 7)) < d.getMonth() + 1) || 
+            (
+              parseInt(event.date.substring(0, 4)) === d.getFullYear() &&
+              parseInt(event.date.substring(5, 7)) === d.getMonth() + 1 &&
               parseInt(event.date.substring(8, 10)) < d.getDate()
-            ) {
-              console.log(event);
-              console.log("Previous check Event Date");
-
-              <Card
-                style={{
-                  maxWidth: "20rem",
-                  borderRadius: "15px",
-                  margin: "1rem",
-                }}
-              >
-                <Card.Img variant="top" src={event.image} />
-                <Card.Body>
-                  <div className="event_card_content">
-                    <div>
-                      <Card.Title>Sep 18</Card.Title>
-                    </div>
-                    <div className="left_card_content">
-                      <Card.Title>
-                        <center>{event.name}</center>
-                      </Card.Title>
-                      <Card.Text>
-                        {event.description.substring(0, 100)}
-                      </Card.Text>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>;
-            }
-          } else {
+            )
+            
+          ){
             console.log(event);
-            console.log("Upcomming check Event Date");
-
+            console.log("Past Event Date");
             <Card
               style={{
                 maxWidth: "20rem",
@@ -182,7 +230,7 @@ const Eventsections = (props) => {
                 margin: "1rem",
               }}
             >
-              <Card.Img variant="top" src={event.image} />
+              <Card.Img variant="top" src={eventcard} />
               <Card.Body>
                 <div className="event_card_content">
                   <div>
@@ -192,13 +240,44 @@ const Eventsections = (props) => {
                     <Card.Title>
                       <center>{event.name}</center>
                     </Card.Title>
-                    <Card.Text>{event.description.substring(0, 100)}</Card.Text>
+                    <Card.Text>
+                      {event.description.substring(0, 100)}
+                    </Card.Text>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>;
+          }
+          else {
+            console.log(event);
+            console.log("Upcomming Event Date");
+            <Card
+              style={{
+                maxWidth: "20rem",
+                borderRadius: "15px",
+                margin: "1rem",
+              }}
+            >
+              <Card.Img variant="top" src={eventcard} />
+              <Card.Body>
+                <div className="event_card_content">
+                  <div>
+                    <Card.Title>Sep 18</Card.Title>
+                  </div>
+                  <div className="left_card_content">
+                    <Card.Title>
+                      <center>{event.name}</center>
+                    </Card.Title>
+                    <Card.Text>
+                      {event.description.substring(0, 100)}
+                    </Card.Text>
                   </div>
                 </div>
               </Card.Body>
             </Card>;
           }
         })}
+            
         {/* <Card
           style={{ maxWidth: "20rem", borderRadius: "15px", margin: "1rem" }}
         >

@@ -48,7 +48,7 @@ const App = () => {
               element={<AchievementsInnerPage />}
             />
             <Route path="/connect" element={<Connect />} />
-            <Route path="/Events" element={<Event />} />
+            <Route path="/event" element={<Event/>} />
             <Route
               path="/connectedUser/:id"
               element={<ConnectedUserProfile />}

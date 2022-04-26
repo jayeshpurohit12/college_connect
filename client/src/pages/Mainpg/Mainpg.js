@@ -24,7 +24,7 @@ const Mainpg = () => {
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
+      // console.log("Document data:", docSnap.data());
       setProfile(docSnap.data());
     } else {
       // doc.data() will be undefined in this case

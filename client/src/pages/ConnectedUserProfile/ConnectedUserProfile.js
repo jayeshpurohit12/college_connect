@@ -14,11 +14,48 @@ import CakeIcon from "@material-ui/icons/Cake";
 import WcIcon from "@material-ui/icons/Wc";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import Chatroom from "../Chatroom/Chatroom";
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: "absolute",
+    width: "90%",
+    height: "90vh",
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 const ConnectedUserProfile = () => {
   const { id } = useParams();
   const skillSet = [];
   const [profile, setProfile] = useState([]);
+  const classes = useStyles();
+  const [modalStyle] = useState(getModalStyle);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const fetchcurrentUser = async () => {
     const docRef = doc(db, "users", id);
@@ -28,9 +65,9 @@ const ConnectedUserProfile = () => {
     }
   };
 
-  useEffect(async () => {
-    await fetchcurrentUser();
-  }, [profile]);
+  useEffect(() => {
+    fetchcurrentUser();
+  }, []);
 
   return (
     <>
@@ -87,8 +124,27 @@ const ConnectedUserProfile = () => {
               </div>
               <div className="message_button_container">
                 <center>
-                  <Button style={{ padding: "0.5rem 2rem" }}>Message</Button>
+                  <Button
+                    style={{ padding: "0.5rem 2rem" }}
+                    onClick={handleOpen}
+                  >
+                    Message
+                  </Button>
                 </center>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                >
+                  <div style={modalStyle} className={classes.paper}>
+                    <Chatroom
+                      id={id}
+                      name={profile.name}
+                      image={profile.image}
+                    />
+                  </div>
+                </Modal>
               </div>
             </div>
 
@@ -128,7 +184,10 @@ const ConnectedUserProfile = () => {
                   {profile.skills
                     ? profile.skills.forEach((item, i) =>
                         skillSet.push(
-                          <span className="badge bg-primary skill_badges">
+                          <span
+                            key={i}
+                            className="badge bg-primary skill_badges"
+                          >
                             {item}
                           </span>
                         )
@@ -237,3 +296,4 @@ const ConnectedUserProfile = () => {
 };
 
 export default ConnectedUserProfile;
+

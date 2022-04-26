@@ -1,0 +1,39 @@
+.container_header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 3px solid whitesmoke;
+}
+.container_header_left {
+  width: 6%;
+}
+.container_heading {
+  width: 94%;
+  margin: auto 1rem;
+  font-weight: 600;
+  font-size: large;
+}
+.send_input_form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.container_inner_profile {
+  display: flex;
+  width: 90%;
+  height: 3rem;
+  margin: auto;
+  border-radius: 50%;
+}
+.message_input {
+  width: 60%;
+  outline: none;
+}
+.message_button {
+  margin: auto 1rem;
+}
+.message_container {
+  height: 60vh;
+  margin: 0.5rem;
+}
