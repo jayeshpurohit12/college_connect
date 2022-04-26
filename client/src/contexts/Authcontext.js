@@ -14,10 +14,11 @@ export function AuthProvider({ children }) {
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
-   
   }
   const login = (email, password) => {
+    console.log("inside")
     return auth.signInWithEmailAndPassword(email, password);
+   
   };
   const resetPassword = (email) => {
     return auth.sendPasswordResetEmail(email);
@@ -36,7 +37,6 @@ export function AuthProvider({ children }) {
       setLoading(false);
     });
     return unsubscribe;
-
   }, []);
   const value = {
     currentUser,

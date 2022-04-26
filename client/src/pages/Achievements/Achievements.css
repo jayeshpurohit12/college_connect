@@ -13,6 +13,12 @@
   border-radius: 5px;
 }
 
+.achievement_create_post {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 0 0;
+}
+
 .achievements_heading {
   display: flex;
   position: absolute;

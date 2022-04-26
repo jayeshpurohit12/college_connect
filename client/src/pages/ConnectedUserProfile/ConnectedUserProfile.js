@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import userProfileimg from "../../images/userProfileimg.png"
+import userProfileimg from "../../images/userProfileimg.png";
 import "./ConnectedUserProfile.css";
 import { Button } from "react-bootstrap";
 import NavbarAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
@@ -15,11 +15,11 @@ import WcIcon from "@material-ui/icons/Wc";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import Chatroom from "../Chatroom/Chatroom";
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
 
 function getModalStyle() {
-  const top = 50 ;
+  const top = 50;
   const left = 50;
 
   return {
@@ -31,11 +31,11 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
-    width:'90%',
-    height: '90vh',
+    position: "absolute",
+    width: "90%",
+    height: "90vh",
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -46,7 +46,6 @@ const ConnectedUserProfile = () => {
   const skillSet = [];
   const [profile, setProfile] = useState([]);
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
 
@@ -81,20 +80,21 @@ const ConnectedUserProfile = () => {
           <div className="left_container">
             <div className="profile_info_container">
               <div className="img_container">
-              <div className="img_container">
-                {profile.image?(
-                  <img
-                  className="userprofile"
-                  src={profile.image}
-                  alt="user"
-                />
-                ):(
-                  <img
-                  className="userprofile"
-                  src={userProfileimg}
-                  alt="user"/>
-                )}
-              </div>
+                <div className="img_container">
+                  {profile.image ? (
+                    <img
+                      className="userprofile"
+                      src={profile.image}
+                      alt="user"
+                    />
+                  ) : (
+                    <img
+                      className="userprofile"
+                      src={userProfileimg}
+                      alt="user"
+                    />
+                  )}
+                </div>
               </div>
               <div className="user_name">
                 <h1 className="name">{profile.name}</h1>
@@ -124,18 +124,27 @@ const ConnectedUserProfile = () => {
               </div>
               <div className="message_button_container">
                 <center>
-                  <Button style={{ padding: "0.5rem 2rem" }} onClick={handleOpen}>Message</Button>
+                  <Button
+                    style={{ padding: "0.5rem 2rem" }}
+                    onClick={handleOpen}
+                  >
+                    Message
+                  </Button>
                 </center>
                 <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-       <div style={modalStyle} className={classes.paper}>
-      <Chatroom id={id} name={profile.name} image={profile.image}/>
-    </div>
-      </Modal>
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                >
+                  <div style={modalStyle} className={classes.paper}>
+                    <Chatroom
+                      id={id}
+                      name={profile.name}
+                      image={profile.image}
+                    />
+                  </div>
+                </Modal>
               </div>
             </div>
 
@@ -175,7 +184,10 @@ const ConnectedUserProfile = () => {
                   {profile.skills
                     ? profile.skills.forEach((item, i) =>
                         skillSet.push(
-                          <span className="badge bg-primary skill_badges">
+                          <span
+                            key={i}
+                            className="badge bg-primary skill_badges"
+                          >
                             {item}
                           </span>
                         )

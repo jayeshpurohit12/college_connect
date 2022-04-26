@@ -16,7 +16,7 @@ import {
   Connect,
   Event,
   EventInnerPage,
-  ConnectedUserProfile
+  ConnectedUserProfile,
 } from "./pages/PageSrc";
 import "./App.css";
 
@@ -31,12 +31,11 @@ const App = () => {
             <Route exact path="/" element={<Frontpg />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            
+            <Route path="/resetpassword" element={<ResetPassword />} />
           </>
         )}
         {currentUser && (
           <>
-          <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/" element={<Mainpg />} />
             <Route path="/login" element={<Login />} />
             <Route path="/Internships" element={<Internship />} />
@@ -49,13 +48,13 @@ const App = () => {
               element={<AchievementsInnerPage />}
             />
             <Route path="/connect" element={<Connect />} />
-            <Route path="/event" element={<Event />} />
+            <Route path="/event" element={<Event/>} />
             <Route path="/connectedUser/:id" element ={<ConnectedUserProfile/>}/>
             <Route
-              path="/EventInnerPage"
-              element={<EventInnerPage />}
+              path="/connectedUser/:id"
+              element={<ConnectedUserProfile />}
             />
-            
+            <Route path="/EventInnerPage" element={<EventInnerPage />} />
           </>
         )}
       </Routes>

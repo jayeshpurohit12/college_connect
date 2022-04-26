@@ -7,66 +7,55 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const Login = () => {
-  const emailRef = useRef(" ");
-  const passwordRef = useRef(" ");
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
   const { login } = useAuth();
   const history = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
- 
-  async function loginuser(email,password){
-    await login(email, password);
-  }
 
-  async function handleSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
     try {
       setLoading(true);
       setError("");
-      
-     if (passwordRef.current.value === "AITR@123") {
-        
-       console.log(currentUser);
-        const docSnap = await getDoc(doc(db, "users", currentUser.uid));
-       
-        if(docSnap.exists()){
-        
-          await loginuser(emailRef.current.value, passwordRef.current.value);
-          history("/");
-        }
-        else{
-          
-          await loginuser(emailRef.current.value, passwordRef.current.value);
-      
-          const docRef = await setDoc(doc(db, "users", currentUser.uid), {
-            category: "teacher",
-            connection:[],
-            id:currentUser.uid,
-            email:currentUser.email
-          });
-          
-          history("/resetpassword");
-        }
-      } 
-     else {
-        
-        const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+      if (passwordRef.current.value === "AITR@123") {
+        const documentRef = doc(db, "users", currentUser.uid);
+        // console.log(documentRef);
+        const docSnap = await getDoc(documentRef);
         if (docSnap.exists()) {
-          await loginuser(emailRef.current.value, passwordRef.current.value);
+          await login(emailRef.current.value, passwordRef.current.value);
           history("/");
         } else {
-          await loginuser(emailRef.current.value, passwordRef.current.value);
+          await login(emailRef.current.value, passwordRef.current.value);
+          const docRef = await setDoc(doc(db, "users", currentUser.uid), {
+            category: "teacher",
+            connection: [],
+            id: currentUser.uid,
+            email: currentUser.email,
+          });
+          history("/resetpassword");
+        }
+      } else {
+        const documentRef = doc(db, "users", currentUser.uid);
+        // console.log(documentRef);
+        const docSnap = await getDoc(documentRef);
+        if (docSnap.exists()) {
+          await login(emailRef.current.value, passwordRef.current.value);
+          history("/");
+        } else {
+          await login(emailRef.current.value, passwordRef.current.value);
           const docRef = await setDoc(doc(db, "users", currentUser.uid), {
             category: "student",
-            connection:[],
-            id:currentUser.uid,
-            email:currentUser.email
+            connection: [],
+            id: currentUser.uid,
+            email: currentUser.email,
           });
           history("/details");
         }
-      }}
-     catch (error) {
+      }
+    } catch (error) {
       setError("Please enter valid credentials");
     }
     setLoading(false);
@@ -80,7 +69,7 @@ const Login = () => {
             src="https://media.istockphoto.com/vectors/sign-in-page-flat-design-concept-vector-illustration-icon-account-vector-id1299219464?b=1&k=20&m=1299219464&s=612x612&w=0&h=igaRFpYURyVgHVd_ZkcuF6Z9EP82cwqBvYMzlotzquY="
             alt=""
           />
-          <Form onSubmit={handleSubmit} className="login__form">
+          <Form className="login__form" onSubmit={handleFormSubmit}>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <div className="login__heading--container">
