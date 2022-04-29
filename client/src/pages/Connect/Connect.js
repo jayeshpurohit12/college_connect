@@ -128,7 +128,7 @@ const Connect = () => {
                     .map((user, i) => {
                       return (
                         <>
-                          {pendingProfile.includes(user.id) ? null : (
+                          {pendingProfile && pendingProfile.includes(user.id) ? null : (
                             <ConnectUserDiv
                               image={user.image}
                               name={user.name}

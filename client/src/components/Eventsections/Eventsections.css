@@ -31,11 +31,25 @@
 }
 .event_card_content{
     display:flex;
-    flex-direction:row;
+    flex-direction:column;
     align-items: center;
     justify-content: space-between;
     margin:auto;
 }
-.left_card_content{
+.event_card_date{
+    margin:1rem;
+    font-size: medium;
+}
+.inner_card_content{
     align-items: center;
 }
+.event_card_link{
+   text-decoration: none;
+   color:black;
+
+}
+.event_card_link:hover{
+    text-decoration: none;
+    color:black;
+    
+ }

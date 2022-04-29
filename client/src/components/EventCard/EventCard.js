@@ -11,18 +11,21 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 const EventCard = (props) => {
   return (   
     <div><Card style={{ width: '18rem',alignItems:"center"}}>
-    <Card.Img variant="top" src={Eventcarouselimg} style={{maxHeight:"20rem"}} />
+    <Card.Img variant="top" src={props.image} style={{maxHeight:"20rem"}} />
     <Card.Body>
       <Card.Title style={{textAlign:"center"}}>{props.title}</Card.Title>
       <Card.Text style={{padding:"1rem",textAlign:'left'}}>
        <strong>Date & Time: </strong>
        <p>
-        <span><strong>Start: </strong>{props.startdate} , {props.starttime}</span>
+        <span><strong>Date: </strong>{props.startdate && props.startdate.substring(0,10)}</span>
         </p>
         <p>
-        <span><strong>End: </strong>{props.enddate} , {props.endtime}</span>
+        <span><strong>Start-Time: </strong>{props.starttime} </span>
         </p>
-        <h5><Badge bg = "secondary">Upcomming</Badge></h5>
+        <p>
+        <span><strong>End-Time: </strong>{props.endtime}</span>
+        </p>
+       
         <div style={{margin:"1rem 0rem"}}>SHARE: <span><InstagramIcon/> <TwitterIcon/> <FacebookIcon/> <LinkedInIcon/></span></div>
       </Card.Text>
       <div></div>
