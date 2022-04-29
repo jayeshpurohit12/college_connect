@@ -54,7 +54,7 @@ const App = () => {
               path="/connectedUser/:id"
               element={<ConnectedUserProfile />}
             />
-            <Route path="/EventInnerPage" element={<EventInnerPage />} />
+            <Route path="/EventInnerPage/:id" element={<EventInnerPage />} />
           </>
         )}
       </Routes>

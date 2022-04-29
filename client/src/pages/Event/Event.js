@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Banner from "../../components/Banner/Banner";
 import NavbarrAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
 import eventBanner from "../../images/eventBanner.png";
-import Eventsections from "../../components/Eventsections/Eventsections";
+import EventLivesections from "../../components/Eventsections/EventLivesections";
+import EventPastsections from "../../components/Eventsections/EventPastsections";
+import EventUppcomingsections from "../../components/Eventsections/EventUppcomingsections";
 import Footer from "../../components/Footer/Footer";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -321,9 +323,9 @@ const Event = () => {
         </Modal>
 
         <div className="event_inside_sections">
-          <Eventsections title="Upcomming Events" />
-          {/* <Eventsections title="Live Events" />
-          <Eventsections title="Past Events" /> */}
+          <EventUppcomingsections title="Upcomming Events" />
+          <EventLivesections title="Live Events" />
+          <EventPastsections title="Past Events" />
         </div>
       </div>
       <Footer />

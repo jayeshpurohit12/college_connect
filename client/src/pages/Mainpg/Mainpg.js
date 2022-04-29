@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 const Mainpg = () => {
   const [profile, setProfile] = useState({});
   const { currentUser } = useAuth();
-
+  
   const fetchdata = async () => {
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
