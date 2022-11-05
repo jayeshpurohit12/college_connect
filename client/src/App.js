@@ -50,7 +50,6 @@ const App = () => {
             />
             <Route path="/connect" element={<Connect />} />
             <Route path="/event" element={<Event/>} />
-            <Route path="/connectedUser/:id" element ={<ConnectedUserProfile/>}/>
             <Route
               path="/connectedUser/:id"
               element={<ConnectedUserProfile />}

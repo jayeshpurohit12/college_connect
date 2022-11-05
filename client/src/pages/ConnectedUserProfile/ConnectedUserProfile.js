@@ -296,3 +296,4 @@ const ConnectedUserProfile = () => {
 };
 
 export default ConnectedUserProfile;
+
