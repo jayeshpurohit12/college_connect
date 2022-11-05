@@ -184,7 +184,7 @@ const Frontpg = () => {
         {/* main- right -section */}
 
         <div className="main_right_section">
-          <Connection />
+          {/* <Connection /> */}
           <OverlayCard
             title="Job Portal"
             text="Exchange job from your company with fellow alumni"

@@ -32,10 +32,10 @@ const Navbarr = () => {
               <Nav.Link href="#memes" className="header_heading text-white">
                 Achievement
               </Nav.Link>
-              <Nav.Link href="#memes" className="header_heading text-white">
+              <Nav.Link href="/event" className="header_heading text-white">
                 Events
               </Nav.Link>
-              <Nav.Link href="#memes" className="header_heading text-white">
+              <Nav.Link href="" className="header_heading text-white">
                 Contact Us
               </Nav.Link>
             </Nav>
