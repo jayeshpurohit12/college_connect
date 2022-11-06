@@ -6,7 +6,7 @@ const Career = (props) => {
   return (
     <>
       <div className="career_container">
-        <HeaderBar title={props.title} button={true} link={props.link} />
+      
         <div className="career_inner_container">
           <div className="internship_company_icon">
             <img
@@ -18,7 +18,7 @@ const Career = (props) => {
           <div className="opport_details">
             <h3>{props.OpporTitle}</h3>
             <h3>Batch : {props.Batch}</h3>
-            <h3>Job Posted : {props.postedDate}</h3>
+           
           </div>
         </div>
       </div>

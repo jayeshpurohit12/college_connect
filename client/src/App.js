@@ -19,9 +19,11 @@ import {
   ConnectedUserProfile,
 } from "./pages/PageSrc";
 import "./App.css";
+import { useEffect } from "react";
 
 const App = () => {
   const { currentUser } = useAuth();
+  
   return (
     <Router>
       <Routes>
@@ -33,6 +35,12 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/event" element={<Event/>} />
+            <Route path="/Achievements" element={<Achievements />} />
+            <Route
+              path="/AchievementsInnerPage"
+              element={<AchievementsInnerPage />}
+            />
+              <Route path="/EventInnerPage/:id" element={<EventInnerPage />} />
           </>
         )}
         {currentUser && (
@@ -44,6 +52,7 @@ const App = () => {
             <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/details" element={<Detail />} />
             <Route path="/Achievements" element={<Achievements />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
             <Route
               path="/AchievementsInnerPage"
               element={<AchievementsInnerPage />}

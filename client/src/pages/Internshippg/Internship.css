@@ -24,11 +24,16 @@
 .internship_post {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width:90%;
+  margin:auto;
+ 
 }
 
 .internship_post_container {
   display: flex;
-  width: 100%;
+  width: 86%;
+  margin:auto;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;

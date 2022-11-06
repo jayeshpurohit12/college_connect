@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext} from "react";
 import { Button } from "@material-ui/core";
 import "./Jobs.css";
 import CardWithBorder from "../../components/Cards/CardWithBorder";
@@ -14,6 +14,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import SearchIcon from "@material-ui/icons/Search";
+import { useAuth } from "../../contexts/Authcontext";
+import { StateContext } from "../../contexts/StateContext";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -47,6 +49,9 @@ export default function Opportunitypg() {
   const [job, setJob] = useState([]);
 
   const [search, setSearch] = useState("");
+  const { currentUser } = useAuth();
+  const state=useContext(StateContext);
+  const profile= state.profile;
 
   let name, value;
 
@@ -162,9 +167,9 @@ export default function Opportunitypg() {
       <NavbarrAfterLogin />
       <div className="opp_header">
         <h1 className="opp_header_heading">Jobs</h1>
-        <Button id="opp_header_button" onClick={handleOpen}>
+      {profile.category==="teacher"?<Button id="opp_header_button" onClick={handleOpen}>
           Post new Job
-        </Button>
+        </Button>:(<></>)}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"

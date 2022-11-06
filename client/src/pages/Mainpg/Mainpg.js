@@ -15,11 +15,18 @@ import { useAuth } from "../../contexts/Authcontext";
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import { Toolbar } from "@material-ui/core";
+import { Typography } from "@mui/material";
+import { StateContext } from "../../contexts/StateContext";
 
 const Mainpg = () => {
   const [profile, setProfile] = useState({});
   const { currentUser } = useAuth();
-  
+  const state = React.useContext(StateContext);
+const [achievements, setAchievements] = state.achievements;
+const [jobs, setJobs] = state.jobs;
+const [internships, setInternships] = state.internships;
+
   const fetchdata = async () => {
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
@@ -64,61 +71,75 @@ const Mainpg = () => {
         </div>
       </div>
       <div className="event_container">
-        <HeaderBar title="Events" button={true} link="/home" />
+        <HeaderBar title="Events" button={true} link="/event" />
         <div className="event_banner_img">
           <Banner
-            image={eventBanner}
+            image1="https://mactus.co.in/img/header_img/event.jpg"
             width="100%"
             height="30rem"
             caption={false}
           />
-          <div className="bottom_image_section">
-            <div className="consert_title">
-              <h4>Live Concert</h4>
-              <div className="days_left">
-                <h4>7 Days Left</h4>
-              </div>
-            </div>
-          </div>
+         
         </div>
         <div className="achievement_container">
           <HeaderBar title="Achievements" button={true} link="/Achievements" />
-          <div className="inner_achievement_section">
+          {console.log(achievements)}
+          {achievements && <div className="inner_achievement_section">
             <div className="achievement_image">
+              
               <img
-                src={achievementImg}
+                src={achievements[0].image}
                 alt=""
                 style={{ width: "40%", height: "25rem", borderRadius: "10px" }}
               />
               <div className="achievement_caption">
-                <h1>Dream Innovate Built</h1>
+                <h1>{achievements[0].name}</h1>
                 <p>
-                  Spirit of Acropolians, Developed a robot placed at Indore
-                  Airport first of it’s kind at an indian Airport
+                 {achievements[0].awards}
+                 <div>
+                  {achievements[0].expertise}
+                 </div>
                 </p>
               </div>
             </div>
-          </div>
+          </div>}
         </div>
         <div className="Internship_container">
-          <Career
+        <Toolbar className="header_bar" variant="dense">
+        <Typography variant="h6" component="div">
+          Internships
+        </Typography>
+      
+          <Link to="/Internships">
+            <Button id="header_button">View All</Button>
+          </Link>
+      </Toolbar>
+      {internships && internships.length>0?  <Career
             title="Internship"
-            image={MicrosoftImg}
-            OpporTitle="Microsoft is hiring Data Science Associate"
-            Batch="2021, 2022"
-            postedDate="16-11-2021"
-            link="/Internships"
-          />
+            image={internships[0].image}
+            OpporTitle={internships[0].name}
+            Batch={internships[0].batch}
+           
+          />:<></>}
+        
         </div>
         <div className="Job_container">
-          <Career
+        <Toolbar className="header_bar" variant="dense">
+        <Typography variant="h6" component="div">
+         Jobs
+        </Typography>
+      
+          <Link to="/Internships">
+            <Button id="header_button">View All</Button>
+          </Link>
+      </Toolbar>
+         {jobs && jobs.length>0?<Career
             title="Full Time Jobs"
-            image={ZSImage}
-            OpporTitle="ZS is hiring Data Science Associate"
-            Batch="2020, 2021"
-            postedDate="16-11-2021"
-            link="/Jobs"
-          />
+            image={jobs[0].image}
+            OpporTitle={jobs[0].name}
+            Batch={jobs[0].batch}
+            
+          />:<></>}
         </div>
         <div className="foter_container">
           <Footer />

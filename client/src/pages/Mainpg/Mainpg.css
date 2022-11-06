@@ -115,7 +115,7 @@
 
 .achievement_caption {
   border: 6px solid rgb(231, 171, 18);
-  margin: 4rem 9rem;
+  margin: 4rem auto;
   padding: 1.3rem 1rem 0rem 1rem;
   border-radius: 10px;
 }

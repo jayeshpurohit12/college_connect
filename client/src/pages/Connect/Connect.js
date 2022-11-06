@@ -103,28 +103,6 @@ const Connect = () => {
               <div className="connection_profile_container">
                 {users &&
                   users
-                    .filter((user) => {
-                      return (
-                        user.name
-                          .toLowerCase()
-                          .includes(search.toLowerCase()) ||
-                        user.end
-                          .substring(0, 4)
-                          .toLowerCase()
-                          .includes(search.toLowerCase()) ||
-                        user.position
-                          .toLowerCase()
-                          .includes(search.toLowerCase()) ||
-                        user.company
-                          .toLowerCase()
-                          .includes(search.toLowerCase()) ||
-                        user.skills
-                          .map((skill) =>
-                            skill.toLowerCase().includes(search.toLowerCase())
-                          )
-                          .includes(true)
-                      );
-                    })
                     .map((user, i) => {
                       return (
                         <>

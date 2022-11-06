@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/NavbarrBeforeLogin";
 import Banner from "../../components/Banner/Banner";
 import "./Frontpg.css";
@@ -23,6 +23,41 @@ import { Badge } from "react-bootstrap";
 import video from "../../images/video.png";
 
 const Frontpg = () => {
+  const [events, setEvents] = useState([]);
+  const [length, setLength] = useState(0);
+  const [length1, setLength1] = useState(0);
+  var d = new Date();
+  const [achievements, setAchievements] = useState([]);
+
+  const fetchAchievements = async () => {
+    const res = await fetch(`/achievements`);
+    const data = await res.json();
+    setAchievements(data);
+    if(data.length<3){
+   setLength1(data.length);
+    }
+    else{
+      setLength1(3);
+    }
+  };
+
+ 
+
+  const fetchEvents = async () => {
+    const res = await fetch(`/event`);
+    // console.log(res)
+    const data = await res.json();
+    setEvents(data);
+    if (data.length < 3) {
+      setLength(data.length);
+    } else setLength(3);
+  };
+
+  useEffect(() => {
+    fetchEvents();
+    fetchAchievements();
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -32,152 +67,91 @@ const Frontpg = () => {
 
         <div className="main_left_section">
           <Banner
-            image="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
+            image1="http://aitr.ac.in/wp-content/uploads/2014/10/collegeacro.jpg"
+            image2="https://d12aarmt01l54a.cloudfront.net/cms/images/UserMedia-20210127203437/1224-400.png"
             width="97%"
             height="32rem"
             caption={true}
           />
           <div className="achievement_section">
             <HeaderBar title="Achievement" button={false} link="/home" />
-            <OwlCarousel
-              style={{ width: "90%", marginTop: "0.5rem", marginLeft: "4rem" }}
-              className="owlCarousel"
-              loop
-              margin={3}
-              nav
-            >
-              <div className="carousel_item">
-                <Cards
-                  button={false}
-                  width="12rem"
-                  image={profile}
-                  title="Mrs Nidhi Nigam"
-                  content={
-                    <div>
-                      <p>Computer Science</p>
-                      <p>Computational Methods and Database Expert.</p>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <OwlCarousel
+                className="owl_carousel"
+                style={{ marginTop: "0.5rem", width: "90%" }}
+                loop
+                margin={3}
+                items={length1}
+                nav
+              >
+                
+                {achievements?.map((achievement, id) => {
+                  return (
+                    <div className="carousel_item" key={id}>
+                      <Card style={{ width: "15rem" ,height:"20rem"}}>
+                        <Card.Img variant="top" src={achievement.image} style={{height:"45%"}}/>
+                        <Card.Body>
+                          
+                          <Card.Text>
+                            <div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+                              <h4>{achievement.name}</h4>
+                              <strong>{achievement.award}</strong>
+                              <span>{achievement.expertise}</span>
+                            </div>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
                     </div>
-                  }
-                />
-              </div>
-              <div className="carousel_item">
-                <Cards
-                  width="12rem"
-                  button={false}
-                  image={profile}
-                  title="Mrs Nidhi Nigam"
-                  content={
-                    <div>
-                      <p>Computer Science</p>
-                      <p>Computational Methods and Database Expert.</p>
-                    </div>
-                  }
-                />
-              </div>
-              <div className="carousel_item">
-                <Cards
-                  width="12rem"
-                  image={profile}
-                  button={false}
-                  title="Mrs Nidhi Nigam"
-                  content={
-                    <div>
-                      <p>Computer Science</p>
-                      <p>Computational Methods and Database Expert.</p>
-                    </div>
-                  }
-                />
-              </div>
-            </OwlCarousel>
+                  );
+                })}
+              </OwlCarousel>
+            </div>
+         
           </div>
           <div>
-            <HeaderBar title="Event" button={true} link="/home"/>
-            <OwlCarousel
-              className="owl_carousel"
-              style={{ width: "90%", marginTop: "0.5rem", marginLeft: "4rem" }}
-              loop
-              margin={5}
-              nav
-            >
-              <div className="carousel_item">
-                <Cards
-                  width="15rem"
-                  title="Event title"
-                  button={true}
-                  image={Eventcarouselimg}
-                  content={
-                    <div>
-                      <Badge
-                        bg="secondary"
-                        style={{ fontSize: "0.8rem", margin: "0.5rem" }}
-                      >
-                        Past Event
-                      </Badge>{" "}
-                      <div>
-                        <CalendarTodayIcon />
-                        <span> Sep25,2021 : 04:00 PM - 05:00 PM</span>
-                      </div>
-                      <div>
-                        <PowerSettingsNewIcon />
-                        <span> Online Mode</span>
-                      </div>
+            <HeaderBar title="Event" button={true} link="/event" />
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <OwlCarousel
+                className="owl_carousel"
+                style={{ marginTop: "0.5rem", width: "70%",justifyContent:"center" }}
+                loop
+                margin={3}
+                items={length}
+                nav
+              >
+                {console.log(events.length)}
+                {events?.map((event, id) => {
+                  return (
+                    <div className="carousel_item" key={id}>
+                      <Card style={{ width: "15rem" ,height:"20rem"}}>
+                        <Card.Img variant="top" src={event.image} style={{height:"45%"}}/>
+                        <Card.Body>
+                          
+                          <Card.Text>
+                            <div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+                              
+                              <span style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+                                <h4>{event.name}</h4>
+                                <p style={{margin:"1rem"}}><strong><CalendarTodayIcon /> Date:</strong>{" "}
+                                {event.date && event.date.substring(8, 10)} -{" "}
+                                {event.date.substring(5, 7)} -{" "}
+                                {event.date.substring(2, 4)}
+                                </p>
+                              </span>
+                            
+                            <div>
+                              <PowerSettingsNewIcon />
+                              <span> Online Mode</span>
+                            </div>
+                            </div>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
                     </div>
-                  }
-                />
-              </div>
-              <div className="carousel_item">
-                <Cards
-                  width="15rem"
-                  title="Event title"
-                  button={true}
-                  image={Eventcarouselimg}
-                  content={
-                    <div>
-                      <Badge
-                        bg="secondary"
-                        style={{ fontSize: "0.8rem", margin: "0.5rem 0rem" }}
-                      >
-                        Past Event
-                      </Badge>{" "}
-                      <div>
-                        <CalendarTodayIcon />
-                        <span> Sep25,2021 : 04:00 PM - 05:00 PM</span>
-                      </div>
-                      <div>
-                        <PowerSettingsNewIcon />
-                        <span> Online Mode</span>
-                      </div>
-                    </div>
-                  }
-                />
-              </div>
-              <div className="carousel_item">
-                <Cards
-                  width="15rem"
-                  title="Event title"
-                  button={true}
-                  image={Eventcarouselimg}
-                  content={
-                    <div>
-                      <Badge
-                        bg="secondary"
-                        style={{ fontSize: "0.8rem", margin: "0.5rem" }}
-                      >
-                        Past Event
-                      </Badge>{" "}
-                      <div>
-                        <CalendarTodayIcon />
-                        <span> Sep25,2021 : 04:00 PM - 05:00 PM</span>
-                      </div>
-                      <div>
-                        <PowerSettingsNewIcon />
-                        <span> Online Mode</span>
-                      </div>
-                    </div>
-                  }
-                />
-              </div>
-            </OwlCarousel>
+                  );
+                })}
+              </OwlCarousel>
+            </div>
           </div>
         </div>
 
@@ -209,36 +183,16 @@ const Frontpg = () => {
                 <Card.Title className="acropolis_facebook_title">
                   Acropolis Alumni Association
                 </Card.Title>
-                <Button id="facebook_button">Go somewhere</Button>
-                <label>24 Likes</label>
+                <Button
+                  id="facebook_button"
+                  href="https://www.facebook.com/ACRO1INDORE/"
+                  target="_blank"
+                >
+                  Go somewhere
+                </Button>
+                <label>2.7K Likes</label>
               </Card.Body>
             </Card>
-            <div className="acropolis_facebook_post">
-              <Cards
-                button={false}
-                width="19rem"
-                image={video}
-                title={
-                  <>
-                    <img
-                      src={acropolis_icon}
-                      className="acropolis_facebook_logo"
-                      style={{ width: "25%" }}
-                      alt=""
-                    />
-                    <h5
-                      className="acropolis_facebook_title"
-                      style={{ width: "65%" }}
-                    >
-                      Acropolis Alumni Association
-                    </h5>
-                    <label></label>
-                  </>
-                }
-                content="Acropolis is going to organise the event today on 25 September
-            . Do join the event and have fun."
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -247,25 +201,22 @@ const Frontpg = () => {
 
       <div className="footer">
         <div className="footer_content">
-          <Link className="footer_link" to=" ">
+          <Link className="footer_link" to="/">
             Home
           </Link>{" "}
           |
-          <Link className="footer_link" to=" ">
-            About
+          <Link className="footer_link" to="/Achievements">
+            Achievement
           </Link>{" "}
           |
-          <Link className="footer_link" to=" ">
-            Contact
+          <Link className="footer_link" to="/event">
+           Events
           </Link>{" "}
           |
-          <Link className="footer_link" to=" ">
-            Term
+          <Link className="footer_link" to="/signup">
+          SignUp
           </Link>{" "}
-          |
-          <Link className="footer_link" to=" ">
-            Privacy
-          </Link>
+
         </div>
       </div>
     </div>

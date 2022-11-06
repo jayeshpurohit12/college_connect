@@ -11,6 +11,27 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState("");
   const [loading, setLoading] = useState(true);
+  const [events, setEvents] = useState([]);
+  var d = new Date();
+  const [achievements, setAchievements] = useState([]);
+
+  const fetchAchievements = async () => {
+    const res = await fetch(`/achievements`);
+    const data = await res.json();
+    setAchievements(data);
+  
+  };
+
+ 
+
+  const fetchEvents = async () => {
+    const res = await fetch(`/event`);
+    // console.log(res)
+    const data = await res.json();
+    setEvents(data);
+    
+  };
+
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
@@ -45,6 +66,8 @@ export function AuthProvider({ children }) {
     logout,
     updatePassword,
     resetPassword,
+    events:events,
+    achievements:achievements,
   };
   return (
     <AuthContext.Provider value={value}>

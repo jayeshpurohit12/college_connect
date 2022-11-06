@@ -68,13 +68,13 @@ const Navbarr = () => {
                 Home
               </NavLink>
 
-              {/* <NavLink
+              <NavLink
                 to="/Achievements"
                 style={{ textDecoration: "none" }}
                 className="header_heading text-white"
               >
                 Achievement
-              </NavLink> */}
+              </NavLink>
 
               <NavDropdown
                 title="Career"

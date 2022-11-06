@@ -9,7 +9,7 @@ import './Eventsections.css'
 const EventUppcomingsections = (props) => {
   const [events,setEvents] = useState([]);
   var d = new Date();
-
+var cnt = 0;
   const fetchEvents = async () => {
     const res = await fetch(`/event`);
     // console.log(res)
@@ -36,7 +36,7 @@ const EventUppcomingsections = (props) => {
           <Dropdown.Item href="#/action-3">Webinar</Dropdown.Item>
         </DropdownButton> */}
       </div>
-
+{events?(
       <div className="event_card_container">
         {events.map((event) => {
           if (
@@ -84,14 +84,15 @@ const EventUppcomingsections = (props) => {
                   parseInt(event.startTime.substring(3,5)) > d.getMinutes()
                 )
                 {
+                  cnt = 1;
                return(
                 <Link className="event_card_link" to={`/EventInnerPage/${event._id}`}>
                 <Card
                   style={{
-                    maxWidth: "20rem",
-                    borderRadius: "15px",
-                    margin:"1rem",
-                    minHeight:"20rem"
+                    width: "20rem",
+                        borderRadius: "15px",
+                        margin:"1rem",
+                        height:"25rem"
                   }}
                 >
                   <Card.Img variant="top" src={event.image} style={{ maxHeight:"10rem"}}/>
@@ -231,6 +232,7 @@ const EventUppcomingsections = (props) => {
             )
             
           ){
+          
             console.log(event);
             console.log("Past Event Date");
             // <Card
@@ -259,14 +261,15 @@ const EventUppcomingsections = (props) => {
             // </Card>;
           }
           else {
+            cnt = 1;
            return(
             <Link className="event_card_link" to={`/EventInnerPage/${event._id}`}>
             <Card
               style={{
-                maxWidth: "20rem",
+                width: "20rem",
                 borderRadius: "15px",
                 margin:"1rem",
-                minHeight:"20rem"
+                height:"25rem"
               }}
             >
               <Card.Img variant="top" src={event.image} style={{ maxHeight:"10rem"}}/>
@@ -292,10 +295,12 @@ const EventUppcomingsections = (props) => {
             </Link>
            )
           }
+          
         })}
             
       
-      </div>
+      </div>):(<></>)}
+      {cnt === 0? <div className="no_event">No upcomming Events</div>:<></>}
       {/* <Button variant="secondary" className="card_button">
         View All
       </Button> */}

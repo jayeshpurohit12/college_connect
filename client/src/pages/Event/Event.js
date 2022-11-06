@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext} from "react";
 import Banner from "../../components/Banner/Banner";
 import NavbarrAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
+import NavbarrBeforeLogin from "../../components/Navbar/NavbarrBeforeLogin";
 import eventBanner from "../../images/eventBanner.png";
 import EventLivesections from "../../components/Eventsections/EventLivesections";
 import EventPastsections from "../../components/Eventsections/EventPastsections";
@@ -15,6 +16,8 @@ import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Form, Spinner } from "react-bootstrap";
 import Fade from "@material-ui/core/Fade";
+import { useAuth } from "../../contexts/Authcontext";
+import { StateContext } from "../../contexts/StateContext";
 import Backdrop from "@material-ui/core/Backdrop";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +51,9 @@ const Event = () => {
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState(null);
   const [events, setEvent] = useState([]);
+  const { currentUser } = useAuth();
+  const state=useContext(StateContext);
+  const profile = state.profile;
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -163,20 +169,21 @@ const Event = () => {
 
   return (
     <>
-      <NavbarrAfterLogin />
+    {currentUser?<NavbarrAfterLogin />:<NavbarrBeforeLogin/>}
       <div className="event_container">
         <div className="event_carousel">
-          <Banner image={eventBanner} />
+          <Banner image1={eventBanner} image2=""/>
         </div>
         <div className="Event_create_btn">
-          <Button
+         
+        {(currentUser && profile.category==="teacher")?<Button
             variant="contained"
             color="secondary"
             style={{ display: "flex", margin: "3rem auto auto auto" }}
             onClick={handleOpen}
           >
             Create an Event
-          </Button>
+          </Button>:<></>}
         </div>
 
         <Modal
