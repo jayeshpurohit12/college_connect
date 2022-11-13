@@ -9,7 +9,7 @@ import './Eventsections.css'
 const Eventsections = (props) => {
   const [events,setEvents] = useState([]);
   var d = new Date();
-
+var cnt= 0;
   const fetchEvents = async () => {
     const res = await fetch(`/event`);
     // console.log(res)
@@ -36,26 +36,27 @@ const Eventsections = (props) => {
           <Dropdown.Item href="#/action-3">Webinar</Dropdown.Item>
         </DropdownButton> */}
       </div>
-
+      {/* {console.log(events)} */}
+ {events?(
       <div className="event_card_container">
         {events.map((event) => {
           if (
             parseInt(event.date.substring(8, 10)) === d.getDate() &&
             parseInt(event.date.substring(5, 7)) === d.getMonth() + 1 &&
             parseInt(event.date.substring(0, 4)) === d.getFullYear()
-          ) {
+          ) { 
             if (
                parseInt(event.startTime.substring(0, 2)) > d.getHours() 
                )
-               {
+               { cnt=1;
                  return(
                   <Link className="event_card_link" to={`/EventInnerPage/${event._id}`}>
                   <Card
                     style={{
-                      maxWidth: "20rem",
-                      borderRadius: "15px",
-                      margin:"1rem",
-                      minHeight:"20rem"
+                      width: "20rem",
+                        borderRadius: "15px",
+                        margin:"1rem",
+                        height:"25rem"
                     }}
                   >
                     <Card.Img variant="top" src={event.image} style={{ maxHeight:"10rem"}}/>
@@ -124,15 +125,15 @@ const Eventsections = (props) => {
               )
               {
                  if(event.endTime.substring(0,2) > d.getHours())
-                 {
+                 { cnt = 1;
                return (
                 <Link className="event_card_link" to={`/EventInnerPage/${event._id}`}>
                 <Card
                   style={{
-                    maxWidth: "20rem",
+                    width: "20rem",
                     borderRadius: "15px",
                     margin:"1rem",
-                    minHeight:"20rem"
+                    height:"25rem"
                   }}
                 >
                   <Card.Img variant="top" src={event.image} style={{ maxHeight:"10rem"}}/>
@@ -192,15 +193,15 @@ const Eventsections = (props) => {
                 parseInt(event.startTime.substring(0,2)) === d.getHours() &&
                 parseInt(event.startTime.substring(3,5)) === d.getMinutes()
               )
-              {
+              { cnt = 1;
                 return(
                   <Link className="event_card_link" to={`/EventInnerPage/${event._id}`}>
                   <Card
                     style={{
-                      maxWidth: "20rem",
+                      width: "20rem",
                       borderRadius: "15px",
                       margin:"1rem",
-                      minHeight:"20rem"
+                      height:"25rem"
                     }}
                   >
                     <Card.Img variant="top" src={event.image} style={{ maxHeight:"10rem"}}/>
@@ -298,10 +299,11 @@ const Eventsections = (props) => {
         })}
             
       
-      </div>
+      </div>):(<>No Events</>)}
       {/* <Button variant="secondary" className="card_button">
         View All
       </Button> */}
+      {cnt === 0? <div className="no_event">No live Events</div>:<></>}
     </div>
   );
 };

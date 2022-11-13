@@ -1,12 +1,13 @@
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./Detail.css";
+import { arrayUnion } from "firebase/firestore";
 import { useAuth } from "../../contexts/Authcontext";
 import { db, storage } from "../../firebase";
-import { Alert} from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { doc, updateDoc,getDoc} from "firebase/firestore";
+import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 
 const Detail = () => {
   const { currentUser } = useAuth();
@@ -26,18 +27,19 @@ const Detail = () => {
     end: "",
     company: "",
     tech: "",
+    country: "",
     position: "",
     desc: "",
     summary: "",
-    connection:[]
+    connection: [],
   });
 
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState(null);
-  const [error,setError]=useState("");
-  const [selectgen,setSelectgen]=useState(false);
-  
-  const [file_input_display,setFile_input_display]=useState("none");
+  const [error, setError] = useState("");
+  const [selectgen, setSelectgen] = useState(false);
+
+  const [file_input_display, setFile_input_display] = useState("none");
 
   const formHandler = (e) => {
     if (e.target.files[0]) {
@@ -45,18 +47,16 @@ const Detail = () => {
     }
   };
   const handleChange = (e) => {
-    if(e.target.id==="skills" && e.target.value){
-    profile[e.target.id] = e.target.value.split(",");
-    }
-    else{
-      profile[e.target.id] = e.target.value 
+    if (e.target.id === "skills" && e.target.value) {
+      profile[e.target.id] = e.target.value.split(",");
+    } else {
+      profile[e.target.id] = e.target.value;
     }
     setProfile({ ...profile, profile });
   };
-  
+
   const fetchdata = async () => {
-   
-      if(profile.gender === '1')setSelectgen(true)
+    if (profile.gender === "1") setSelectgen(true);
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -66,9 +66,72 @@ const Detail = () => {
   };
   useEffect(() => {
     fetchdata();
-  } ,[]);
-    console.log(selectgen) 
+  }, []);
   const dataupload = async (url) => {
+    if (profile.end) {
+      const batch = profile.end.substring(0, 4);
+
+      const docRef1 = await updateDoc(doc(db, "batch", batch), {
+        uid: arrayUnion(...[currentUser.uid]),
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(async (err) => {
+          await setDoc(doc(db, "batch", batch), {
+            uid: [currentUser.uid],
+          })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+    }
+
+    profile.skills &&
+      profile.skills.map(async (skill) => {
+        await updateDoc(doc(db, "expertise", skill.toLowerCase()), {
+          uid: arrayUnion(...[currentUser.uid]),
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch(async (err) => {
+            await setDoc(doc(db, "expertise", skill.toLowerCase()), {
+              uid: [currentUser.uid],
+            })
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+      });
+    if (profile.company) {
+      const docRef1 = await updateDoc(
+        doc(db, "company", profile.company.toLowerCase()),
+        {
+          uid: arrayUnion(...[currentUser.uid]),
+        }
+      )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(async (err) => {
+          await setDoc(doc(db, "company", profile.company.toLowerCase()), {
+            uid: [currentUser.uid],
+          })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+    }
     const docRef = await updateDoc(doc(db, "users", currentUser.uid), {
       name: profile.name,
       linkedin: profile.linkedin,
@@ -88,6 +151,8 @@ const Detail = () => {
       specialisation: profile.specialisation,
       degree: profile.degree,
       image: url,
+      higher: profile.higher,
+      country: profile.country,
     })
       .then(function (res) {
         <Alert variant="success">data saved</Alert>;
@@ -100,33 +165,31 @@ const Detail = () => {
   };
   const uploadFiles = (e) => {
     e.preventDefault();
-    if(image){
-    const storageRef = ref(storage, `/image/${image.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, image);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        console.log("true");
-        const progress =
-          Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progress);
-      },
-      (err) => console.log(err),
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          dataupload(url);
-        });
-      }
-    );
-    setImage("");
-    setProgress(0);
-    }
-    else if(profile.image){
+    if (image) {
+      const storageRef = ref(storage, `/image/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          console.log("true");
+          const progress =
+            Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(progress);
+        },
+        (err) => console.log(err),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            dataupload(url);
+          });
+        }
+      );
+      setImage("");
+      setProgress(0);
+    } else if (profile.image) {
       dataupload(profile.image);
       setImage("");
       setProgress(0);
-    }
-    else{
+    } else {
       setError("Please upload a file");
     }
     // setProfile({
@@ -166,20 +229,21 @@ const Detail = () => {
           <div className="left_section">
             <div className="inner_sections">
               <Form.Group className="mb-3 form_group" controlId="formBasicName">
-               
-                 
-                    <Form.Label><h5>Name</h5></Form.Label>
-                    <Form.Control
-                      type="text"
-                      id="name"
-                      placeholder="Name"
-                      onChange={handleChange}
-                      defaultValue={profile.name}
-                      required
-                    />
-                 
-             
-                <Form.Label><h5>Linkedin Profile</h5></Form.Label>
+                <Form.Label>
+                  <h5>Name</h5>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  id="name"
+                  placeholder="Name"
+                  onChange={handleChange}
+                  defaultValue={profile.name}
+                  required
+                />
+
+                <Form.Label>
+                  <h5>Linkedin Profile</h5>
+                </Form.Label>
                 <Form.Control
                   type="text"
                   id="linkedin"
@@ -188,7 +252,9 @@ const Detail = () => {
                   defaultValue={profile.linkedin}
                   required
                 />
-                <Form.Label><h5>Github Profile</h5></Form.Label>
+                <Form.Label>
+                  <h5>Github Profile</h5>
+                </Form.Label>
                 <Form.Control
                   type="text"
                   id="git"
@@ -197,30 +263,37 @@ const Detail = () => {
                   defaultValue={profile.git}
                   required
                 />
-                <Form.Label><h5>Profile image</h5></Form.Label>
-                {(profile.image === undefined || !profile.image)?(
-                  <div style={{display:'block'}}>
-                  <input type="file" onChange={formHandler} />
-              <progress value={progress} max="100" />
-              <p style={{ float: "left" }}>Progress : {progress} % </p>
-              <br></br>
-                </div>
-                ) :(
-                  
-                  <div>
-                  <a href={profile.image} target="_blank">profile.png</a>
-                  <Button style={{marginLeft:"1rem"}} onClick={()=>{
-                    setFile_input_display("block");
-                  }}>Upload Another image</Button>
-                  <div style={{display:`${file_input_display}`}}>
-                  <input type="file" onChange={formHandler} />
-              <progress value={progress} max="100" />
-              <p style={{ float: "left" }}>Progress : {progress} % </p>
-              <br></br>
+                <Form.Label>
+                  <h5>Profile image</h5>
+                </Form.Label>
+                {profile.image === undefined || !profile.image ? (
+                  <div style={{ display: "block" }}>
+                    <input type="file" onChange={formHandler} />
+                    <progress value={progress} max="100" />
+                    <p style={{ float: "left" }}>Progress : {progress} % </p>
+                    <br></br>
                   </div>
-                </div>
+                ) : (
+                  <div>
+                    <a href={profile.image} target="_blank">
+                      profile.png
+                    </a>
+                    <Button
+                      style={{ marginLeft: "1rem" }}
+                      onClick={() => {
+                        setFile_input_display("block");
+                      }}
+                    >
+                      Upload Another image
+                    </Button>
+                    <div style={{ display: `${file_input_display}` }}>
+                      <input type="file" onChange={formHandler} />
+                      <progress value={progress} max="100" />
+                      <p style={{ float: "left" }}>Progress : {progress} % </p>
+                      <br></br>
+                    </div>
+                  </div>
                 )}
-                
               </Form.Group>
             </div>
             <div className="inner_sections">
@@ -228,7 +301,9 @@ const Detail = () => {
                 className="mb-3 form_group"
                 controlId="formBasicNumber"
               >
-                <Form.Label><h5>Phone No</h5></Form.Label>
+                <Form.Label>
+                  <h5>Phone No</h5>
+                </Form.Label>
                 <Form.Control
                   type="text"
                   id="phone"
@@ -246,7 +321,9 @@ const Detail = () => {
               >
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <div className="inline_input">
-                    <Form.Label><h5>Location</h5></Form.Label>
+                    <Form.Label>
+                      <h5>Location</h5>
+                    </Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Location"
@@ -255,9 +332,22 @@ const Detail = () => {
                       defaultValue={profile.location}
                       required
                     />
+                    <Form.Label>
+                      <h5>Country</h5>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Country"
+                      id="country"
+                      onChange={handleChange}
+                      defaultValue={profile.country}
+                      required
+                    />
                   </div>
                   <div>
-                    <Form.Label><h5>DOB</h5></Form.Label>
+                    <Form.Label>
+                      <h5>DOB</h5>
+                    </Form.Label>
                     <Form.Control
                       type="date"
                       placeholder="DOB"
@@ -275,15 +365,21 @@ const Detail = () => {
                 className="mb-3 form_group"
                 controlId="formBasicPassword"
               >
-                <Form.Label><h5>Gender</h5></Form.Label>
+                <Form.Label>
+                  <h5>Gender</h5>
+                </Form.Label>
                 <Form.Select
                   aria-label="Default select example"
                   id="gender"
                   onChange={handleChange}
                   required
-                  >
-                  <option selected={selectgen} value="1">Male</option>
-                  <option selected={!selectgen} value="2">Female</option>
+                >
+                  <option selected={selectgen} value="1">
+                    Male
+                  </option>
+                  <option selected={!selectgen} value="2">
+                    Female
+                  </option>
                 </Form.Select>
               </Form.Group>
             </div>
@@ -295,7 +391,9 @@ const Detail = () => {
               className="mb-3 form_group"
               controlId="formBasicExpertise"
             >
-              <Form.Label><h5>Expertise (Enter Seperated by ,)</h5></Form.Label>
+              <Form.Label>
+                <h5>Expertise (Enter Seperated by ,)</h5>
+              </Form.Label>
               <Form.Control
                 type="text"
                 id="skills"
@@ -309,7 +407,9 @@ const Detail = () => {
             {/* Basic Info */}
 
             <Form.Group className="mb-3 form_group" controlId="formBasicName">
-              <Form.Label><h5>Summary</h5></Form.Label>
+              <Form.Label>
+                <h5>Summary</h5>
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -320,10 +420,14 @@ const Detail = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3 form_group" controlId="formBasicName">
-              <Form.Label><h5>Education</h5></Form.Label>
+              <Form.Label>
+                <h5>Education</h5>
+              </Form.Label>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className="inline_input">
-                  <Form.Label><h5>Degree</h5></Form.Label>
+                  <Form.Label>
+                    <h5>Degree</h5>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Degree"
@@ -332,9 +436,23 @@ const Detail = () => {
                     defaultValue={profile.degree}
                     required
                   />
+                  <Form.Label>
+                    <h5>Pursuing Higher Studies</h5>
+                  </Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    id="higher"
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                  </Form.Select>
                 </div>
                 <div>
-                  <Form.Label><h5>Specialisation</h5></Form.Label>
+                  <Form.Label>
+                    <h5>Specialisation</h5>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Specialisation"
@@ -347,7 +465,9 @@ const Detail = () => {
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className="inline_input">
-                  <Form.Label><h5>Starting Year</h5></Form.Label>
+                  <Form.Label>
+                    <h5>Starting Year</h5>
+                  </Form.Label>
                   <Form.Control
                     type="date"
                     placeholder="Starting Year"
@@ -358,7 +478,9 @@ const Detail = () => {
                   />
                 </div>
                 <div>
-                  <Form.Label><h5>Ending Year</h5></Form.Label>
+                  <Form.Label>
+                    <h5>Ending Year</h5>
+                  </Form.Label>
                   <Form.Control
                     type="date"
                     placeholder="Ending Year"
@@ -374,7 +496,9 @@ const Detail = () => {
               className="mb-3 form_group"
               controlId="formBasicCompany"
             >
-              <Form.Label><h5>Company</h5></Form.Label>
+              <Form.Label>
+                <h5>Company</h5>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Company_Name"
@@ -385,7 +509,9 @@ const Detail = () => {
               />
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className="inline_input">
-                  <Form.Label><h5>Tech Stack</h5></Form.Label>
+                  <Form.Label>
+                    <h5>Tech Stack</h5>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Tech_stack"
@@ -396,7 +522,9 @@ const Detail = () => {
                   />
                 </div>
                 <div>
-                  <Form.Label><h5>Your Position</h5></Form.Label>
+                  <Form.Label>
+                    <h5>Your Position</h5>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Your Position"
@@ -407,7 +535,9 @@ const Detail = () => {
                   />
                 </div>
               </div>
-              <Form.Label><h5>Description</h5></Form.Label>
+              <Form.Label>
+                <h5>Description</h5>
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}

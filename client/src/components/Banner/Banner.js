@@ -10,65 +10,22 @@ const Banner = (props) => {
           <Carousel.Item>
             <img
               className="d-block w-55"
-              src={props.image}
+              src={props.image1}
               alt="First slide"
               style={{ width: "100%", height: `${props.height}` }}
             />
-            <Carousel.Caption>
-              {props.caption === true ? (
-                <div>
-                  <h3>First slide label</h3>
-                  <p>
-                    Nulla vitae elit libero, a pharetra augue mollis interdum.
-                  </p>
-                </div>
-              ) : (
-                <div></div>
-              )}
-            </Carousel.Caption>
+           
           </Carousel.Item>
-          <Carousel.Item>
+          {props.image2 && (  <Carousel.Item>
             <img
               className="d-block w-55"
-              src={props.image}
+              src={props.image2}
               alt="Second slide"
               style={{ width: "100%", height: `${props.height}` }}
             />
-
-            <Carousel.Caption>
-              {props.caption === true ? (
-                <div>
-                  <h3>Second slide label</h3>
-                  <p>
-                    Nulla vitae elit libero, a pharetra augue mollis interdum.
-                  </p>
-                </div>
-              ) : (
-                <div></div>
-              )}
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-55"
-              src={props.image}
-              alt="Third slide"
-              style={{ width: "100%", height: `${props.height}` }}
-            />
-
-            <Carousel.Caption>
-              {props.caption === true ? (
-                <div>
-                  <h3>Third slide label</h3>
-                  <p>
-                    Nulla vitae elit libero, a pharetra augue mollis interdum.
-                  </p>
-                </div>
-              ) : (
-                <div></div>
-              )}
-            </Carousel.Caption>
-          </Carousel.Item>
+          </Carousel.Item>)}
+        
+        
         </Carousel>
       </div>
     </>

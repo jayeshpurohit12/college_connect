@@ -25,13 +25,13 @@ const AchievementsProflie = ({name, award, image, expertise}) => {
             </h2>
           </div>
           <div className="profile_btn">
-            <Button
+            {/* <Button
               className="view_profile_btn"
               variant="contained"
               color="primary"
             >
               View Profile
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

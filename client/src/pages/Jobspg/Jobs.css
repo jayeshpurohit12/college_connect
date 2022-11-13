@@ -16,10 +16,13 @@
   }
   .job_post_container {
     display: flex;
+    width:77%;
+    margin:auto;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    margin: 4rem;
+    align-items: center;
+    justify-content:flex-start;
+    /* margin: 4rem; */
   }
 
   .search_container {

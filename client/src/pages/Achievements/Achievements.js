@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { Profiler, useEffect, useState,useContext} from "react";
 import "./Achievements.css";
-import NavbarAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
+import NavbarrAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
+import NavbarrBeforeLogin from "../../components/Navbar/NavbarrBeforeLogin";
 import Achievements_heading_bg from "../../images/Achievements_heading_bg.png";
 import AchievementsContainer from "../../components/AchievementsContainer/AchievementsContainer";
 import Footer from "../../components/Footer/Footer";
@@ -15,6 +16,8 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Dropdown, Form, Spinner } from "react-bootstrap";
 import Fade from "@material-ui/core/Fade";
 import Backdrop from "@material-ui/core/Backdrop";
+import { useAuth } from "../../contexts/Authcontext";
+import { StateContext } from "../../contexts/StateContext";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -52,6 +55,10 @@ const Achievements = () => {
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState(null);
   const [achievements, setAchievements] = useState([]);
+  const state=useContext(StateContext);
+  const profile= state.profile;
+  const {currentUser}= useAuth();
+  
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -163,7 +170,7 @@ const Achievements = () => {
 
   return (
     <>
-      <NavbarAfterLogin />
+      {currentUser?<NavbarrAfterLogin />:<NavbarrBeforeLogin />}
       <div className="Achievements_heading_container">
         <img
           className="Achievements_bg_img"
@@ -174,9 +181,9 @@ const Achievements = () => {
       </div>
 
       <div className="achievement_create_post">
-        <Button variant="contained" color="primary" onClick={handleOpen}>
+      {(currentUser && Profiler.category==="teacher")?<Button variant="contained" color="primary" onClick={handleOpen}>
           Add New Achievement
-        </Button>
+        </Button>:<></>}
       </div>
       <Modal
         aria-labelledby="transition-modal-title"

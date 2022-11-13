@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./AchievementsInnerPage.css";
 import NavbarAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
+import NavbarBeforeLogin from "../../components/Navbar/NavbarrBeforeLogin";
 import AchievementsProfile from "../../components/AchievementsProfile/AchievementsProflie";
 import { useSearchParams } from "react-router-dom";
+import { useAuth } from "../../contexts/Authcontext";
 
 const AchievementsInnerPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const {currentUser} = useAuth();
   const [achievements, setAchievements] = useState([]);
 
   const fetchAchievements = async () => {
@@ -24,7 +26,7 @@ const AchievementsInnerPage = () => {
 
   return (
     <>
-      <NavbarAfterLogin />
+      {currentUser?<NavbarAfterLogin />:<NavbarBeforeLogin/>}
       <div className="Achievers_container">
         <div className="Achievers_heading_container">
           <h1 className="Achievers_heading1">Distigushed {answer}</h1>

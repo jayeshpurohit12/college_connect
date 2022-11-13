@@ -1,16 +1,19 @@
 import React, { useState,useEffect} from "react";
 import NavbarrAfterLogin from "../../../components/Navbar/NavbarrAfterLogin";
+import NavbarrBeforeLogin from "../../../components/Navbar/NavbarrBeforeLogin";
 import Footer from "../../../components/Footer/Footer";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import "./EventInnerPage.css";
 import EventCard from "../../../components/EventCard/EventCard";
 import { useParams } from "react-router-dom";
 import { connectStorageEmulator } from "firebase/storage";
+import { useAuth } from "../../../contexts/Authcontext";
 
 const EventInnerPage = () => {
 const {id}=useParams();
 console.log(id);
 const [event,setEvent]=useState({});
+const {currentUser}=useAuth();
 
 const fetchEvents = async () => {
   const res = await fetch(`/event`);
@@ -27,7 +30,7 @@ useEffect(() => {
 
   return (
     <>
-      <NavbarrAfterLogin />
+     {currentUser?<NavbarrAfterLogin />:<NavbarrBeforeLogin />}
       
       <div className="event_inner_heading_container">
         <div className="event_inner_heading">

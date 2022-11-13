@@ -26,18 +26,25 @@ const Navbarr = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <div className="inner_navbar">
             <Nav className="navbar_links">
-              <Nav.Link href="#deets" className="header_heading text-white">
+              <Nav.Link href="/" className="header_heading text-white">
                 Home
               </Nav.Link>
-              <Nav.Link href="#memes" className="header_heading text-white">
+              <Nav.Link href="/Achievements" className="header_heading text-white">
                 Achievement
+              </Nav.Link>
+              <Nav.Link
+                href="/connect"
+                style={{ textDecoration: "none" }}
+                className="header_heading text-white"
+              >
+                Connect
               </Nav.Link>
               <Nav.Link href="/event" className="header_heading text-white">
                 Events
               </Nav.Link>
-              <Nav.Link href="" className="header_heading text-white">
+              {/* <Nav.Link href="/" className="header_heading text-white">
                 Contact Us
-              </Nav.Link>
+              </Nav.Link> */}
             </Nav>
           </div>
           <Link

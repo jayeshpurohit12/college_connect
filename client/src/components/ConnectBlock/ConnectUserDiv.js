@@ -12,7 +12,8 @@ const ConnectUserDiv = (props) => {
   const { currentUser } = useAuth();
   const [connected, setConnected] = useState(false);
   const [profile, setProfile] = useState({});
-
+ 
+  
   async function Connectionreq() {
     const docRef = await updateDoc(doc(db, "users", props.id), {
       pending: arrayUnion(currentUser.uid),
@@ -48,14 +49,15 @@ const ConnectUserDiv = (props) => {
       }
     }
   };
-
   useEffect(() => {
+  
     FetchConnectedUser();
   }, []);
 
   return !connected ? (
-    <>
+
       <div className="user_connection_profile">
+        {console.log(props)}
         <div className="user_profile">
           <img className="userImage" src={props.image} alt="" />
         </div>
@@ -108,7 +110,7 @@ const ConnectUserDiv = (props) => {
           </div>
         </div>
       </div>
-    </>
-  ) : null;
+  
+  ) : (<>All connected</>);
 };
 export default ConnectUserDiv;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext} from "react";
 import { Button } from "@material-ui/core";
 import "./Internship.css";
 import CardWithBorder from "../../components/Cards/CardWithBorder";
@@ -12,7 +12,11 @@ import { Form, Spinner } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
+import { db } from "../../firebase";
+import { arrayUnion,doc,setDoc,updateDoc} from "firebase/firestore";
+import { useAuth } from "../../contexts/Authcontext";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { StateContext } from "../../contexts/StateContext";
 import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +51,9 @@ export default function Opportunitypg() {
   const [intern, setIntern] = useState([]);
 
   const [search, setSearch] = useState("");
+  const { currentUser } = useAuth();
+  const state=useContext(StateContext);
+  const profile = state.profile;
 
   let name, value;
 
@@ -117,7 +124,35 @@ export default function Opportunitypg() {
       console.log("Please fill all the fields");
     } else {
       if (name && batch && positionLink) {
+        
         alert("Internship Created....");
+        try{
+          const r = new Date();
+         
+          await updateDoc(doc(db,"updates","update"),{
+              update:arrayUnion(...[{
+                name:name,
+                type:"Internship",
+                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
+              }])
+          }).then((res)=>{
+            console.log(res);
+          }).catch(async(err)=>{
+            await setDoc(doc(db,"updates","update"),{
+              update:[{
+                name:name,
+                type:"Internship",
+                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
+              }]
+            }).then((res)=>{
+              console.log(res);
+            }).catch((err)=>{
+              console.log(err);
+            })
+          });
+        }catch(err){
+          console.log(err);
+        }
         setLoder(false);
         setDetails({
           name: "",
@@ -133,12 +168,51 @@ export default function Opportunitypg() {
     }
   };
   const fetchData = async () => {
+    var date = "";
+    var month = "";
+    var year = "";
+    const d = new Date();
     const res = await fetch("/internships");
     const interndata = await res.json();
-    if (interndata) {
-      console.log(interndata);
-      setIntern(interndata);
+    interndata.map((item)=>{
+      var str="";
+      var count=0;
+      for(let i=0;i<item.posted_Date.length;i++){
+       if(item.posted_Date[i]==='/'){
+          if(count=== 0){
+           count++;
+            date=str;
+            str="";
+        }
+        else if(count===1){
+          month=str;
+          str="";
+        }
+      }
+      else{
+        str+=item.posted_Date[i];
+      }
     }
+    year=str;
+    console.log(date,month,year);
+    if(parseInt(year)<d.getFullYear() || (parseInt(year) === d.getFullYear() && parseInt(month) <d.getMonth()+1) || (parseInt(year)=== d.getFullYear() && parseInt(month) === d.getMonth()+1 && parseInt(date)<d.getDate())){
+      //  fetch(`/internships/${item._id}`, {
+      //   method: "DELETE",
+      //  }).then((res)=>{
+      //     console.log("deleted");
+      //  }).catch((err)=>{
+      //     console.log(err);
+      //  });
+      console.log(item.posted_Date);
+    }
+    
+    else{
+      setIntern((prevData) => {
+        return [...prevData, item];
+      });
+    }
+    })
+  //  setIntern(interndata);
   };
 
   useEffect(() => {
@@ -161,9 +235,9 @@ export default function Opportunitypg() {
       <NavbarrAfterLogin />
       <div className="opp_header">
         <h1 className="opp_header_heading">Internships</h1>
-        <Button id="opp_header_button" onClick={handleOpen}>
+       {(profile.category==="teacher")?<Button id="opp_header_button" onClick={handleOpen}>
           Post new internship
-        </Button>
+        </Button>:(<></>)}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"

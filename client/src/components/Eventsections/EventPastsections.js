@@ -8,11 +8,12 @@ import './Eventsections.css'
 const EventPastsections = (props) => {
   const [events,setEvents] = useState([]);
   var d = new Date();
-
+var cnt=1;
   const fetchEvents = async () => {
     const res = await fetch(`/event`);
     // console.log(res)
     const data = await res.json();
+    var cnt = 0;
     setEvents(data);
     //  console.log(data);
   };
@@ -35,7 +36,7 @@ const EventPastsections = (props) => {
           <Dropdown.Item href="#/action-3">Webinar</Dropdown.Item>
         </DropdownButton> */}
       </div>
-
+     {events?(
       <div className="event_card_container">
         {events.map((event) => {
           if (
@@ -146,15 +147,15 @@ const EventPastsections = (props) => {
 
                  }
                  else if(event.endTime.substring(0,2)< d.getHours()){
-                 
+                 cnt=1;
                   return(
                     <Link className="event_card_link" to={`/EventInnerPage/${event._id}`}>
                     <Card
                       style={{
-                        maxWidth: "20rem",
+                        width: "20rem",
                         borderRadius: "15px",
                         margin:"1rem",
-                        minHeight:"20rem"
+                        height:"25rem"
                       }}
                     >
                       <Card.Img variant="top" src={event.image} style={{ maxHeight:"10rem"}}/>
@@ -227,14 +228,15 @@ const EventPastsections = (props) => {
             )
             
           ){
+            cnt=1;
            return(
             <Link className="event_card_link" to={`/EventInnerPage/${event._id}`}>
             <Card
               style={{
-                maxWidth: "20rem",
+                width: "20rem",
                 borderRadius: "15px",
                 margin:"1rem",
-                minHeight:"20rem"
+                height:"25rem"
               }}
             >
               <Card.Img variant="top" src={event.image} style={{ maxHeight:"10rem"}}/>
@@ -291,10 +293,11 @@ const EventPastsections = (props) => {
         })}
             
       
-      </div>
+      </div>):(<>No event present</>)}
       {/* <Button variant="secondary" className="card_button">
         View All
       </Button> */}
+      {cnt === 0? <div className="no_event">No past Events</div>:<></>}
     </div>
   );
 };
