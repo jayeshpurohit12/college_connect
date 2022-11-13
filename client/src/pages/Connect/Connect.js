@@ -10,9 +10,11 @@ import { Avatar } from "@material-ui/core";
 import { doc } from "firebase/firestore";
 import { getDoc, arrayUnion, updateDoc, arrayRemove } from "firebase/firestore";
 import { Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/Authcontext";
 
 const Connect = () => {
+  const {id} = useParams();
   const [users, setUsers] = useState([]);
   const [pendingConnection, setPendingConnection] = useState(true);
   const [pendingUser, setPendingUser] = useState([]);
@@ -29,24 +31,22 @@ const Connect = () => {
   const fetchdata = async () => {
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
+      // console.log("Document data:", docSnap.data());
       setPendingProfile(docSnap.data().pending);
       if (pendingProfile) {
         setPendingConnection(false);
       }
-      console.log(pendingProfile);
+      // console.log(pendingProfile);
       const response = await getSuggestedProfiles(
         currentUser.uid,
-        docSnap.data().connection
+        docSnap.data().connection,
+        id
       );
       if (response) {
-        setUsers(response);
+        setUsers(response.filter((user)=> user&& user.end.substring(0,4) === id));
+        console.log(users);
       }
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
+     
   };
 
   const handleConnect = async (id) => {
@@ -83,54 +83,100 @@ const Connect = () => {
             />
 
             <div className="search_icon">
-              <SearchIcon fontSize="large" />
+             <SearchIcon fontSize="large" />
             </div>
           </div>
-          <div className="choose_filter_container">
+          {/* <div className="choose_filter_container">
             <Filter heading="Search by Role" />
-            <Filter heading="Year of Graduation" />
             <Filter heading="Work Industry" />
             <Filter heading="Skills" />
-          </div>
+          </div> */}
         </div>
 
         <div className="right_connect_container">
-          {users.length > 0 ? (
+        {users.length > 0 ? (
             <>
               <center>
                 <h2>Users You Can Connect With</h2>
               </center>
               <div className="connection_profile_container">
-                {users &&
-                  users
-                    .map((user, i) => {
-                      return (
-                        <>
-                          {pendingProfile && pendingProfile.includes(user.id) ? null : (
-                            <ConnectUserDiv
-                              image={user.image}
-                              name={user.name}
-                              position={user.position}
-                              company={user.company}
-                              end={user.end}
-                              specialisation={user.specialisation}
-                              skills={user.skills}
-                              connection={user.connection}
-                              id={user.id}
-                              key={i}
-                            />
-                          )}
-                        </>
-                      );
-                    })}
-              </div>
-            </>
-          ) : (
-            <>
-              <h1 className="no_connection">No users left for connection</h1>
-            </>
-          )}
-
+              {search ===""?(
+                  <>
+                     { 
+                 users && users.map((user, i) => {
+                    return (
+                      <>
+                        { pendingProfile &&
+                        pendingProfile.includes(user.id) ? null : (
+                          <ConnectUserDiv
+                            image={user.image}
+                            name={user.name}
+                            position={user.position}
+                            company={user.company}
+                            end={user.end}
+                            specialisation={user.specialisation}
+                            skills={user.skills}
+                            connection={user.connection}
+                            id={user.id}
+                            key={i}
+                          />
+                        )}
+                      </>
+                    );
+                  })}
+                  </>
+              ):(<>
+                 { 
+                 users && users.filter((user) => {
+                  return (
+                    user.name
+                      .toLowerCase()
+                      .includes(search.toLowerCase()) ||
+                    user.end
+                      .substring(0, 4)
+                      .toLowerCase()
+                      .includes(search.toLowerCase()) ||
+                    user.position
+                      .toLowerCase()
+                      .includes(search.toLowerCase()) ||
+                    user.company
+                      .toLowerCase()
+                      .includes(search.toLowerCase()) ||
+                    user.skills
+                      .map((skill) =>
+                        skill.toLowerCase().includes(search.toLowerCase())
+                      )
+                      .includes(true)
+                  );
+                }).map((user, i) => {
+                    return (
+                      <>
+                        { pendingProfile &&
+                        pendingProfile.includes(user.id) ? null : (
+                          <ConnectUserDiv
+                            image={user.image}
+                            name={user.name}
+                            position={user.position}
+                            company={user.company}
+                            end={user.end}
+                            specialisation={user.specialisation}
+                            skills={user.skills}
+                            connection={user.connection}
+                            id={user.id}
+                            key={i}
+                          />
+                        )}
+                      </>
+                    );
+                  })}
+              </>)}
+              </div> 
+              </>
+):(
+  <>
+  <h1 className="no_connection">No users left for connection</h1>
+</>
+)}
           <div>
             {pendingProfile && pendingProfile.length > 0 ? (
               <>

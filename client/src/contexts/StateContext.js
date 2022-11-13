@@ -1,16 +1,21 @@
 import React,{useEffect,createContext,useState} from 'react';
 import { useAuth } from './Authcontext';
-import { doc, getDoc } from "firebase/firestore";
+import {getDoc, getDocs,collection,updateDoc,arrayUnion,setDoc} from "firebase/firestore";
 import { db } from '../firebase';
+import { doc } from 'firebase/firestore';
 
 export const StateContext = createContext();
 
 export const StateProvider = ({children})=>{
-const [profile,setProfile] = useState();
+const [profile,setProfile] = useState({});
 const [achievements,setAchievements] = useState();
 const [jobs,setJobs] = useState();
 const [internships,setInternships] = useState();
 const {currentUser} = useAuth();
+const [countUserInIndia,setCountUserInIndia] = useState(0);
+const [countUserForHigherStudies,setCountUserForHigherStudies] = useState(0);
+const [totalCount,setTotalCount] = useState(0);
+const [updates,setUpdates]=useState([]);
 
 const fetchdata = async () => {
     const docRef = doc(db, "users", currentUser.uid);
@@ -36,12 +41,21 @@ const fetchdata = async () => {
       // console.log(jobData);
       setJobs(jobData);
     }
-    
+const docRef = await getDocs(collection(db, "users"));
+    docRef.forEach((doc) => { 
+        setTotalCount((prev)=>prev+1);
+        if(doc.data().country === "India"){
+           setCountUserInIndia((prev)=>prev+1);
+        }
+       if(doc.data().higher=== '1'){
+           setCountUserForHigherStudies((prev)=>prev+1);
+       }
+    });
+        
   };
-  
-
 
   useEffect(() => {
+    if(currentUser)
     fetchdata();
     fetchData2();
   }, []);
@@ -52,7 +66,11 @@ return(
   achievements:[achievements,setAchievements],
    jobs:[jobs,setJobs],
     internships:[internships,setInternships],
-   profile:profile
+   profile:profile,
+   updates:[updates,setUpdates],
+    countUserInIndia:countUserInIndia,
+    countUserForHigherStudies:countUserForHigherStudies,
+    totalCount:totalCount
 }}>
     {children}
 </StateContext.Provider>

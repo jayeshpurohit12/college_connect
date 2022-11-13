@@ -32,6 +32,13 @@ const Navbarr = () => {
               <Nav.Link href="/Achievements" className="header_heading text-white">
                 Achievement
               </Nav.Link>
+              <Nav.Link
+                href="/connect"
+                style={{ textDecoration: "none" }}
+                className="header_heading text-white"
+              >
+                Connect
+              </Nav.Link>
               <Nav.Link href="/event" className="header_heading text-white">
                 Events
               </Nav.Link>

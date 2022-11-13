@@ -3,8 +3,10 @@ import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Form, Button } from "react-bootstrap";
 import { useAuth } from "../../contexts/Authcontext";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc} from "firebase/firestore";
+import { getAuth} from "../../firebase";
 import { db } from "../../firebase";
+
 
 const Login = () => {
   const emailRef = useRef("");
@@ -40,6 +42,7 @@ const Login = () => {
       } else {
         const documentRef = doc(db, "users", currentUser.uid);
         // console.log(documentRef);
+       
         const docSnap = await getDoc(documentRef);
         if (docSnap.exists()) {
           await login(emailRef.current.value, passwordRef.current.value);
@@ -55,9 +58,24 @@ const Login = () => {
           history("/details");
         }
       }
+    
     } catch (error) {
       setError("Please enter valid credentials");
     }
+    
+    // else{
+      
+    //   getAuth()
+    //   .getUserByEmail(emailRef.current.value)
+    //   .then((userRecord) => {
+    //     // See the UserRecord reference doc for the contents of userRecord.
+    //     console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+    //   })
+    //   .catch((error) => {
+    //     console.log('Error fetching user data:', error);
+    //   });
+    // }
+ 
     setLoading(false);
   }
 

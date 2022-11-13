@@ -3,7 +3,8 @@ import "firebase/compat/auth";
 import "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDoc,getDocs,doc} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const app = firebase.initializeApp({
   apiKey: "AIzaSyCsU8xlXQvJaNXHrXlIOM6O6vgQn6_W3uU",
@@ -22,6 +23,7 @@ export default app;
 const db = getFirestore(app);
 const storage = getStorage(app);
 export { db, storage };
+export{collection,getDocs,getAuth};
 
 export const getSuggestedProfiles = async (uid, connectedUsers) => {
   const response = await getDocs(collection(db, "users"));

@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Banner from "../../components/Banner/Banner";
 import NavbarrAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
 import NavbarrBeforeLogin from "../../components/Navbar/NavbarrBeforeLogin";
@@ -15,10 +15,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Form, Spinner } from "react-bootstrap";
+import { setDoc,doc, arrayUnion} from "firebase/firestore";
+import { db } from "../../firebase";
 import Fade from "@material-ui/core/Fade";
 import { useAuth } from "../../contexts/Authcontext";
 import { StateContext } from "../../contexts/StateContext";
 import Backdrop from "@material-ui/core/Backdrop";
+import { updateDoc } from "firebase/firestore";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -52,7 +55,7 @@ const Event = () => {
   const [image, setImage] = useState(null);
   const [events, setEvent] = useState([]);
   const { currentUser } = useAuth();
-  const state=useContext(StateContext);
+  const state = useContext(StateContext);
   const profile = state.profile;
 
   const handleImageChange = (e) => {
@@ -110,7 +113,6 @@ const Event = () => {
       }),
     });
     const data = await res.json();
-
     console.log(data);
 
     if (!data || data.status === 422) {
@@ -128,6 +130,33 @@ const Event = () => {
     } else {
       if (name && description && category && startTime && endTime && date) {
         alert("Event Created....");
+        try{
+          const r = new Date();
+         
+          await updateDoc(doc(db,"updates","update"),{
+              update:arrayUnion(...[{
+                name:name,
+                type:"Event",
+                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
+              }])
+          }).then((res)=>{
+            console.log(res);
+          }).catch(async(err)=>{
+            await setDoc(doc(db,"updates","update"),{
+              update:[{
+                name:name,
+                type:"Event",
+                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
+              }]
+            }).then((res)=>{
+              console.log(res);
+            }).catch((err)=>{
+              console.log(err);
+            })
+          });
+        }catch(err){
+          console.log(err);
+        }
         setLoder(false);
         setDetails({
           name: "",
@@ -169,21 +198,24 @@ const Event = () => {
 
   return (
     <>
-    {currentUser?<NavbarrAfterLogin />:<NavbarrBeforeLogin/>}
+      {currentUser ? <NavbarrAfterLogin /> : <NavbarrBeforeLogin />}
       <div className="event_container">
         <div className="event_carousel">
-          <Banner image1={eventBanner} image2=""/>
+          <Banner image1={eventBanner} image2="" />
         </div>
         <div className="Event_create_btn">
-         
-        {(currentUser && profile.category==="teacher")?<Button
-            variant="contained"
-            color="secondary"
-            style={{ display: "flex", margin: "3rem auto auto auto" }}
-            onClick={handleOpen}
-          >
-            Create an Event
-          </Button>:<></>}
+          {currentUser && profile.category === "teacher" ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{ display: "flex", margin: "3rem auto auto auto" }}
+              onClick={handleOpen}
+            >
+              Create an Event
+            </Button>
+          ) : (
+            <></>
+          )}
         </div>
 
         <Modal
@@ -332,7 +364,7 @@ const Event = () => {
         <div className="event_inside_sections">
           <EventUppcomingsections title="Upcomming Events" />
           <EventLivesections title="Live Events" />
-          <EventPastsections title="Past Events" />
+          {/* <EventPastsections title="Past Events" /> */}
         </div>
       </div>
       <Footer />

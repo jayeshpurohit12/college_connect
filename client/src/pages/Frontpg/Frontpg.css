@@ -6,11 +6,36 @@
   flex-direction: row;
 }
 .main_left_section {
-  width: 70%;
+  width: 65%;
+  margin:1rem;
+}
+.pie_graph,
+.bar_graph {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 1rem;
+  padding: 1rem;
+  width: 95%;
+}
+.bar_container {
+  width: 30%;
+  margin: auto 1.5rem;
+}
+.pie_container {
+  width: 20%;
+  margin: auto 1.5rem;
+}
+.graph_container {
+  display: flex;
+  flex-direction: column;
+  margin:1rem;
+  width: 100%;
 }
 .main_right_section {
-  width: 30%;
-  
+  width: 25%;
+  margin:1rem;
 }
 
 .achievement_section {
