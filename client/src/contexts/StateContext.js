@@ -18,11 +18,13 @@ const [totalCount,setTotalCount] = useState(0);
 const [updates,setUpdates]=useState([]);
 
 const fetchdata = async () => {
+   if(currentUser !== null){
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       setProfile(docSnap.data());
     }
+  }
   };
 
   const fetchData2 = async () => {
@@ -55,7 +57,7 @@ const docRef = await getDocs(collection(db, "users"));
   };
 
   useEffect(() => {
-    if(currentUser)
+    if(currentUser !== null)
     fetchdata();
     fetchData2();
   }, []);

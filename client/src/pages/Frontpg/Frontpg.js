@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/NavbarrBeforeLogin";
 import { StateContext } from "../../contexts/StateContext";
 import "./Frontpg.css";
-import Connection from "../../components/Connection/Connection";
 import { Link } from "react-router-dom";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Card from "react-bootstrap/Card";
@@ -12,7 +11,6 @@ import OwlCarousel from "react-owl-carousel";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import job_background from "../../images/job_background.jpeg";
 import acropolis_icon from "../../images/acropolis_icon.png";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { BarGraph, PieGraph } from "../PageSrc";
@@ -100,8 +98,8 @@ const Frontpg = () => {
       <Navbar />
 
       <div className="main_section">
+        
         {/*  main - left - section */}
-
         <div className="main_left_section">
           <div className="achievement_section">
             <HeaderBar title="Achievement" button={true} link="/Achievements" />
@@ -152,7 +150,7 @@ const Frontpg = () => {
                 className="owl_carousel"
                 style={{
                   marginTop: "0.5rem",
-                  width: "70%",
+                  width:(length < 3)? "70%" : "90%",
                   justifyContent: "center",
                 }}
                 loop
@@ -211,19 +209,19 @@ const Frontpg = () => {
               </OwlCarousel>
             </div>
           </div>
-
-          <div className="graph_container">
-            <HeaderBar title="Analysis" button={false} link="" />
-            <div className="pie_graph">
+          <HeaderBar title="Analysis" button={false} link="" />
+          <div className="graph_container_a">
+           
+            <div className="pie_graph_cont">
               {/* <h3>Analytics</h3> */}
-              <div className="pie_container">
+              <div className="pie_container_a">
                 <PieGraph
                   labels={["India", "Abroad"]}
                   data={[countUserInIndia, totalCount - countUserInIndia]}
                   heading="No of People moved out of India"
                 />
               </div>
-              <div className="pie_container">
+              <div className="pie_container_a">
                 <PieGraph
                   labels={["Higher Studies", "Job"]}
                   data={[
@@ -234,22 +232,22 @@ const Frontpg = () => {
                 />
               </div>
             </div>
-            <div className="bar_graph">
-              <div className="bar_container">
+            <div className="bar_graph_cont">
+              <div className="bar_container_a">
                 <BarGraph
                   labels={labels}
                   data={data}
                   heading="No of Users in particular batch"
                 />
               </div>
-              <div className="bar_container">
+              <div className="bar_container_a">
                 <BarGraph
                   labels={expert}
                   data={count}
                   heading="No of People in particular technology"
                 />
               </div>
-              <div className="bar_container">
+              <div className="bar_container_a">
                 <BarGraph
                   labels={company}
                   data={dataCount}

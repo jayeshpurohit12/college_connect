@@ -1,11 +1,11 @@
 .event_section_container{
     width:90%;
-    margin:1rem auto;
+    margin:1rem;
     padding: 1rem;
     display:flex;
     flex-direction: column;
     align-items: center;
-
+    
 }
 
 .card_button,.btn-secondary{
@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 }
 .event_section_inner_heading{
    width:90%;

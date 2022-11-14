@@ -1,5 +1,5 @@
 .header_bar{
-background-color: #4d8686;
+background-color: #4d8686 ;
 width:97%;
 margin:auto;
 padding:0.5rem;
@@ -11,6 +11,5 @@ color:white;
 #header_button{
     color:black;
     float:right;
-    
     background-color: rgb(192, 190, 190);
 }

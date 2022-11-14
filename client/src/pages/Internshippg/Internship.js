@@ -1,8 +1,9 @@
-import React, { useState, useEffect,useContext} from "react";
-import { Button } from "@material-ui/core";
+import React, { useState, useEffect, useContext } from "react";
+import { Button } from "react-bootstrap";
 import "./Internship.css";
 import CardWithBorder from "../../components/Cards/CardWithBorder";
 import NavbarrAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
+import NavbarrBeforeLogin from "../../components/Navbar/NavbarrBeforeLogin";
 import Footer from "../../components/Footer/Footer";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -13,7 +14,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { db } from "../../firebase";
-import { arrayUnion,doc,setDoc,updateDoc} from "firebase/firestore";
+import { Link } from "react-router-dom";
+import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useAuth } from "../../contexts/Authcontext";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { StateContext } from "../../contexts/StateContext";
@@ -52,7 +54,7 @@ export default function Opportunitypg() {
 
   const [search, setSearch] = useState("");
   const { currentUser } = useAuth();
-  const state=useContext(StateContext);
+  const state = useContext(StateContext);
   const profile = state.profile;
 
   let name, value;
@@ -124,33 +126,47 @@ export default function Opportunitypg() {
       console.log("Please fill all the fields");
     } else {
       if (name && batch && positionLink) {
-        
         alert("Internship Created....");
-        try{
+        try {
           const r = new Date();
-         
-          await updateDoc(doc(db,"updates","update"),{
-              update:arrayUnion(...[{
-                name:name,
-                type:"Internship",
-                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
-              }])
-          }).then((res)=>{
-            console.log(res);
-          }).catch(async(err)=>{
-            await setDoc(doc(db,"updates","update"),{
-              update:[{
-                name:name,
-                type:"Internship",
-                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
-              }]
-            }).then((res)=>{
+
+          await updateDoc(doc(db, "updates", "update"), {
+            update: arrayUnion(
+              ...[
+                {
+                  name: name,
+                  type: "Internship",
+                  time: r.toJSON().slice(0, 10).split("-").reverse().join("/"),
+                },
+              ]
+            ),
+          })
+            .then((res) => {
               console.log(res);
-            }).catch((err)=>{
-              console.log(err);
             })
-          });
-        }catch(err){
+            .catch(async (err) => {
+              await setDoc(doc(db, "updates", "update"), {
+                update: [
+                  {
+                    name: name,
+                    type: "Internship",
+                    time: r
+                      .toJSON()
+                      .slice(0, 10)
+                      .split("-")
+                      .reverse()
+                      .join("/"),
+                  },
+                ],
+              })
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            });
+        } catch (err) {
           console.log(err);
         }
         setLoder(false);
@@ -174,45 +190,48 @@ export default function Opportunitypg() {
     const d = new Date();
     const res = await fetch("/internships");
     const interndata = await res.json();
-    interndata.map((item)=>{
-      var str="";
-      var count=0;
-      for(let i=0;i<item.posted_Date.length;i++){
-       if(item.posted_Date[i]==='/'){
-          if(count=== 0){
-           count++;
-            date=str;
-            str="";
-        }
-        else if(count===1){
-          month=str;
-          str="";
+    interndata.map((item) => {
+      var str = "";
+      var count = 0;
+      for (let i = 0; i < item.posted_Date.length; i++) {
+        if (item.posted_Date[i] === "/") {
+          if (count === 0) {
+            count++;
+            date = str;
+            str = "";
+          } else if (count === 1) {
+            month = str;
+            str = "";
+          }
+        } else {
+          str += item.posted_Date[i];
         }
       }
-      else{
-        str+=item.posted_Date[i];
+      year = str;
+      console.log(date, month, year);
+      if (
+        parseInt(year) < d.getFullYear() ||
+        (parseInt(year) === d.getFullYear() &&
+          parseInt(month) < d.getMonth() + 1) ||
+        (parseInt(year) === d.getFullYear() &&
+          parseInt(month) === d.getMonth() + 1 &&
+          parseInt(date) < d.getDate())
+      ) {
+        //  fetch(`/internships/${item._id}`, {
+        //   method: "DELETE",
+        //  }).then((res)=>{
+        //     console.log("deleted");
+        //  }).catch((err)=>{
+        //     console.log(err);
+        //  });
+        console.log(item.posted_Date);
+      } else {
+        setIntern((prevData) => {
+          return [...prevData, item];
+        });
       }
-    }
-    year=str;
-    console.log(date,month,year);
-    if(parseInt(year)<d.getFullYear() || (parseInt(year) === d.getFullYear() && parseInt(month) <d.getMonth()+1) || (parseInt(year)=== d.getFullYear() && parseInt(month) === d.getMonth()+1 && parseInt(date)<d.getDate())){
-      //  fetch(`/internships/${item._id}`, {
-      //   method: "DELETE",
-      //  }).then((res)=>{
-      //     console.log("deleted");
-      //  }).catch((err)=>{
-      //     console.log(err);
-      //  });
-      console.log(item.posted_Date);
-    }
-    
-    else{
-      setIntern((prevData) => {
-        return [...prevData, item];
-      });
-    }
-    })
-  //  setIntern(interndata);
+    });
+    //  setIntern(interndata);
   };
 
   useEffect(() => {
@@ -232,12 +251,16 @@ export default function Opportunitypg() {
 
   return (
     <div>
-      <NavbarrAfterLogin />
+      {currentUser ? <NavbarrAfterLogin /> : <NavbarrBeforeLogin />}
       <div className="opp_header">
         <h1 className="opp_header_heading">Internships</h1>
-       {(profile.category==="teacher")?<Button id="opp_header_button" onClick={handleOpen}>
-          Post new internship
-        </Button>:(<></>)}
+        {profile.category === "teacher" ? (
+          <Button id="opp_header_button" onClick={handleOpen}>
+            Post new internship
+          </Button>
+        ) : (
+          <></>
+        )}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -378,14 +401,20 @@ export default function Opportunitypg() {
                     <div>
                       <p>Batch -{item.batch}</p>
                       <p>Posted on- {item.posted_Date}</p>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        href={item.positionLink}
-                        target="_blank"
-                      >
-                        Apply here
-                      </Button>
+                      {currentUser ? (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          href={item.positionLink}
+                          target="_blank"
+                        >
+                          Apply here
+                        </Button>
+                      ) : (
+                        <Link to="/signup">
+                          <Button>View</Button>
+                        </Link>
+                      )}
                     </div>
                   }
                 />

@@ -364,7 +364,7 @@ const Event = () => {
         <div className="event_inside_sections">
           <EventUppcomingsections title="Upcomming Events" />
           <EventLivesections title="Live Events" />
-          {/* <EventPastsections title="Past Events" /> */}
+          <EventPastsections title="Past Events" />
         </div>
       </div>
       <Footer />

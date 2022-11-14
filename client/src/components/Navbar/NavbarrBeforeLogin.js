@@ -1,10 +1,8 @@
 import React from "react";
-import { Navbar, Nav } from "react-bootstrap";
-// import Button from "@material-ui/core/Button";
+import { Navbar, Nav, NavDropdown, Button, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./NavbarBeforeLogin.css";
 import acropolis_icon from "../../images/acropolis_icon.png";
-// import Login from "../../pages/Login/Login";
 
 const Navbarr = () => {
   return (
@@ -29,7 +27,10 @@ const Navbarr = () => {
               <Nav.Link href="/" className="header_heading text-white">
                 Home
               </Nav.Link>
-              <Nav.Link href="/Achievements" className="header_heading text-white">
+              <Nav.Link
+                href="/Achievements"
+                className="header_heading text-white"
+              >
                 Achievement
               </Nav.Link>
               <Nav.Link
@@ -42,9 +43,24 @@ const Navbarr = () => {
               <Nav.Link href="/event" className="header_heading text-white">
                 Events
               </Nav.Link>
-              {/* <Nav.Link href="/" className="header_heading text-white">
-                Contact Us
-              </Nav.Link> */}
+              <NavDropdown
+                title="Career"
+                id="dropdown"
+                style={{ textDecoration: "none" }}
+              >
+                <Nav.Link
+                  href="/Internships"
+                  style={{ textDecoration: "none" }}
+                >
+                  <NavDropdown.Item href="/Internships">
+                    Internship
+                  </NavDropdown.Item>
+                </Nav.Link>
+
+                <Nav.Link href="/Jobs" style={{ textDecoration: "none" }}>
+                  <NavDropdown.Item href="/Jobs">Jobs</NavDropdown.Item>
+                </Nav.Link>
+              </NavDropdown>
             </Nav>
           </div>
           <Link
