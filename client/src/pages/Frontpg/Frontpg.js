@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/NavbarrBeforeLogin";
 import { StateContext } from "../../contexts/StateContext";
 import "./Frontpg.css";
-import Connection from "../../components/Connection/Connection";
 import { Link } from "react-router-dom";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Card from "react-bootstrap/Card";
@@ -12,7 +11,6 @@ import OwlCarousel from "react-owl-carousel";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import job_background from "../../images/job_background.jpeg";
 import acropolis_icon from "../../images/acropolis_icon.png";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { BarGraph, PieGraph } from "../PageSrc";
@@ -35,9 +33,9 @@ const Frontpg = () => {
   const [company, setCompany] = useState([]);
   const [dataCount, setDataCount] = useState([]);
   const [suggestion, setSuggestion] = useState([]);
-  const countUserInIndia = state.countUserInIndia;
-  const countUserForHigherStudies = state.countUserForHigherStudies;
-  const totalCount = state.totalCount;
+  const [countUserInIndia,setCountUserInIndia] = useState(0);
+  const [countUserForHigherStudies,setCountUserForHigherStudies] = useState(0);
+  const [totalCount,setTotalCount] = useState(0);
 
   const fetchGraphData = async () => {
     setLoading(false);
@@ -63,6 +61,16 @@ const Frontpg = () => {
       setCompany((oldArray) => [...oldArray, doc.id]);
       setDataCount((oldArray) => [...oldArray, doc.data().uid.length]);
     });
+    const docRef = await getDocs(collection(db, "users"));
+      docRef.forEach((doc) => { 
+          setTotalCount((prev)=>prev+1);
+          if(doc.data().country === "India"){
+             setCountUserInIndia((prev)=>prev+1);
+          }
+         if(doc.data().higher=== '1'){
+             setCountUserForHigherStudies((prev)=>prev+1);
+         }
+      });
   };
 
   const fetchAchievements = async () => {
@@ -100,8 +108,8 @@ const Frontpg = () => {
       <Navbar />
 
       <div className="main_section">
+        
         {/*  main - left - section */}
-
         <div className="main_left_section">
           <div className="achievement_section">
             <HeaderBar title="Achievement" button={true} link="/Achievements" />
@@ -145,14 +153,14 @@ const Frontpg = () => {
               </OwlCarousel>
             </div>
           </div>
-          <div>
+          <div style={{marginBottom:"1rem"}}>
             <HeaderBar title="Event" button={true} link="/event" />
             <div style={{ display: "flex", justifyContent: "center" }}>
               <OwlCarousel
                 className="owl_carousel"
                 style={{
                   marginTop: "0.5rem",
-                  width: "70%",
+                  width:(length < 3)? "70%" : "90%",
                   justifyContent: "center",
                 }}
                 loop
@@ -212,18 +220,19 @@ const Frontpg = () => {
             </div>
           </div>
 
-          <div className="graph_container">
-            <HeaderBar title="Analysis" button={false} link="" />
-            <div className="pie_graph">
+          <HeaderBar title="Analysis" button={false} link=""/>
+          <div className="graph_container_a">
+           
+            <div className="pie_graph_cont">
               {/* <h3>Analytics</h3> */}
-              <div className="pie_container">
+              <div className="pie_container_a">
                 <PieGraph
                   labels={["India", "Abroad"]}
                   data={[countUserInIndia, totalCount - countUserInIndia]}
                   heading="No of People moved out of India"
                 />
               </div>
-              <div className="pie_container">
+              <div className="pie_container_a">
                 <PieGraph
                   labels={["Higher Studies", "Job"]}
                   data={[
@@ -234,22 +243,22 @@ const Frontpg = () => {
                 />
               </div>
             </div>
-            <div className="bar_graph">
-              <div className="bar_container">
+            <div className="bar_graph_cont">
+              <div className="bar_container_a">
                 <BarGraph
                   labels={labels}
                   data={data}
                   heading="No of Users in particular batch"
                 />
               </div>
-              <div className="bar_container">
+              <div className="bar_container_a">
                 <BarGraph
                   labels={expert}
                   data={count}
                   heading="No of People in particular technology"
                 />
               </div>
-              <div className="bar_container">
+              <div className="bar_container_a">
                 <BarGraph
                   labels={company}
                   data={dataCount}
@@ -262,19 +271,8 @@ const Frontpg = () => {
 
         {/* main- right -section */}
 
-        <div className="main_right_section">
+        <div className="main_right_section" style={{marginTop:"1.5rem"}}>
           <Alterpg />
-          {/* <Connection /> */}
-          {/* <OverlayCard
-            title="Job Portal"
-            text="Exchange job from your company with fellow alumni"
-            image={job_background}
-          />
-          <OverlayCard
-            title="Alumni Guidance"
-            text="Give advice to your fellow alumni or take guidance from alumni"
-            image={job_background}
-          /> */}
           <div>
             <Card style={{ margin: "1.5rem" }}>
               <Card.Header style={{ backgroundColor: "grey", color: "white" }}>

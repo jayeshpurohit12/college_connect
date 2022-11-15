@@ -69,9 +69,9 @@ const Mainpg = () => {
   const [company, setCompany] = useState([]);
   const [dataCount, setDataCount] = useState([]);
   const [suggestion, setSuggestion] = useState([]);
-  const countUserInIndia = state.countUserInIndia;
-  const countUserForHigherStudies = state.countUserForHigherStudies;
-  const totalCount = state.totalCount;
+  const [countUserInIndia,setCountUserInIndia] = useState(0);
+  const [countUserForHigherStudies,setCountUserForHigherStudies] = useState(0);
+  const [totalCount,setTotalCount] = useState(0);
 
   const fetchGraphData = async () => {
     setLoading(false);
@@ -97,6 +97,18 @@ const Mainpg = () => {
       setCompany((oldArray) => [...oldArray, doc.id]);
       setDataCount((oldArray) => [...oldArray, doc.data().uid.length]);
     });
+    
+      const docRef = await getDocs(collection(db, "users"));
+      docRef.forEach((doc) => { 
+          setTotalCount((prev)=>prev+1);
+          if(doc.data().country === "India"){
+             setCountUserInIndia((prev)=>prev+1);
+          }
+         if(doc.data().higher=== '1'){
+             setCountUserForHigherStudies((prev)=>prev+1);
+         }
+      });
+     
   };
 
   const fetchdata = async () => {
@@ -222,7 +234,7 @@ const Mainpg = () => {
       <div className="mainpg_container">
         <div className="mainpg_container_left">
           <div className="event_container">
-            <HeaderBar title="Events" button={true} link="/event" />
+            {/* <HeaderBar title="Events" button={true} link="/event" />
             <div className="event_banner_img">
               <Banner
                 image1="https://mactus.co.in/img/header_img/event.jpg"
@@ -230,14 +242,14 @@ const Mainpg = () => {
                 height="30rem"
                 caption={false}
               />
-            </div>
+            </div> */}
             <div className="achievement_container">
               <HeaderBar
                 title="Achievements"
                 button={true}
                 link="/Achievements"
               />
-              {console.log(achievements)}
+              {/* {console.log(achievements)} */}
               {achievements && (
                 <div className="inner_achievement_section">
                   <div className="achievement_image">
@@ -279,7 +291,16 @@ const Mainpg = () => {
                   Batch={internships[0].batch}
                 />
               ) : (
-                <></>
+                <div
+                  style={{
+                    width: "90%",
+                    textAlign: "center",
+                    height: "10rem",
+                    padding: "2rem",
+                  }}
+                >
+                  No internship recently added
+                </div>
               )}
             </div>
             <div className="Job_container">
@@ -300,21 +321,30 @@ const Mainpg = () => {
                   Batch={jobs[0].batch}
                 />
               ) : (
-                <></>
+                <div
+                style={{
+                  width: "90%",
+                  textAlign: "center",
+                  height: "10rem",
+                  padding: "2rem",
+                }}
+              >
+                No Job recently added
+              </div>
               )}
             </div>
-
-            <div className="graph_container">
-              <div className="pie_graph">
+            <HeaderBar title="Analysis" button={false} link="" />
+            <div className="graph_container_a">
+              <div className="pie_graph_cont">
                 {/* <h3>Analytics</h3> */}
-                <div className="pie_container">
+                <div className="pie_container_a">
                   <PieGraph
                     labels={["India", "Abroad"]}
                     data={[countUserInIndia, totalCount - countUserInIndia]}
                     heading="No of People moved out of India"
                   />
                 </div>
-                <div className="pie_container">
+                <div className="pie_container_a">
                   <PieGraph
                     labels={["Higher Studies", "Job"]}
                     data={[
@@ -325,22 +355,22 @@ const Mainpg = () => {
                   />
                 </div>
               </div>
-              <div className="bar_graph">
-                <div className="bar_container">
+              <div className="bar_graph_cont">
+                <div className="bar_container_a">
                   <BarGraph
                     labels={labels}
                     data={data}
                     heading="No of Users in particular batch"
                   />
                 </div>
-                <div className="bar_container">
+                <div className="bar_container_a">
                   <BarGraph
                     labels={expert}
                     data={count}
                     heading="No of People in particular technology"
                   />
                 </div>
-                <div className="bar_container">
+                <div className="bar_container_a">
                   <BarGraph
                     labels={company}
                     data={dataCount}

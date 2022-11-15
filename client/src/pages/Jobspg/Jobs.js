@@ -1,8 +1,10 @@
-import React, { useState, useEffect,useContext} from "react";
-import { Button } from "@material-ui/core";
+import React, { useState, useEffect, useContext } from "react";
+import { Button } from "react-bootstrap";
 import "./Jobs.css";
+import { Link } from "react-router-dom";
 import CardWithBorder from "../../components/Cards/CardWithBorder";
 import NavbarrAfterLogin from "../../components/Navbar/NavbarrAfterLogin";
+import NavbarrBeforeLogin from "../../components/Navbar/NavbarrBeforeLogin";
 import Footer from "../../components/Footer/Footer";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -13,7 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { db } from "../../firebase";
-import { arrayUnion,setDoc,doc,updateDoc } from "firebase/firestore";
+import { arrayUnion, setDoc, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import SearchIcon from "@material-ui/icons/Search";
 import { useAuth } from "../../contexts/Authcontext";
@@ -40,19 +42,20 @@ export default function Opportunitypg() {
     batch: "",
     positionLink: "",
     image: "",
+    date:""
   });
 
   const [loader, setLoder] = useState(false);
 
   const [progress, setProgress] = useState(0);
-  const state=useContext(StateContext);
+  const state = useContext(StateContext);
   const [image, setImage] = useState(null);
 
   const [job, setJob] = useState([]);
- 
+
   const [search, setSearch] = useState("");
   const { currentUser } = useAuth();
-  const profile= state.profile;
+  const profile = state.profile;
 
   let name, value;
 
@@ -93,7 +96,7 @@ export default function Opportunitypg() {
   };
 
   const postCreated = async (url) => {
-    const { name, batch, positionLink } = details;
+    const { name, date,batch, positionLink } = details;
 
     setLoder(true);
     const res = await fetch("/Jobs", {
@@ -104,6 +107,7 @@ export default function Opportunitypg() {
       body: JSON.stringify({
         name,
         batch,
+        date,
         positionLink,
         image: url,
       }),
@@ -124,39 +128,54 @@ export default function Opportunitypg() {
       console.log("Please fill all the fields");
     } else {
       if (name && batch && positionLink) {
-        
         alert("Job Created....");
-        try{
+        try {
           const r = new Date();
-         
-          await updateDoc(doc(db,"updates","update"),{
-              update:arrayUnion(...[{
-                name:name,
-                type:"Job",
-                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
-              }])
-          }).then((res)=>{
-            console.log(res);
-          }).catch(async(err)=>{
-            await setDoc(doc(db,"updates","update"),{
-              update:[{
-                name:name,
-                type:"Job",
-                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
-              }]
-            }).then((res)=>{
-              console.log(res);
-            }).catch((err)=>{
-              console.log(err);
+
+          await updateDoc(doc(db, "updates", "update"), {
+            update: arrayUnion(
+              ...[
+                {
+                  name: name,
+                  type: "Job",
+                  time: r.toJSON().slice(0, 10).split("-").reverse().join("/"),
+                },
+              ]
+            ),
+          })
+            .then((res) => {
+             // console.log(res);
             })
-          });
-        }catch(err){
-          console.log(err);
+            .catch(async (err) => {
+              await setDoc(doc(db, "updates", "update"), {
+                update: [
+                  {
+                    name: name,
+                    type: "Job",
+                    time: r
+                      .toJSON()
+                      .slice(0, 10)
+                      .split("-")
+                      .reverse()
+                      .join("/"),
+                  },
+                ],
+              })
+                .then((res) => {
+                  //console.log(res);
+                })
+                .catch((err) => {
+                 // console.log(err);
+                });
+            });
+        } catch (err) {
+          //console.log(err);
         }
         setLoder(false);
         setDetails({
           name: "",
           batch: "",
+          date:"",
           positionLink: "",
         });
         console.log("Job posted successfully");
@@ -174,47 +193,26 @@ export default function Opportunitypg() {
     const d = new Date();
     const res = await fetch("/Jobs");
     const jobData = await res.json();
-    jobData.map((item)=>{
-      
-      var str="";
-      var count=0;
-      for(let i=0;i<item.posted_Date.length;i++){
-       if(item.posted_Date[i]==='/'){
-          if(count=== 0){
-           count++;
-            date=str;
-            str="";
-        }
-        else if(count===1){
-          month=str;
-          str="";
-        }
+    jobData.map((item) => {
+      date = item.date.slice(8, 10);
+      month = item.date.slice(5, 7);
+      year = item.date.slice(0, 4);
+      if (
+        parseInt(year) < d.getFullYear() ||
+        (parseInt(year) === d.getFullYear() &&
+          parseInt(month) < d.getMonth() + 1) ||
+        (parseInt(year) === d.getFullYear() &&
+          parseInt(month) === d.getMonth() + 1 &&
+          parseInt(date) < d.getDate())
+      ) {
+       
+        //console.log(item.date);
+      } else {
+        setJob((prevData) => {
+          return [...prevData, item];
+        });
       }
-      else{
-        str+=item.posted_Date[i];
-      }
-    }
-    year=str;
-    console.log(date,month,year);
-    if(parseInt(year)<d.getFullYear() || (parseInt(year) === d.getFullYear() && parseInt(month) <d.getMonth()+1) || (parseInt(year)=== d.getFullYear() && parseInt(month) === d.getMonth()+1 && parseInt(date)<d.getDate())){
-      //  fetch(`/internships/${item._id}`, {
-      //   method: "DELETE",
-      //  }).then((res)=>{
-      //     console.log("deleted");
-      //  }).catch((err)=>{
-      //     console.log(err);
-      //  });
-      console.log(item.posted_Date);
-    }
-    
-    else{
-      setJob((prevData) => {
-        return [...prevData, item];
-      });
-    }
-      
     });
-
   };
 
   useEffect(() => {
@@ -234,12 +232,16 @@ export default function Opportunitypg() {
 
   return (
     <div>
-      <NavbarrAfterLogin />
+     {currentUser?<NavbarrAfterLogin />:<NavbarrBeforeLogin />}
       <div className="opp_header">
         <h1 className="opp_header_heading">Jobs</h1>
-      {profile.category==="teacher"?<Button id="opp_header_button" onClick={handleOpen}>
-          Post new Job
-        </Button>:(<></>)}
+        {profile.category === "teacher" ? (
+          <Button id="opp_header_button" onClick={handleOpen}>
+            Post new Job
+          </Button>
+        ) : (
+          <></>
+        )}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -303,6 +305,19 @@ export default function Opportunitypg() {
                     onChange={handleInput}
                   />
                 </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicDate">
+                  <Form.Label style={{ marginBottom: "-1rem" }}>
+                    Last Date to apply
+                  </Form.Label>
+                  <Form.Control
+                    autoComplete="off"
+                    value={details.date}
+                    type="date"
+                    name="date"
+                    required
+                    onChange={handleInput}
+                  />
+                </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicUrl">
                   <Form.Label style={{ marginBottom: "-1rem" }}>
                     Position Link
@@ -330,8 +345,7 @@ export default function Opportunitypg() {
                   </Button>
                 ) : (
                   <Button
-                    variant="contained"
-                    color="primary"
+                    variant="primary"
                     type="submit"
                     style={{ display: "flex", margin: "auto" }}
                   >
@@ -380,15 +394,18 @@ export default function Opportunitypg() {
                   content={
                     <div>
                       <p>Batch -{item.batch}</p>
-                      <p>Posted on- {item.posted_Date}</p>
-                      <Button
-                        variant="contained"
-                        color="primary"
+                      <p> Last date to apply-{" "}
+                        {`${item.date.slice(8, 10)} - ${item.date.slice(
+                          5,
+                          7
+                        )}- ${item.date.slice(0, 4)}`}</p>
+                      {currentUser?(<Button
+                        variant="primary"
                         href={item.positionLink}
                         target="_blank"
                       >
                         Apply here
-                      </Button>
+                      </Button>):(<Link to="./signup"><Button>View</Button></Link>)}
                     </div>
                   }
                 />

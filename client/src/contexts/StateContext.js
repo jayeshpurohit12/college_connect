@@ -12,19 +12,19 @@ const [achievements,setAchievements] = useState();
 const [jobs,setJobs] = useState();
 const [internships,setInternships] = useState();
 const {currentUser} = useAuth();
-const [countUserInIndia,setCountUserInIndia] = useState(0);
-const [countUserForHigherStudies,setCountUserForHigherStudies] = useState(0);
-const [totalCount,setTotalCount] = useState(0);
+
 const [updates,setUpdates]=useState([]);
 
 const fetchdata = async () => {
+   if(currentUser !== null){
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       setProfile(docSnap.data());
     }
+  }
   };
-
+   
   const fetchData2 = async () => {
     const res = await fetch(`/achievements`);
     const data = await res.json();
@@ -41,24 +41,15 @@ const fetchdata = async () => {
       // console.log(jobData);
       setJobs(jobData);
     }
-const docRef = await getDocs(collection(db, "users"));
-    docRef.forEach((doc) => { 
-        setTotalCount((prev)=>prev+1);
-        if(doc.data().country === "India"){
-           setCountUserInIndia((prev)=>prev+1);
-        }
-       if(doc.data().higher=== '1'){
-           setCountUserForHigherStudies((prev)=>prev+1);
-       }
-    });
         
   };
 
   useEffect(() => {
-    if(currentUser)
+    if(currentUser !== null)
     fetchdata();
     fetchData2();
   }, []);
+ 
 
 return(
 <>
@@ -68,9 +59,6 @@ return(
     internships:[internships,setInternships],
    profile:profile,
    updates:[updates,setUpdates],
-    countUserInIndia:countUserInIndia,
-    countUserForHigherStudies:countUserForHigherStudies,
-    totalCount:totalCount
 }}>
     {children}
 </StateContext.Provider>

@@ -38,7 +38,6 @@ const Detail = () => {
   const [image, setImage] = useState(null);
   const [error, setError] = useState("");
   const [selectgen, setSelectgen] = useState(false);
-
   const [file_input_display, setFile_input_display] = useState("none");
 
   const formHandler = (e) => {

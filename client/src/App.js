@@ -20,11 +20,10 @@ import {
   BatchWiseConnect,
 } from "./pages/PageSrc";
 import "./App.css";
-import { useEffect } from "react";
 
 const App = () => {
   const { currentUser } = useAuth();
-  
+
   return (
     <Router>
       <Routes>
@@ -35,15 +34,17 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
-            <Route path="/event" element={<Event/>} />
+            <Route path="/event" element={<Event />} />
             <Route path="/Achievements" element={<Achievements />} />
             <Route
               path="/AchievementsInnerPage"
               element={<AchievementsInnerPage />}
             />
-              <Route path="/EventInnerPage/:id" element={<EventInnerPage />} />
-              <Route path="/connect" element={<BatchWiseConnect />} />
-            <Route path='/connect/:id' element={<Connect />} />
+             <Route path="/Internships" element={<Internship />} />
+            <Route path="/Jobs" element={<Jobs />} />
+            <Route path="/EventInnerPage/:id" element={<EventInnerPage />} />
+            <Route path="/connect" element={<BatchWiseConnect />} />
+           
           </>
         )}
         {currentUser && (
@@ -61,8 +62,8 @@ const App = () => {
               element={<AchievementsInnerPage />}
             />
             <Route path="/connect" element={<BatchWiseConnect />} />
-            <Route path='/connect/:id' element={<Connect />} />
-            <Route path="/event" element={<Event/>} />
+            <Route path="/connect/:id" element={<Connect />} />
+            <Route path="/event" element={<Event />} />
             <Route
               path="/connectedUser/:id"
               element={<ConnectedUserProfile />}
