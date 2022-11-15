@@ -8,7 +8,7 @@ import './Eventsections.css'
 const EventPastsections = (props) => {
   const [events,setEvents] = useState([]);
   var d = new Date();
-var cnt=1;
+var cnt=0;
   const fetchEvents = async () => {
     const res = await fetch(`/event`);
     // console.log(res)

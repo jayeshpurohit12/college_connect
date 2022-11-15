@@ -69,9 +69,9 @@ const Mainpg = () => {
   const [company, setCompany] = useState([]);
   const [dataCount, setDataCount] = useState([]);
   const [suggestion, setSuggestion] = useState([]);
-  const countUserInIndia = state.countUserInIndia;
-  const countUserForHigherStudies = state.countUserForHigherStudies;
-  const totalCount = state.totalCount;
+  const [countUserInIndia,setCountUserInIndia] = useState(0);
+  const [countUserForHigherStudies,setCountUserForHigherStudies] = useState(0);
+  const [totalCount,setTotalCount] = useState(0);
 
   const fetchGraphData = async () => {
     setLoading(false);
@@ -97,6 +97,18 @@ const Mainpg = () => {
       setCompany((oldArray) => [...oldArray, doc.id]);
       setDataCount((oldArray) => [...oldArray, doc.data().uid.length]);
     });
+    
+      const docRef = await getDocs(collection(db, "users"));
+      docRef.forEach((doc) => { 
+          setTotalCount((prev)=>prev+1);
+          if(doc.data().country === "India"){
+             setCountUserInIndia((prev)=>prev+1);
+          }
+         if(doc.data().higher=== '1'){
+             setCountUserForHigherStudies((prev)=>prev+1);
+         }
+      });
+     
   };
 
   const fetchdata = async () => {
@@ -237,7 +249,7 @@ const Mainpg = () => {
                 button={true}
                 link="/Achievements"
               />
-              {console.log(achievements)}
+              {/* {console.log(achievements)} */}
               {achievements && (
                 <div className="inner_achievement_section">
                   <div className="achievement_image">
@@ -279,7 +291,16 @@ const Mainpg = () => {
                   Batch={internships[0].batch}
                 />
               ) : (
-                <></>
+                <div
+                  style={{
+                    width: "90%",
+                    textAlign: "center",
+                    height: "10rem",
+                    padding: "2rem",
+                  }}
+                >
+                  No internship recently added
+                </div>
               )}
             </div>
             <div className="Job_container">
@@ -300,10 +321,19 @@ const Mainpg = () => {
                   Batch={jobs[0].batch}
                 />
               ) : (
-                <></>
+                <div
+                style={{
+                  width: "90%",
+                  textAlign: "center",
+                  height: "10rem",
+                  padding: "2rem",
+                }}
+              >
+                No Job recently added
+              </div>
               )}
             </div>
-            <HeaderBar title="Analysis" button={false} link=""/>
+            <HeaderBar title="Analysis" button={false} link="" />
             <div className="graph_container_a">
               <div className="pie_graph_cont">
                 {/* <h3>Analytics</h3> */}

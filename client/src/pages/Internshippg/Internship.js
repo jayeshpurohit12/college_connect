@@ -42,6 +42,7 @@ export default function Opportunitypg() {
     batch: "",
     positionLink: "",
     image: "",
+    date: "",
   });
 
   const [loader, setLoder] = useState(false);
@@ -95,7 +96,7 @@ export default function Opportunitypg() {
   };
 
   const postCreated = async (url) => {
-    const { name, batch, positionLink } = details;
+    const { name, date, batch, positionLink } = details;
 
     setLoder(true);
     const res = await fetch("/internships", {
@@ -107,6 +108,7 @@ export default function Opportunitypg() {
         name,
         batch,
         positionLink,
+        date,
         image: url,
       }),
     });
@@ -125,7 +127,7 @@ export default function Opportunitypg() {
       setLoder(false);
       console.log("Please fill all the fields");
     } else {
-      if (name && batch && positionLink) {
+      if (name && date && batch && positionLink) {
         alert("Internship Created....");
         try {
           const r = new Date();
@@ -142,7 +144,7 @@ export default function Opportunitypg() {
             ),
           })
             .then((res) => {
-              console.log(res);
+              //console.log(res);
             })
             .catch(async (err) => {
               await setDoc(doc(db, "updates", "update"), {
@@ -160,20 +162,21 @@ export default function Opportunitypg() {
                 ],
               })
                 .then((res) => {
-                  console.log(res);
+                 // console.log(res);
                 })
                 .catch((err) => {
-                  console.log(err);
+                  //console.log(err);
                 });
             });
         } catch (err) {
-          console.log(err);
+         // console.log(err);
         }
         setLoder(false);
         setDetails({
           name: "",
           batch: "",
           positionLink: "",
+          date: "",
         });
         console.log("Internship posted successfully");
 
@@ -191,24 +194,9 @@ export default function Opportunitypg() {
     const res = await fetch("/internships");
     const interndata = await res.json();
     interndata.map((item) => {
-      var str = "";
-      var count = 0;
-      for (let i = 0; i < item.posted_Date.length; i++) {
-        if (item.posted_Date[i] === "/") {
-          if (count === 0) {
-            count++;
-            date = str;
-            str = "";
-          } else if (count === 1) {
-            month = str;
-            str = "";
-          }
-        } else {
-          str += item.posted_Date[i];
-        }
-      }
-      year = str;
-      console.log(date, month, year);
+      date = item.date.slice(8, 10);
+      month = item.date.slice(5, 7);
+      year = item.date.slice(0, 4);
       if (
         parseInt(year) < d.getFullYear() ||
         (parseInt(year) === d.getFullYear() &&
@@ -217,21 +205,14 @@ export default function Opportunitypg() {
           parseInt(month) === d.getMonth() + 1 &&
           parseInt(date) < d.getDate())
       ) {
-        //  fetch(`/internships/${item._id}`, {
-        //   method: "DELETE",
-        //  }).then((res)=>{
-        //     console.log("deleted");
-        //  }).catch((err)=>{
-        //     console.log(err);
-        //  });
-        console.log(item.posted_Date);
+        //console.log(item.date);
       } else {
         setIntern((prevData) => {
           return [...prevData, item];
         });
       }
     });
-    //  setIntern(interndata);
+    setIntern(interndata);
   };
 
   useEffect(() => {
@@ -324,6 +305,19 @@ export default function Opportunitypg() {
                     onChange={handleInput}
                   />
                 </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicDate">
+                  <Form.Label style={{ marginBottom: "-1rem" }}>
+                    Last Date to apply
+                  </Form.Label>
+                  <Form.Control
+                    autoComplete="off"
+                    value={details.date}
+                    type="date"
+                    name="date"
+                    required
+                    onChange={handleInput}
+                  />
+                </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicUrl">
                   <Form.Label style={{ marginBottom: "-1rem" }}>
                     Position Link
@@ -351,8 +345,7 @@ export default function Opportunitypg() {
                   </Button>
                 ) : (
                   <Button
-                    variant="contained"
-                    color="primary"
+                    variant="primary"
                     type="submit"
                     style={{ display: "flex", margin: "auto" }}
                   >
@@ -400,11 +393,16 @@ export default function Opportunitypg() {
                   content={
                     <div>
                       <p>Batch -{item.batch}</p>
-                      <p>Posted on- {item.posted_Date}</p>
+                      <p>
+                        Last date to apply-{" "}
+                        {`${item.date.slice(8, 10)} - ${item.date.slice(
+                          5,
+                          7
+                        )}- ${item.date.slice(0, 4)}`}
+                      </p>
                       {currentUser ? (
                         <Button
-                          variant="contained"
-                          color="primary"
+                          variant="primary"
                           href={item.positionLink}
                           target="_blank"
                         >

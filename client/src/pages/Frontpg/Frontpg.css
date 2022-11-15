@@ -28,7 +28,7 @@
 .bar_graph_cont{
   display: flex;
   flex-direction: column;
-  width:55%;
+  width:60%;
   justify-content: space-evenly;
 }
 .bar_container_a{

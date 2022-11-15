@@ -15,10 +15,9 @@ const Internship_Details = new mongoose.Schema({
     type: String,
     required: true,
   },
-  posted_Date: {
-    type: String,
+  date: {
+    type: Date,
     required: true,
-    default: date.toLocaleDateString(),
   },
   positionLink: {
     type: String,

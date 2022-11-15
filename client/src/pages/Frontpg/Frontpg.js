@@ -33,9 +33,9 @@ const Frontpg = () => {
   const [company, setCompany] = useState([]);
   const [dataCount, setDataCount] = useState([]);
   const [suggestion, setSuggestion] = useState([]);
-  const countUserInIndia = state.countUserInIndia;
-  const countUserForHigherStudies = state.countUserForHigherStudies;
-  const totalCount = state.totalCount;
+  const [countUserInIndia,setCountUserInIndia] = useState(0);
+  const [countUserForHigherStudies,setCountUserForHigherStudies] = useState(0);
+  const [totalCount,setTotalCount] = useState(0);
 
   const fetchGraphData = async () => {
     setLoading(false);
@@ -61,6 +61,16 @@ const Frontpg = () => {
       setCompany((oldArray) => [...oldArray, doc.id]);
       setDataCount((oldArray) => [...oldArray, doc.data().uid.length]);
     });
+    const docRef = await getDocs(collection(db, "users"));
+      docRef.forEach((doc) => { 
+          setTotalCount((prev)=>prev+1);
+          if(doc.data().country === "India"){
+             setCountUserInIndia((prev)=>prev+1);
+          }
+         if(doc.data().higher=== '1'){
+             setCountUserForHigherStudies((prev)=>prev+1);
+         }
+      });
   };
 
   const fetchAchievements = async () => {
@@ -143,7 +153,7 @@ const Frontpg = () => {
               </OwlCarousel>
             </div>
           </div>
-          <div>
+          <div style={{marginBottom:"1rem"}}>
             <HeaderBar title="Event" button={true} link="/event" />
             <div style={{ display: "flex", justifyContent: "center" }}>
               <OwlCarousel
@@ -209,7 +219,8 @@ const Frontpg = () => {
               </OwlCarousel>
             </div>
           </div>
-          <HeaderBar title="Analysis" button={false} link="" />
+
+          <HeaderBar title="Analysis" button={false} link=""/>
           <div className="graph_container_a">
            
             <div className="pie_graph_cont">
@@ -260,19 +271,8 @@ const Frontpg = () => {
 
         {/* main- right -section */}
 
-        <div className="main_right_section">
+        <div className="main_right_section" style={{marginTop:"1.5rem"}}>
           <Alterpg />
-          {/* <Connection /> */}
-          {/* <OverlayCard
-            title="Job Portal"
-            text="Exchange job from your company with fellow alumni"
-            image={job_background}
-          />
-          <OverlayCard
-            title="Alumni Guidance"
-            text="Give advice to your fellow alumni or take guidance from alumni"
-            image={job_background}
-          /> */}
           <div>
             <Card style={{ margin: "1.5rem" }}>
               <Card.Header style={{ backgroundColor: "grey", color: "white" }}>

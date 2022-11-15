@@ -2,12 +2,13 @@ const router = require("express").Router();
 const Internship_Detail = require("../../model/internshipSchema");
 
 router.post("/internships", async (req, res) => {
-  const { name, batch, positionLink, image } = req.body;
+  const { name, date,batch, positionLink, image } = req.body;
 
   const internship = new Internship_Detail({
     image,
     name,
     batch,
+    date,
     positionLink,
   });
   const result = await internship.save();

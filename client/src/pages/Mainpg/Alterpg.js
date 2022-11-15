@@ -23,6 +23,7 @@ const Alterpg = () => {
     });
     // console.log(suggestion);
     const docSnap2 = await getDoc(doc(db, "updates", "update"));
+    if(docSnap2.exists())
     setUpdate(docSnap2.data().update);
   };
   useEffect(() => {
@@ -32,16 +33,18 @@ const Alterpg = () => {
     <>
       <div style={{ padding: "0.5rem" }}>
         <HeaderBar title="Suggestions" button={false} link="" />
-        <div
-          aria-live="polite"
-          aria-atomic="true"
-          className="position-relative"
-          style={{ minHeight: "240px" }}
-        >
-          <ToastContainer position="top-end" className="p-3">
-            {suggestion ? (
-              suggestion.map((item, id) => {
-                if (id < 5) {
+       
+            {suggestion && suggestion.length > 0? (
+               <div
+               aria-live="polite"
+               aria-atomic="true"
+               className="position-relative"
+               style={{  minHeight:suggestion.length<=2?"240px":"500px"}}
+             >
+               
+              <ToastContainer position="top-end" className="p-3">
+              {suggestion.map((item, id) => {
+                if (id < 4) {
                   return (
                     <Toast>
                       <Toast.Header closeButton={false}>
@@ -57,40 +60,39 @@ const Alterpg = () => {
                     </Toast>
                   );
                 }
-              })
+              })}
+               </ToastContainer>
+               </div>
             ) : (
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "90%",
-                  margin: "1rem auto",
-                  height: "30vh",
-                  background: "white",
-                  color: "rgb(69, 69, 69)",
-                }}
+               style={{display: "flex",
+               justifyContent: "center",
+               alignItems: "center",
+               width: "90%",
+               margin: "1rem auto",
+               height: "30vh",
+               background: "white",
+               color: "rgb(69, 69, 69)"}}
               >
                 No suggestions
               </div>
             )}
-          </ToastContainer>
-        </div>
+         
       </div>
-      <div style={{ padding: "0.5rem" }}>
+      <div style={{ padding: "0.5rem"}}>
         <HeaderBar title="Updates" button={false} link="" />
-        <div
-          aria-live="polite"
-          aria-atomic="true"
-          className="position-relative"
-          style={{ minHeight: "240px" }}
-        >
-          <ToastContainer position="top-end" className="p-3">
-            {update ? (
-              update
+            {update && update.length>0? (
+              <div
+              aria-live="polite"
+              aria-atomic="true"
+              className="position-relative"
+              style={{ minHeight:update.length<=2?"240px":"500px" }}
+            >
+               <ToastContainer position="top-end" className="p-3">
+              {update
                 .sort((a, b) => parseInt(b.time) - parseInt(a.time))
                 .map((item, id) => {
-                  if (id < 5) {
+                  if (id < 4) {
                     return (
                       <Toast>
                         <Toast.Header closeButton={false}>
@@ -107,7 +109,9 @@ const Alterpg = () => {
                       </Toast>
                     );
                   }
-                })
+                })}
+              </ToastContainer>
+              </div>
             ) : (
               <>
                 <div
@@ -126,8 +130,8 @@ const Alterpg = () => {
                 </div>
               </>
             )}
-          </ToastContainer>
-        </div>
+     
+
       </div>
     </>
   );
