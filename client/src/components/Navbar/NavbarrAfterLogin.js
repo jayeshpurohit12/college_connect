@@ -75,7 +75,13 @@ const Navbarr = () => {
               >
                 Achievement
               </NavLink>
-
+              <NavLink
+                to="/exp"
+                style={{ textDecoration: "none" }}
+                className="header_heading text-white"
+              >
+                Articles / Stories
+              </NavLink>
               <NavDropdown
                 title="Career"
                 id="dropdown"

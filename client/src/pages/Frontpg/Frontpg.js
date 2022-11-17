@@ -17,6 +17,7 @@ import { BarGraph, PieGraph } from "../PageSrc";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import Alterpg from "../Mainpg/Alterpg";
+import Career from "../../components/Career/Career";
 
 const Frontpg = () => {
   const [events, setEvents] = useState([]);
@@ -168,8 +169,8 @@ const Frontpg = () => {
                 items={length}
                 nav
               >
-                {console.log(events.length)}
-                {events?.map((event, id) => {
+                
+                {events && events.map((event, id) => {
                   return (
                     <div className="carousel_item" key={id}>
                       <Card style={{ width: "15rem", height: "20rem" }}>

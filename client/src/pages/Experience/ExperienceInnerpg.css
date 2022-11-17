@@ -1,0 +1,28 @@
+
+.story_container{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    align-items:center;
+    width:95%;
+    min-height: 95vh;
+    margin:0.5rem auto;
+    background-color: white;
+    padding:2rem;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.story_title{
+    color:rgb(138, 32, 74);
+    margin:1rem;
+}
+.story_image{
+    border-radius: 5px;
+   width:25rem;
+}
+
+.story_cont_content p{
+    text-align: justify;
+    margin:1rem;
+    font-size:1.2rem;
+}
