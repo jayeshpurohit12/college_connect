@@ -18,6 +18,9 @@ import {
   EventInnerPage,
   ConnectedUserProfile,
   BatchWiseConnect,
+  Experience,
+  ExperienceInnerpg,
+  VerifyUser,
 } from "./pages/PageSrc";
 import "./App.css";
 
@@ -44,6 +47,7 @@ const App = () => {
             <Route path="/Jobs" element={<Jobs />} />
             <Route path="/EventInnerPage/:id" element={<EventInnerPage />} />
             <Route path="/connect" element={<BatchWiseConnect />} />
+            <Route path="/verify" element={<VerifyUser />} />
            
           </>
         )}
@@ -57,10 +61,12 @@ const App = () => {
             <Route path="/details" element={<Detail />} />
             <Route path="/Achievements" element={<Achievements />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/verify" element={<VerifyUser />} />
             <Route
               path="/AchievementsInnerPage"
               element={<AchievementsInnerPage />}
             />
+              <Route path="/signup" element={<Signup />} />
             <Route path="/connect" element={<BatchWiseConnect />} />
             <Route path="/connect/:id" element={<Connect />} />
             <Route path="/event" element={<Event />} />
@@ -69,6 +75,8 @@ const App = () => {
               element={<ConnectedUserProfile />}
             />
             <Route path="/EventInnerPage/:id" element={<EventInnerPage />} />
+            <Route path="/exp" element={<Experience />} />
+            <Route path="/exp/:id" element={<ExperienceInnerpg />} />
           </>
         )}
       </Routes>

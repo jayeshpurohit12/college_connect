@@ -181,7 +181,7 @@ const Achievements = () => {
       </div>
 
       <div className="achievement_create_post">
-      {(currentUser && Profiler.category==="teacher")?<Button variant="contained" color="primary" onClick={handleOpen}>
+      {(currentUser && profile.category==="teacher")?<Button variant="contained" color="primary" onClick={handleOpen}>
           Add New Achievement
         </Button>:<></>}
       </div>

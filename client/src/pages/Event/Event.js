@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Form, Spinner } from "react-bootstrap";
-import { setDoc,doc, arrayUnion} from "firebase/firestore";
+import { setDoc, doc, arrayUnion } from "firebase/firestore";
 import { db } from "../../firebase";
 import Fade from "@material-ui/core/Fade";
 import { useAuth } from "../../contexts/Authcontext";
@@ -130,31 +130,46 @@ const Event = () => {
     } else {
       if (name && description && category && startTime && endTime && date) {
         alert("Event Created....");
-        try{
+        try {
           const r = new Date();
-         
-          await updateDoc(doc(db,"updates","update"),{
-              update:arrayUnion(...[{
-                name:name,
-                type:"Event",
-                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
-              }])
-          }).then((res)=>{
-            console.log(res);
-          }).catch(async(err)=>{
-            await setDoc(doc(db,"updates","update"),{
-              update:[{
-                name:name,
-                type:"Event",
-                time:r.toJSON().slice(0, 10).split('-').reverse().join('/')
-              }]
-            }).then((res)=>{
+
+          await updateDoc(doc(db, "updates", "update"), {
+            update: arrayUnion(
+              ...[
+                {
+                  name: name,
+                  type: "Event",
+                  time: r.toJSON().slice(0, 10).split("-").reverse().join("/"),
+                },
+              ]
+            ),
+          })
+            .then((res) => {
               console.log(res);
-            }).catch((err)=>{
-              console.log(err);
             })
-          });
-        }catch(err){
+            .catch(async (err) => {
+              await setDoc(doc(db, "updates", "update"), {
+                update: [
+                  {
+                    name: name,
+                    type: "Event",
+                    time: r
+                      .toJSON()
+                      .slice(0, 10)
+                      .split("-")
+                      .reverse()
+                      .join("/"),
+                  },
+                ],
+              })
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            });
+        } catch (err) {
           console.log(err);
         }
         setLoder(false);

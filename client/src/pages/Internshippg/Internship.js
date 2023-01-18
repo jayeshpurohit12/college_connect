@@ -240,7 +240,8 @@ export default function Opportunitypg() {
             Post new internship
           </Button>
         ) : (
-          <></>
+          <>
+          </>
         )}
         <Modal
           aria-labelledby="transition-modal-title"

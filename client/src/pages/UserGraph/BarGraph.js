@@ -25,10 +25,6 @@ const BarGraph = (props) => {
     datasets: [
       {
         label: props.heading,
-        barPercentage: 0.5,
-        barThickness: 6,
-        maxBarThickness: 8,
-        minBarLength: 2,
         backgroundColor: "#24b5b5",
         borderColor: "rgb(54,162,235)",
         data: props.data,
@@ -39,7 +35,22 @@ const BarGraph = (props) => {
   return (
     <div>
       <div>
-        <Bar data={data} />
+        <Bar
+          data={data}
+          options={{
+            barThickness: 6,
+            minBarLength: 2,
+            scales: {
+              y: {
+                ticks: {
+                  beginAtZero: true,
+                  stepSize: 1,
+                  max: 10,
+                },
+              },
+            },
+          }}
+        />
         {/* <Pie data={data2}/> */}
       </div>
     </div>

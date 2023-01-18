@@ -71,15 +71,14 @@
     border-color: orange;
   }
 }
-.graph_container_a{
+.graph_container_a {
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   justify-content: center;
-  margin:0.4rem;
+  margin: 0.4rem;
   width: 95%;
- 
 }
-.pie_graph_cont{
+.pie_graph_cont {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -88,19 +87,19 @@
   padding: 1rem;
   width: 25%;
 }
-.bar_graph_cont{
+.bar_graph_cont {
   display: flex;
   flex-direction: column;
-  width:65%;
+  width: 55%;
   justify-content: space-evenly;
 }
-.bar_container_a{
-  width: 90%;
+.bar_container_a {
+  width: 100%;
   margin: 1.5rem;
 }
-.pie_container_a{
-  width: 90%;
-  margin:  1.5rem;
+.pie_container_a {
+  width: 100%;
+  margin: 1.5rem;
 }
 
 .mainpg_container_left {

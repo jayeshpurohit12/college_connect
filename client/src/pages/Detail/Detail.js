@@ -318,10 +318,11 @@ const Detail = () => {
                 className="mb-3 form_group"
                 controlId="formBasicLocation"
               >
+                <h5 style={{ marginBottom: "1rem" }}>Location</h5>
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <div className="inline_input">
                     <Form.Label>
-                      <h5>Location</h5>
+                      <h6>State</h6>
                     </Form.Label>
                     <Form.Control
                       type="text"
@@ -332,7 +333,21 @@ const Detail = () => {
                       required
                     />
                     <Form.Label>
-                      <h5>Country</h5>
+                      <h6>DOB</h6>
+                    </Form.Label>
+
+                    <Form.Control
+                      type="date"
+                      placeholder="DOB"
+                      id="dob"
+                      onChange={handleChange}
+                      defaultValue={profile.dob}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Form.Label>
+                      <h6>Country</h6>
                     </Form.Label>
                     <Form.Control
                       type="text"
@@ -340,19 +355,6 @@ const Detail = () => {
                       id="country"
                       onChange={handleChange}
                       defaultValue={profile.country}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Form.Label>
-                      <h5>DOB</h5>
-                    </Form.Label>
-                    <Form.Control
-                      type="date"
-                      placeholder="DOB"
-                      id="dob"
-                      onChange={handleChange}
-                      defaultValue={profile.dob}
                       required
                     />
                   </div>
@@ -373,10 +375,11 @@ const Detail = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option selected={selectgen} value="1">
+                  <option>Choose</option>
+                  <option value="1">
                     Male
                   </option>
-                  <option selected={!selectgen} value="2">
+                  <option  value="2">
                     Female
                   </option>
                 </Form.Select>
@@ -420,12 +423,27 @@ const Detail = () => {
             </Form.Group>
             <Form.Group className="mb-3 form_group" controlId="formBasicName">
               <Form.Label>
-                <h5>Education</h5>
+                <h5>Pursuing Masters ? </h5>
+              </Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                id="higher"
+                onChange={handleChange}
+                required
+              >
+                <option>Choose</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </Form.Select>
+              <Form.Label>
+                <h5 style={{ margin: "1rem 1rem 1rem 0rem" }}>
+                Latest Education
+                </h5>
               </Form.Label>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className="inline_input">
                   <Form.Label>
-                    <h5>Degree</h5>
+                    <h6>Degree</h6>
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -435,22 +453,10 @@ const Detail = () => {
                     defaultValue={profile.degree}
                     required
                   />
-                  <Form.Label>
-                    <h5>Pursuing Higher Studies</h5>
-                  </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    id="higher"
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                  </Form.Select>
                 </div>
                 <div>
                   <Form.Label>
-                    <h5>Specialisation</h5>
+                    <h6>Specialisation</h6>
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -465,7 +471,7 @@ const Detail = () => {
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className="inline_input">
                   <Form.Label>
-                    <h5>Starting Year</h5>
+                    <h6>Starting Year</h6>
                   </Form.Label>
                   <Form.Control
                     type="date"
@@ -478,7 +484,7 @@ const Detail = () => {
                 </div>
                 <div>
                   <Form.Label>
-                    <h5>Ending Year</h5>
+                    <h6>Ending Year</h6>
                   </Form.Label>
                   <Form.Control
                     type="date"
@@ -495,8 +501,11 @@ const Detail = () => {
               className="mb-3 form_group"
               controlId="formBasicCompany"
             >
+              <h5 style={{ marginBottom: "1rem" }}>
+                Company / Internship details
+              </h5>
               <Form.Label>
-                <h5>Company</h5>
+                <h6>Company name</h6>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -509,7 +518,7 @@ const Detail = () => {
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className="inline_input">
                   <Form.Label>
-                    <h5>Tech Stack</h5>
+                    <h6>Tech Stack</h6>
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -522,7 +531,7 @@ const Detail = () => {
                 </div>
                 <div>
                   <Form.Label>
-                    <h5>Your Position</h5>
+                    <h6>Your Position</h6>
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -535,7 +544,7 @@ const Detail = () => {
                 </div>
               </div>
               <Form.Label>
-                <h5>Description</h5>
+                <h6>Description</h6>
               </Form.Label>
               <Form.Control
                 as="textarea"

@@ -17,6 +17,7 @@ import { BarGraph, PieGraph } from "../PageSrc";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import Alterpg from "../Mainpg/Alterpg";
+import Career from "../../components/Career/Career";
 
 const Frontpg = () => {
   const [events, setEvents] = useState([]);
@@ -33,9 +34,9 @@ const Frontpg = () => {
   const [company, setCompany] = useState([]);
   const [dataCount, setDataCount] = useState([]);
   const [suggestion, setSuggestion] = useState([]);
-  const [countUserInIndia,setCountUserInIndia] = useState(0);
-  const [countUserForHigherStudies,setCountUserForHigherStudies] = useState(0);
-  const [totalCount,setTotalCount] = useState(0);
+  const [countUserInIndia, setCountUserInIndia] = useState(0);
+  const [countUserForHigherStudies, setCountUserForHigherStudies] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
   const fetchGraphData = async () => {
     setLoading(false);
@@ -62,15 +63,15 @@ const Frontpg = () => {
       setDataCount((oldArray) => [...oldArray, doc.data().uid.length]);
     });
     const docRef = await getDocs(collection(db, "users"));
-      docRef.forEach((doc) => { 
-          setTotalCount((prev)=>prev+1);
-          if(doc.data().country === "India"){
-             setCountUserInIndia((prev)=>prev+1);
-          }
-         if(doc.data().higher=== '1'){
-             setCountUserForHigherStudies((prev)=>prev+1);
-         }
-      });
+    docRef.forEach((doc) => {
+      setTotalCount((prev) => prev + 1);
+      if (doc.data().country === "India") {
+        setCountUserInIndia((prev) => prev + 1);
+      }
+      if (doc.data().higher === "1") {
+        setCountUserForHigherStudies((prev) => prev + 1);
+      }
+    });
   };
 
   const fetchAchievements = async () => {
@@ -108,7 +109,6 @@ const Frontpg = () => {
       <Navbar />
 
       <div className="main_section">
-        
         {/*  main - left - section */}
         <div className="main_left_section">
           <div className="achievement_section">
@@ -153,14 +153,14 @@ const Frontpg = () => {
               </OwlCarousel>
             </div>
           </div>
-          <div style={{marginBottom:"1rem"}}>
+          <div style={{ marginBottom: "1rem" }}>
             <HeaderBar title="Event" button={true} link="/event" />
             <div style={{ display: "flex", justifyContent: "center" }}>
               <OwlCarousel
                 className="owl_carousel"
                 style={{
                   marginTop: "0.5rem",
-                  width:(length < 3)? "70%" : "90%",
+                  width: length < 3 ? "70%" : "90%",
                   justifyContent: "center",
                 }}
                 loop
@@ -168,61 +168,60 @@ const Frontpg = () => {
                 items={length}
                 nav
               >
-                {console.log(events.length)}
-                {events?.map((event, id) => {
-                  return (
-                    <div className="carousel_item" key={id}>
-                      <Card style={{ width: "15rem", height: "20rem" }}>
-                        <Card.Img
-                          variant="top"
-                          src={event.image}
-                          style={{ height: "45%" }}
-                        />
-                        <Card.Body>
-                          <Card.Text>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <span
+                {events &&
+                  events.map((event, id) => {
+                    return (
+                      <div className="carousel_item" key={id}>
+                        <Card style={{ width: "15rem", height: "20rem" }}>
+                          <Card.Img
+                            variant="top"
+                            src={event.image}
+                            style={{ height: "45%" }}
+                          />
+                          <Card.Body>
+                            <Card.Text>
+                              <div
                                 style={{
                                   display: "flex",
                                   justifyContent: "center",
                                   flexDirection: "column",
                                 }}
                               >
-                                <h4>{event.name}</h4>
-                                <p style={{ margin: "1rem" }}>
-                                  <strong>
-                                    <CalendarTodayIcon /> Date:
-                                  </strong>{" "}
-                                  {event.date && event.date.substring(8, 10)} -{" "}
-                                  {event.date.substring(5, 7)} -{" "}
-                                  {event.date.substring(2, 4)}
-                                </p>
-                              </span>
+                                <span
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <h4>{event.name}</h4>
+                                  <p style={{ margin: "1rem" }}>
+                                    <strong>
+                                      <CalendarTodayIcon /> Date:
+                                    </strong>{" "}
+                                    {event.date && event.date.substring(8, 10)}{" "}
+                                    - {event.date.substring(5, 7)} -{" "}
+                                    {event.date.substring(2, 4)}
+                                  </p>
+                                </span>
 
-                              <div>
-                                <PowerSettingsNewIcon />
-                                <span> Online Mode</span>
+                                <div>
+                                  <PowerSettingsNewIcon />
+                                  <span> Online Mode</span>
+                                </div>
                               </div>
-                            </div>
-                          </Card.Text>
-                        </Card.Body>
-                      </Card>
-                    </div>
-                  );
-                })}
+                            </Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </div>
+                    );
+                  })}
               </OwlCarousel>
             </div>
           </div>
 
-          <HeaderBar title="Analysis" button={false} link=""/>
+          <HeaderBar title="Analysis" button={false} link="" />
           <div className="graph_container_a">
-           
             <div className="pie_graph_cont">
               {/* <h3>Analytics</h3> */}
               <div className="pie_container_a">
@@ -271,7 +270,7 @@ const Frontpg = () => {
 
         {/* main- right -section */}
 
-        <div className="main_right_section" style={{marginTop:"1.5rem"}}>
+        <div className="main_right_section" style={{ marginTop: "1.5rem" }}>
           <Alterpg />
           <div>
             <Card style={{ margin: "1.5rem" }}>
