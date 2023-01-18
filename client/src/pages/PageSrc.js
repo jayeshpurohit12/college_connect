@@ -19,3 +19,4 @@ export {default as PieGraph} from './UserGraph/PieGraph';
 export {default as BatchWiseConnect} from './Connect/BatchWiseConnect';
 export {default as Experience} from './Experience/Experience';
 export {default as ExperienceInnerpg} from './Experience/ExperienceInnerpg';
+export {default as VerifyUser} from './Verify/VerifyUser';

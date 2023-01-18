@@ -19,18 +19,17 @@ const ExperienceInnerpg = () => {
   useEffect(() => {
     fetchdata();
   }, []);
-  return( 
+  return (
     <>
-    <div className="story_container">
+      <div className="story_container">
         <h2 className="story_title">{experience.title}</h2>
-        <img src={experience.image} alt="experience" className="story_image"/>
+        <img src={experience.image} alt="experience" className="story_image" />
         <div className="story_cont_content">
-        <p>{experience.desc}</p>
+          <p>{experience.desc}</p>
         </div>
-    </div>
+      </div>
     </>
-  )
-
+  );
 };
 
 export default ExperienceInnerpg;

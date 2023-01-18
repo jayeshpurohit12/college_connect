@@ -35,43 +35,40 @@ const Signup = () => {
       return setError("Password do not match");
     } else {
       try {
-        setError("");
         setLoading(true);
+        setError("");
         setMessage("");
-        const res = await Auth(emailRef.current.value, "Company Name");
-        // console.log(res);
-        // console.log(res.mail);
-        // console.log(res.OTP);
-        if (res.success) {
-          setOtpgen(res.OTP);
-          setMessage("Sent otp on your mail. Please check!");
-          handleOpen();
-        }
+        await signup(emailRef.current.value, passwordRef.current.value).then(
+          (usercred) => {
+            usercred.user.sendEmailVerification();
+            history("/verify");
+          }
+        );
       } catch (error) {
-        setError(error);
+        setError("failed to create an account");
       }
       setLoading(false);
 
       // console.log(otpgen);
     }
   };
-  const handleModalsubmit = (e) => {
-    if (otp == otpgen) {
-      try {
-        setLoading(true);
-        setError("");
-        signup(emailRef.current.value, passwordRef.current.value);
-      } catch (error) {
-        setError("failed to create an account");
-      }
-      setLoading(false);
-    } else {
-      setError("Wrong Otp!!");
-    }
+  // const handleModalsubmit = (e) => {
+  //   if (otp == otpgen) {
+  //     try {
+  //       setLoading(true);
+  //       setError("");
+  //       signup(emailRef.current.value, passwordRef.current.value);
+  //     } catch (error) {
+  //       setError("failed to create an account");
+  //     }
+  //     setLoading(false);
+  //   } else {
+  //     setError("Wrong Otp!!");
+  //   }
 
-    history("/login");
-    handleClose();
-  };
+  //   history("/login");
+  //   handleClose();
+  // };
   function rand() {
     return Math.round(Math.random() * 20) - 10;
   }
@@ -160,7 +157,7 @@ const Signup = () => {
               Submit
             </Button>
           </Form>
-          <Modal
+          {/* <Modal
             open={open}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
@@ -170,8 +167,8 @@ const Signup = () => {
               className={`login_form ${classes.paper}`}
               style={modalStyle}
             >
-              <div className="login__heading--container">
-                <h1 className="login__heading">Verify Otp</h1>
+              <div className="login__heading--container"> */}
+          {/* <h1 className="login__heading">Verify Otp</h1>
               </div>
               <Form.Control
                 value={otp}
@@ -188,15 +185,15 @@ const Signup = () => {
               >
                 Verify Otp
               </Button>
-              <Button
-                className="login__form--button"
+              <Button */}
+          {/* className="login__form--button"
                 style={{ marginLeft: "1rem" }}
                 onClick={handleClose}
               >
                 Close
               </Button>
             </Form>
-          </Modal>
+          </Modal> */}
         </div>
       </section>
     </div>

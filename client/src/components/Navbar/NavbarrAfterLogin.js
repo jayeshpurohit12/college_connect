@@ -35,7 +35,7 @@ const Navbarr = () => {
     try {
       await logout();
       // console.log(currentUser);
-      history("/login");
+      history("/signup");
     } catch {
       setError("Failed to logout");
     }

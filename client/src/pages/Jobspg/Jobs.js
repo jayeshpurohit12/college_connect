@@ -405,7 +405,7 @@ export default function Opportunitypg() {
                         target="_blank"
                       >
                         Apply here
-                      </Button>):(<Link to="./signup"><Button>View</Button></Link>)}
+                      </Button>):(<Link to="/signup"><Button>View</Button></Link>)}
                     </div>
                   }
                 />
