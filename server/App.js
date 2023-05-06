@@ -20,11 +20,9 @@ require("./database/connection");
 var corsOptions = {
   origin: "*",
   // optionsSuccessStatus:200,
-  credentials:true,
-  
-}
+  credentials: true,
+};
 app.use(cors(corsOptions));
-
 
 //converting into json
 
@@ -32,9 +30,9 @@ app.use(express.json());
 
 //linking pages with the help of router to make it eassy
 
-app.use('/', (req, res) => {
-  res.json({message: "heelo form index"})
-})
+app.use("/", (req, res) => {
+  res.json({ message: "heelo form index" });
+});
 
 app.use(require("./router/Internship/Internship"));
 
@@ -46,11 +44,10 @@ app.use(require("./router/Event/event"));
 
 var corsOptions = {
   origin: "http://localhost:3000",
-  optionsSuccessStatus:200,
-  credentials:true,
-  
-}
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
 app.use(cors(corsOptions));
-app.listen(PORT,() => {
+app.listen(PORT, () => {
   console.log(`server is running at ${PORT}`);
 });
