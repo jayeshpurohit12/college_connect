@@ -111,6 +111,6 @@ const ConnectUserDiv = (props) => {
         </div>
       </div>
   
-  ) : (<>All connected</>);
+  ) : (<></>);
 };
 export default ConnectUserDiv;

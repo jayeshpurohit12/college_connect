@@ -207,12 +207,16 @@ export default function Opportunitypg() {
       ) {
         //console.log(item.date);
       } else {
+        // console.log(parseInt(year) === d.getFullYear());
+        // console.log(parseInt(month) < d.getMonth()+1);
+        // console.log(parseInt(month));
+        // console.log(d.getMonth());
         setIntern((prevData) => {
           return [...prevData, item];
         });
       }
     });
-    setIntern(interndata);
+   // setIntern(interndata);
   };
 
   useEffect(() => {
