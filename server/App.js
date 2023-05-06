@@ -32,6 +32,10 @@ app.use(express.json());
 
 //linking pages with the help of router to make it eassy
 
+app.use('/', (req, res) => {
+  res.json({message: "heelo form index"})
+})
+
 app.use(require("./router/Internship/Internship"));
 
 app.use(require("./router/Jobs/Jobs"));
